@@ -76,7 +76,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <h2 className="mt-2 overflow-ellipsis overflow-hidden">
             {params.name}
           </h2>
-          <p className="mt-2 overflow-ellipsis overflow-hidden">
+          <p className="mt-2 overflow-ellipsis overflow-hidden truncate-description">
             {params.description}
           </p>
           <p className="overflow-ellipsis overflow-hidden">

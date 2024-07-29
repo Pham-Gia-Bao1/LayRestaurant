@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { useTotal } from '../context/TotalContext';
 import { formatNumber } from '@/utils';
 import { RoomCardCheckoutProps } from '@/types';
-
 const RoomCardCheckout: React.FC<RoomCardCheckoutProps> = ({
   imageUrl,
   roomName,
@@ -58,5 +57,4 @@ const RoomCardCheckout: React.FC<RoomCardCheckoutProps> = ({
     </div>
   );
 };
-
 export default RoomCardCheckout;

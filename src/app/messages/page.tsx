@@ -1,7 +1,6 @@
 
 import Image from 'next/image'
 import React from 'react'
-
 export default function page() {
   return (
     <main className=" min-h-screen flex flex-col items-center justify-betwee bg-white h-full">

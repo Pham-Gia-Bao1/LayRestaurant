@@ -3,7 +3,8 @@ import StarIcon from "@mui/icons-material/Star";
 import Image from "next/image";
 import { RoomCardProps } from "@/types";
 import Link from "next/link";
-
+import { isString } from "lodash";
+import { formatNumber } from "@/utils";
 const RoomCard: React.FC<RoomCardProps> = ({
   id,
   roomName,
@@ -17,7 +18,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
     <Link
       href={`/rooms/${id}`}
       passHref
-      className="sm:w-[23%] w-full rounded overflow-hidden bg-white"
+      className="sm:w-[23%] w-full cart-hover rounded overflow-hidden bg-white"
     >
       <div className="relative">
         <Image
@@ -42,13 +43,11 @@ const RoomCard: React.FC<RoomCardProps> = ({
           ></span>
         </div>
         <p className="text-gray-700 text-base truncate-description">{description}</p>
-
       </div>
       <div className="px-2 pt-4 pb-2 flex items-center justify-between">
-        <span className="font-bold text-lg text-red-500">{price} / day</span>
+        <span className="font-bold text-lg text-red-500">{formatNumber(isString(price) ? parseInt(price) * 1000 : price * 1000) } / day</span>
       </div>
     </Link>
   );
 };
-
 export default RoomCard;

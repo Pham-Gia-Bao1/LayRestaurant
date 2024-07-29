@@ -1,10 +1,8 @@
 "use client"
 import { getUser } from "@/api";
 import Chat from "@/components/pages/Chat";
-
 import { PropductProps, UserProfile } from "@/types";
 import React, { useEffect, useState } from "react";
-
 const MessageDetail: React.FC<PropductProps> = ({ params }) => {
   const [sender, setSender] = useState<UserProfile | null>(null);
   useEffect(() => {

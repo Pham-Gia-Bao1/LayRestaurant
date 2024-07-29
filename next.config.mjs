@@ -10,7 +10,8 @@ const nextConfig = {
       "images.unsplash.com",
       "png.pngtree.com",
       "img.freepik.com",
-      "noithattugia.com"
+      "noithattugia.com",
+      "hips.hearstapps.com"
     ],
   },
 };

@@ -1,11 +1,16 @@
 // ./src/components/BestRooms.tsx
 "use client";
 import Image, { StaticImageData } from 'next/image';
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import RoomImage1 from "../../assets/images/rooms/RoomImage1.jpg";
 import RoomImage2 from "../../assets/images/rooms/RoomImage2.jpg";
 import RoomImage3 from "../../assets/images/rooms/RoomImage3.jpg";
-import RoomImage4 from "../../assets/images/rooms/RoomImage4.jpg";
+import RoomImage4 from "../../assets/images/rooms/FavoriteRoom6.jpg";
+import RoomImage5 from "../../assets/images/rooms/FavoriteRoom1.jpg";
+import RoomImage6 from "../../assets/images/rooms/FavoriteRoom2.jpg";
+import RoomImage7 from "../../assets/images/rooms/FavoriteRoom3.jpg";
+import RoomImage8 from "../../assets/images/rooms/FavoriteRoom4.jpg";
+import RoomImage9 from "../../assets/images/rooms/FavoriteRoom5.jpg";
 
 type Room = {
   id: number;
@@ -40,37 +45,54 @@ const rooms: Room[] = [
     image: RoomImage4,
   },
   {
-    id: 4,
+    id: 5,
     name: 'Vietnam',
     destinations: 100,
-    image: RoomImage4,
-  }, {
-    id: 4,
+    image: RoomImage5,
+  },
+  {
+    id: 6,
     name: 'Vietnam',
     destinations: 100,
-    image: RoomImage4,
-  }, {
-    id: 4,
+    image: RoomImage6,
+  },
+  {
+    id: 7,
     name: 'Vietnam',
     destinations: 100,
-    image: RoomImage4,
+    image: RoomImage7,
+  },
+  {
+    id: 8,
+    name: 'Vietnam',
+    destinations: 100,
+    image: RoomImage8,
+  },
+  {
+    id: 9,
+    name: 'Vietnam',
+    destinations: 100,
+    image: RoomImage9,
   },
 ];
 
 const BestRooms: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-  };
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (scrollRef.current) {
+        const maxScrollLeft = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+        if (scrollRef.current.scrollLeft >= maxScrollLeft) {
+          scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+        }
+      }
+    }, 3000);
 
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
-  };
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="container p-8">
@@ -97,18 +119,6 @@ const BestRooms: React.FC = () => {
             </div>
           ))}
         </div>
-        <button
-          onClick={scrollLeft}
-          className="absolute left-0 top-1/2 w-10 transform -translate-y-1/2 bg-gray-200 hover:bg-orange-500 p-2 rounded-full"
-        >
-          &#8592;
-        </button>
-        <button
-          onClick={scrollRight}
-          className="absolute right-0 top-1/2 w-10   transform -translate-y-1/2 hover:bg-orange-500 bg-gray-200 text-white p-2 rounded-full"
-        >
-          &#8594;
-        </button>
       </div>
     </div>
   );

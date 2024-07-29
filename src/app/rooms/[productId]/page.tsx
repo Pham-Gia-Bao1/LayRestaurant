@@ -26,7 +26,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartPay } from "@/components/context/CartPayContext";
 import { setOrderType } from "@/redux/orderTypeSlice";
-
 const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
   const days = useSelector((state: RootState) => state.day.days);
   const { clearCartPay } = useCartPay();
@@ -51,7 +50,6 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
       console.error(error);
     }
   };
-
   const handleRateChange = (value: number) => {
     setRating(value);
   };
@@ -60,7 +58,6 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
     dispatch(setOrderType('room'));
     router.push("/checkout"); // Navigate to the checkout page
   };
-
   const handleDateChange = () => {
     if (checkInDate && checkOutDate) {
       const checkIn = new Date(checkInDate);
@@ -92,7 +89,6 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
       }
     }
   };
-
   useEffect(() => {
     const fetchRoomDetail = async () => {
       try {
@@ -105,11 +101,9 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
     fetchRoomDetail();
     getBookingsOfRoom();
   }, [params.productId]);
-
   useEffect(() => {
     handleDateChange();
   }, [checkInDate, checkOutDate]);
-
   const isDateAvailable = (date: Date) => {
     for (const booking of bookings) {
       const bookedStart = new Date(booking.check_in_date);
@@ -120,15 +114,12 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
     }
     return true; // Date is available
   };
-
   const filterDates = (date: Date) => {
     return isDateAvailable(date);
   };
-
   if (!room) {
     return <p>Loading...</p>;
   }
-
   return (
     <main className="flex min-h-screen sm:px-10 px-5 flex-col w-full items-center justify-between md:container md:mx-auto">
       <div className="flex w-full mt-10 gap-10 flex-col items-center text-black">
@@ -214,7 +205,6 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
               </div>
               {dateError && <p className="text-red-500">{dateError}</p>}
             </div>
-
             <div className="mb-5 w-full flex justify-between text-center items-center flex-wrap bg-gray-200 p-3 rounded">
               <div className="flex gap-3">
                 <p className="font-bold text-xl">
@@ -264,5 +254,4 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
     </main>
   );
 };
-
 export default RoomDetail;

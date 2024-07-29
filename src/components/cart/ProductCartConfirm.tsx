@@ -1,9 +1,6 @@
-
 "use client"
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import { ProductCardCheckOutProps } from "@/types";
 const ProductCartConfirm : React.FC<ProductCardCheckOutProps> = ({
   id,
@@ -20,13 +17,11 @@ const ProductCartConfirm : React.FC<ProductCardCheckOutProps> = ({
           alt={title}
           width={50}
           height={50}
-          className=""
         />
         <div className="flex flex-col ml-4">
           <span className="text-xl font-bold text-black">{title}</span>
           <span className="text-black text-sm">{description}</span>
         </div>
-
       </div>
     </div>
   );

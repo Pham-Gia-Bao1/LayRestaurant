@@ -4,7 +4,6 @@ import kebabImage from '../../assets/images/foods/Food-1.png';
 import chickenTikkaImage from '../../assets/images/foods/Food-2.png';
 import desiChowmeinImage from '../../assets/images/foods/Food-3.png';
 import chickenCharghaImage from '../../assets/images/foods/Food-4.png';
-
 const SpecialOffers = () => {
   const offers = [
     {
@@ -36,7 +35,6 @@ const SpecialOffers = () => {
       description: 'Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry'
     }
   ];
-
   return (
     <div className="py-12 w-full bg-red-400">
       <div className="text-center mb-10">
@@ -78,5 +76,4 @@ const SpecialOffers = () => {
     </div>
   );
 };
-
 export default SpecialOffers;

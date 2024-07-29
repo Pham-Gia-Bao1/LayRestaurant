@@ -1,19 +1,15 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { RoomProp } from '@/types';
-
 const RoomGallery: React.FC<{ room: RoomProp }> = ({ room }) => {
   const images = [room.image1, room.image2, room.image3]; // Giả sử room có nhiều ảnh
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const handlePrevClick = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
-
   const handleNextClick = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
-
   return (
     <div className="relative group w-full lg:w-1/2 p-5 overflow-hidden">
       <Image
@@ -38,5 +34,4 @@ const RoomGallery: React.FC<{ room: RoomProp }> = ({ room }) => {
     </div>
   );
 };
-
 export default RoomGallery;

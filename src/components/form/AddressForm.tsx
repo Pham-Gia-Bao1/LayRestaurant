@@ -4,7 +4,6 @@ import { addNewDeliveryAddress } from "@/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { AddressFormProps, FormDataAddNewAddress } from "@/types";
-
 const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const [formData, setFormData] = useState<FormDataAddNewAddress>({
@@ -12,11 +11,9 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
     phone: currentUser?.phone_number || "",
     address: currentUser?.address || "",
   });
-
   const [province, setProvince] = useState("Quảng Bình");
   const [district, setDistrict] = useState("Bố Trạch District");
   const [loading, setLoading] = useState(false);
-
   const provinces = ["Quảng Bình"];
   const districtsMap: Record<string, string[]> = {
     "Quảng Bình": [
@@ -30,16 +27,13 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
       "Tuyên Hóa District",
     ],
   };
-
   const handleProvinceChange = (value: string) => {
     setProvince(value);
     setDistrict("");
   };
-
   const handleDistrictChange = (value: string) => {
     setDistrict(value);
   };
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -55,7 +49,6 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
       setLoading(false);
     }
   };
-
   return (
     <form onSubmit={handleSubmit} className="w-full mx-auto bg-white p-8 rounded">
       <h2 className="text-lg font-semibold mb-4">New Address</h2>
@@ -136,5 +129,4 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
     </form>
   );
 };
-
 export default AddressForm;

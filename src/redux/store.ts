@@ -5,6 +5,7 @@ import messagesReducer from './messagesSlice';
 import dateReducer from './dateSlice';
 import dayReducer from './daySlice';
 import roomReducer from './roomSlice';
+import roomsReducer from './roomsSlice';
 import orderTypeReducer from './orderTypeSlice';
 import orderDataRoomReducer from './order/orderDataRoomSlice';
 const storeApp = configureStore({
@@ -15,6 +16,7 @@ const storeApp = configureStore({
     dates: dateReducer,
     day: dayReducer,
     room: roomReducer,
+    rooms : roomsReducer,
     orderType: orderTypeReducer,
     orderDataRRoom: orderDataRoomReducer
   }

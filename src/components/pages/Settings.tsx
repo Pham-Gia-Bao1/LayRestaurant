@@ -284,7 +284,9 @@ const Settings: React.FC = () => {
         ) : (
           <>
             <div className="flex items-center justify-between w-screen overflow-hidden pr-14 sm:pr-0 sm:w-full m-2 ml-0  flex-wrap">
-              <div className={`${theme} flex items-center justify-between py-6 sm:py-16 bg-blue-500  flex-wrap`}>
+              <div
+                className={`${theme} flex items-center justify-between py-6 sm:py-16 flex-wrap`}
+              >
                 <span className="sm:text-2xl font-bold text-black ">
                   Order.uk Popular Categories
                 </span>
@@ -294,10 +296,10 @@ const Settings: React.FC = () => {
               </div>
             </div>
             <div className="flex justify-between mb-4 flex-wrap gap-3">
-              <div className="flex sm:gap-3 gap-1.5 justify-center items-center">
+              <div className="scroll-container p-2 flex sm:gap-3 gap-1.5 justify-start items-center overflow-x-auto whitespace-nowrap">
                 <button
                   type="button"
-                  className={`${theme} box-shadow px-4 py-2 active:bg-red-500 hover:bg-gray-800 rounded`}
+                  className={`${theme} box-shadow px-3 py-2 active:bg-red-500 hover:bg-gray-800 rounded whitespace-nowrap`}
                   onClick={handleClickAll}
                 >
                   All
@@ -306,13 +308,14 @@ const Settings: React.FC = () => {
                   <button
                     type="button"
                     key={index}
-                    className={`${theme} box-shadow px-4 py-2 active:bg-red-500 hover:bg-gray-800 rounded`}
+                    className={`${theme} box-shadow px-3 min-w-fit py-2 active:bg-red-500 hover:bg-gray-800 rounded whitespace-nowrap`}
                     onClick={() => handleClick(type)}
                   >
                     {type}
                   </button>
                 ))}
               </div>
+
               <div className="flex justify-end items-center gap-2 ">
                 <button
                   onClick={showFilterForm}

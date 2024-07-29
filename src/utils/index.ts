@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-export const API_URL: string =  "http://localhost:8000/api";
+// export const API_URL: string =  "https://lay-restaurant.zeabur.app/api";
+export const API_URL: string = process.env.BE_URL || "http://localhost:8000/api";
 export function formatNumber(number: number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
@@ -25,20 +26,16 @@ export function headerAPI() {
   };
   return headers;
 }
-
 export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
 export const formatDate = (date: Date | null) => {
   return date ? date.toLocaleDateString() : "N/A";
 };
-
 export function convertTotalContextStateToNumber(contextState: {
   totalAmount: string | number | null;
 }): number {
   const { totalAmount } = contextState;
-
   // Check if totalAmount is a number and return it, or convert from string
   if (typeof totalAmount === "number") {
     return totalAmount;
@@ -48,7 +45,6 @@ export function convertTotalContextStateToNumber(contextState: {
       return parsedNumber;
     }
   }
-
   // Return 0 or handle default case if totalAmount is null or cannot be converted
   return 0;
 }

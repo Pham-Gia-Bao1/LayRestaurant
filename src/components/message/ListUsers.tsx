@@ -7,7 +7,6 @@ import Link from "next/link";
 import SubLoading from "../loading/subLoading";
 import MessageItem from "./MessageItem";
 import { UserProfile } from "@/types";
-
 const ListUsers: React.FC = () => {
   const [listUsers, setListUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -15,11 +14,9 @@ const ListUsers: React.FC = () => {
   const messages = useSelector((state: RootState) => state.messages.messages);
   const token = useSelector((state: RootState) => state.auth.token);
   const [readMessages, setReadMessages] = useState<{ [key: number]: boolean }>({});
-
   useEffect(() => {
     getUsers();
   }, []);
-
   const getUsers = async () => {
     try {
       const users = await getAllUsers();
@@ -36,7 +33,6 @@ const ListUsers: React.FC = () => {
     }
   };
   console.log(listUsers);
-
   const getLastMessageContent = (userId: number): string => {
     const filteredMessages = messages.filter(
       (message) =>
@@ -49,11 +45,9 @@ const ListUsers: React.FC = () => {
       return "New message";
     }
   };
-
   const handleRead = (userId: number) => {
     setReadMessages((prev) => ({ ...prev, [userId]: true }));
   };
-
   return (
     <div className="mt-8 pb-52 mb-20 bottom-96 h-screen sm:w-1/4 w-full bg-white shadow-md fixed top-12 overflow-y-auto scrollbar-container">
       <div className="divide-y divide-gray-200">
@@ -80,5 +74,4 @@ const ListUsers: React.FC = () => {
     </div>
   );
 };
-
 export default ListUsers;

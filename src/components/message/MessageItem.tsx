@@ -1,8 +1,6 @@
 // src/components/MessageItem.tsx
-
 import Image from "next/image";
 import React from "react";
-
 interface MessageItemProps {
   profileImage: string;
   name: string;
@@ -10,7 +8,6 @@ interface MessageItemProps {
   isRead: boolean;
   onRead: () => void; // Define onRead prop as a function with no parameters
 }
-
 const MessageItem: React.FC<MessageItemProps> = ({
   profileImage,
   name,
@@ -45,5 +42,4 @@ const MessageItem: React.FC<MessageItemProps> = ({
     </div>
   );
 };
-
 export default MessageItem;

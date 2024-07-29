@@ -11,7 +11,6 @@ import { useCartPay } from "@/components/context/CartPayContext";
 import { useTotal } from "@/components/context/TotalContext";
 import { RootState } from "@/redux/store";
 import { isString } from "lodash";
-
 const CheckOutPage = () => {
   const { selectedItems } = useCartPay();
   const [paymentMethod, setPaymentMethod] = useState<string>("credit-card");
@@ -23,7 +22,6 @@ const CheckOutPage = () => {
   const { total, setTotal } = useTotal();
   console.log(total);
   console.log(room);
-
   return (
     <div className="text-black bg-gray-100 p-2 sm:p-8 mx-3 grid grid-cols-1 sm:grid-cols-2 gap-5">
       <div className="flex flex-col gap-5">
@@ -75,5 +73,4 @@ const CheckOutPage = () => {
     </div>
   );
 };
-
 export default CheckOutPage;

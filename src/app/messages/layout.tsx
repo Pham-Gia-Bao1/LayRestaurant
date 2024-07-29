@@ -3,11 +3,9 @@ import ListUsers from "@/components/message/ListUsers";
 import { LayoutProps } from "@/types";
 import React from "react";
 import { usePathname } from "next/navigation";
-
 const MessageLayout: React.FC<LayoutProps> = ({ children }) => {
   const pathname = usePathname();
   const shouldShowListUsers = !pathname || !pathname.match(/\/messages\/\d+/);
-
   return (
     <div className="min-h-screen bg-black flex">
       <div className="flex sm:w-full">
@@ -20,7 +18,6 @@ const MessageLayout: React.FC<LayoutProps> = ({ children }) => {
           {children}
         </div>
       </div>
-
       {/* Mobile view */}
       <div className="flex w-full sm:hidden">
         {shouldShowListUsers ? (
@@ -36,5 +33,4 @@ const MessageLayout: React.FC<LayoutProps> = ({ children }) => {
     </div>
   );
 };
-
 export default MessageLayout;

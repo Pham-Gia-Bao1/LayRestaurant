@@ -11,11 +11,9 @@ import { usePathname } from "next/navigation";
 import { TotalProvider } from "@/components/context/TotalContext";
 import { CartPayProvider } from "@/components/context/CartPayContext";
 import { SessionProvider } from "next-auth/react";
-
 const ThemeProvider = ({ children, ...props }: any) => {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,7 +23,6 @@ export default function RootLayout({
   const pathname = usePathname();
   const shouldHideHeader =
     pathname && (pathname.includes("/login") || pathname.includes("/register"));
-
   return (
     <Provider store={storeApp}>
       <I18nextProvider i18n={i18n}>

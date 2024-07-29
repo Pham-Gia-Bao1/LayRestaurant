@@ -14,7 +14,7 @@ export type PropductParameters = {
 export interface Product {
   id: number;
   name: string;
-  price: number | string;
+  price: number;
   description: string;
   type: string;
   picture: string;
@@ -298,12 +298,28 @@ export type RoomCardCheckoutProps = {
   endDay: Date | null;
   totalDays: number;
 };
+export interface PosterOptions {
+  id: number;
+  image: StaticImageData;
+  title: string;
+}
+export interface BookingFood {
+  id: number;
+  user_id: number;
+  order_number: string;
+  order_date: string; // Hoặc Date nếu bạn xử lý ngày bằng đối tượng Date
+  total_amount: number;
+  status: string;
+  payment_method: string;
+  delivery_address: string;
+  note?: string; // Trường này có thể là undefined
+}
 
-// export interface OrderDataRoom {
-//   user_id: string | number; // Assuming user_id is a string, update this type if necessary
-//   room_id: string | number; // Assuming room_id is a string, update this type if necessary
-//   check_in_date: Date | string | null; // Assuming date is a string, update this type if necessary
-//   check_out_date: Date | string | null; // Assuming date is a string, update this type if necessary
-//   price: number;
-//   number_of_days: number;
-// }
+// Định nghĩa kiểu dữ liệu cho Booking Food Item
+export interface BookingFoodItem {
+  id: number;
+  booking_id: number;
+  food_id: number;
+  quantity: number;
+  // Các trường khác tùy thuộc vào bảng của bạn
+}

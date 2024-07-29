@@ -44,8 +44,6 @@ export default function Page() {
       });
     }
   };
-  console.log(selectedItems);
-  console.log(getTotalPrice());
   const uniqueCart = cart.reduce<CartItem[]>((acc, current) => {
     const x = acc.find((item) => item.name === current.name);
     if (!x) {

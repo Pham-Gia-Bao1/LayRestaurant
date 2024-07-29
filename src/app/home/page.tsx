@@ -14,7 +14,6 @@ import ThirthFoodImage from "../../assets/images/ThirthFood.png";
 import ForFoodImage from "../../assets/images/ForthFood.png";
 import Settings from "@/components/pages/Settings";
 import CartShop from "@/components/cart/CartShop";
-
 const CardRestaurant = [
   {
     imageUrl: FirstFoodImage,
@@ -41,7 +40,6 @@ const CardRestaurant = [
     restaurant: "Restaurant",
   },
 ];
-
 export default function Home() {
   const { theme } = useTheme();
   return (
@@ -73,7 +71,6 @@ export default function Home() {
               />
               <p className="text-sm text-gray-500">People Trust us</p>
             </div>
-
             <h1 className="text-5xl text-center sm:text-start  sm:text-7xl font-bold text-gray-800">
               We are <span className="text-red-500">Serious</span> For{" "}
               <span className="text-yellow-500">Food & Delivery.</span>
@@ -100,7 +97,6 @@ export default function Home() {
             />
           </div>
         </div>
-
         <div
           className={`${theme} flex items-center justify-between  py-16 p-4 w-full flex-wrap`}
         >
@@ -132,7 +128,6 @@ export default function Home() {
             />
           ))}
         </div>
-
         <div
           className={`${theme} sm:gap-3 gap-5 flex items-center justify-between w-full flex-wrap`}
         >

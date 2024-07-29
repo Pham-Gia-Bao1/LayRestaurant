@@ -10,7 +10,6 @@ import { useCart } from "../context/CartContext";
 import { useCartPay } from "../context/CartPayContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { formatNumber } from "@/utils";
-
 interface ProductCardCheckOutProps {
   id: number | string;
   imageSrc: string;
@@ -23,7 +22,6 @@ interface ProductCardCheckOutProps {
   onSelect: (id: number | string, selected: boolean) => void;
   checked: boolean;
 }
-
 const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
   id,
   imageSrc,
@@ -41,7 +39,6 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
   const [loading, setLoading] = useState(false);
   const { cart, removeFromCart, refreshCart } = useCart();
   const { updateItemQuantity } = useCartPay();
-
   const handleIncrement = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
@@ -63,7 +60,6 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
         });
     }
   };
-
   const handleDecrement = () => {
     if (quantity > 1) {
       const newQuantity = quantity - 1;
@@ -87,15 +83,12 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
       }
     }
   };
-
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSelect(id, e.target.checked);
   };
-
   const handleProductClick = () => {
     onSelect(id, !checked); // Toggle the checked state
   };
-
   return (
     <div
       className={`${
@@ -120,8 +113,8 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
           height={100}
         />
         <div className="flex flex-col ml-4">
-          <span className="text-xl font-bold text-black">{title}</span>
-          <span className="text-black text-sm hidden sm:block">
+          <span className="text-xl font-bold text-black truncate-description-1-line">{title}</span>
+          <span className="text-black text-sm  truncate-description-1-line">
             {description}
           </span>
         </div>
@@ -159,5 +152,4 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
     </div>
   );
 };
-
 export default ProductCardCheckOut;

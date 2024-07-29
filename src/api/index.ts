@@ -2,7 +2,6 @@ import { AddToCartButtonProps, ConversationParameter, CsrfTokenResponse, FormDat
 import { API_URL, headerAPI } from "@/utils";
 import { message } from "antd";
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-
 export const handleError = (error: any) => {
   if (error.response) {
     console.error('Error response:', error.response.data);

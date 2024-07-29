@@ -49,11 +49,10 @@ const ModeToggle: React.FC = () => {
 };
 
 const privateLinks = [
-  { title: "Store" },
   { title: "Messages" },
-  { title: "Restaurants" },
+  { title: "About us" },
 ];
-const publicLinks = [{ title: "Home" }, { title: "Rooms" }];
+const publicLinks = [{ title: "Home" }, { title: "Rooms" }, { title: "Foods" }];
 
 const NavBar: React.FC = () => {
   const { cart } = useCart();
