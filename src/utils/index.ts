@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 // export const API_URL: string =  "https://lay-restaurant.zeabur.app/api";
-export const API_URL: string = process.env.BE_URL || "http://localhost:8000/api";
+export const API_URL: string = process.env.BE_URL || "https://lay-restaurant.zeabur.app/api";
 export function formatNumber(number: number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }

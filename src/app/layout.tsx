@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { TotalProvider } from "@/components/context/TotalContext";
 import { CartPayProvider } from "@/components/context/CartPayContext";
 import { SessionProvider } from "next-auth/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 const ThemeProvider = ({ children, ...props }: any) => {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 };
@@ -39,7 +40,10 @@ export default function RootLayout({
                       disableTransitionOnChange
                     >
                       {!shouldHideHeader && <Header />}
-                      <main className="bg-white">{children}</main>
+                      <main className="bg-white">
+                        {children}
+                        <SpeedInsights />
+                      </main>
                     </ThemeProvider>
                   </CartPayProvider>
                 </CartProvider>
