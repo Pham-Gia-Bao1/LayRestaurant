@@ -13,6 +13,7 @@ import { CartItem, Product, PropductParameters } from "@/types";
 import { useCartPay } from "@/components/context/CartPayContext";
 import { useRouter } from "next/navigation";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import { isString } from "lodash";
 const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
   const { theme } = useTheme();
   const token = useSelector((state: RootState) => state.auth.token);
@@ -67,7 +68,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
       const cartItem: CartItem = {
         id: product.id,
         name: product.name,
-        price: product.price,
+        price: isString(product.price) ? parseInt(product.price) : product.price,
         description: product.description,
         type: product.type,
         picture: product.picture,
