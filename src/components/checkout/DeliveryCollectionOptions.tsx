@@ -14,7 +14,7 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ setPaymentMethod }) => 
   };
   return (
     <div>
-      <div className="flex justify-center items-center gap-2 p-6 bg-white">
+      <div className="flex justify-center items-center gap-2 p-6 bg-white rounded">
         <div
           className={`flex-1 flex flex-col items-center p-2 rounded-lg cursor-pointer ${
             selectedOption === "credit-card" ? "bg-gray-100" : ""

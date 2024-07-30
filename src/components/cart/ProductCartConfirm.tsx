@@ -10,17 +10,17 @@ const ProductCartConfirm : React.FC<ProductCardCheckOutProps> = ({
   description,
 }) => {
   return (
-    <div className="flex items-center justify-between p-4 bg-white rounded-lg mb-4 mx-2">
-      <div className="flex items-center h-2  m-3">
+    <div className="flex items-center justify-between p-3 bg-white rounded mb-4">
+      <div className="flex items-center">
         <Image
           src={imageSrc}
           alt={title}
-          width={50}
-          height={50}
+          width={100}
+          height={100}
         />
         <div className="flex flex-col ml-4">
-          <span className="text-xl font-bold text-black">{title}</span>
-          <span className="text-black text-sm">{description}</span>
+          <span className="text-xl font-bold text-black truncate-description-1-line">{title}</span>
+          <span className="text-black text-sm truncate-description-2-line">{description}</span>
         </div>
       </div>
     </div>

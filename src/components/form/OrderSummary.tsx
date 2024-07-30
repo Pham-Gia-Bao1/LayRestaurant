@@ -3,20 +3,49 @@ import { useTotal } from "../context/TotalContext";
 import { formatNumber } from "@/utils";
 import { makePayment } from "@/api";
 import { useRouter } from "next/navigation";
-import { OrderSummaryProps } from "@/types";
+import { BookingFood, OrderSummaryProps } from "@/types";
 import { useCartPay } from "../context/CartPayContext";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { setOrderData } from "@/redux/order/orderDataRoomSlice";
 const OrderSummary = ({
   paymentMethod,
   isExitedAddress,
   totalItems,
 }: OrderSummaryProps) => {
-  const { getTotalPrice } = useCartPay();
+  const { getTotalPrice, selectedItems } = useCartPay();
   const shippingCost = 20000;
   const itemTotal = getTotalPrice() * 1000;
   const orderTotal = itemTotal + shippingCost;
   const isOrderEnabled = paymentMethod && isExitedAddress;
   const router = useRouter();
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const dispatch: AppDispatch = useDispatch();
+  const orderType = useSelector((state: RootState) => state.orderType.order_type);
+
   const handlePlaceOrder = async () => {
+    if (currentUser) {
+      const orderData: BookingFood = {
+        user_id: currentUser.id,
+        order_number: selectedItems.length,
+        order_date: new Date().toLocaleDateString(), // Formats date to a readable format
+        total_amount: getTotalPrice(),
+        status: "pending",
+        payment_method: "vnPay",
+        delivery_address: currentUser.address,
+        note: "", // This field can be undefined
+      };
+      dispatch(setOrderData(orderData));
+      const orderDetails = {
+        orderData,
+        currentUser,
+        orderType,
+        selectedItems
+      };
+      sessionStorage.setItem("orderDetails", JSON.stringify(orderDetails));
+    }
+
+
     try {
       const paymentResponse = await makePayment(orderTotal);
       console.log(paymentResponse);
@@ -31,7 +60,7 @@ const OrderSummary = ({
     }
   };
   return (
-    <div className="text-black w-full mx-auto bg-white p-6">
+    <div className="text-black w-full mx-auto bg-white p-6 rounded">
       <div className="mt-4 pt-4">
         <h2 className="text-lg font-bold">Order Summary</h2>
         <div className="flex justify-between mt-2">

@@ -4,6 +4,7 @@ import { addNewDeliveryAddress } from "@/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { AddressFormProps, FormDataAddNewAddress } from "@/types";
+
 const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const [formData, setFormData] = useState<FormDataAddNewAddress>({
@@ -11,9 +12,11 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
     phone: currentUser?.phone_number || "",
     address: currentUser?.address || "",
   });
+
   const [province, setProvince] = useState("Quảng Bình");
   const [district, setDistrict] = useState("Bố Trạch District");
   const [loading, setLoading] = useState(false);
+
   const provinces = ["Quảng Bình"];
   const districtsMap: Record<string, string[]> = {
     "Quảng Bình": [
@@ -27,13 +30,16 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
       "Tuyên Hóa District",
     ],
   };
+
   const handleProvinceChange = (value: string) => {
     setProvince(value);
     setDistrict("");
   };
+
   const handleDistrictChange = (value: string) => {
     setDistrict(value);
   };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -49,6 +55,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
       setLoading(false);
     }
   };
+
   return (
     <form onSubmit={handleSubmit} className="w-full mx-auto bg-white p-8 rounded">
       <h2 className="text-lg font-semibold mb-4">New Address</h2>
@@ -111,17 +118,17 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
       </div>
       <div className="mb-4">
         <label htmlFor="address" className="block text-sm font-medium text-gray-700">Specific Address</label>
-        <input
-          type="text"
+        <textarea
           id="address"
           name="address"
           placeholder="Specific Address"
           value={formData.address}
           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
           className="w-full px-4 py-2 bg-gray-200 rounded"
+          rows={4}
         />
       </div>
-      <div className="mb-4 flex gap-3">
+      <div className="mb-4 flex gap-3 justify-end">
         <Button type="primary" className="w-full h-full sm:w-auto p-3" htmlType="submit" loading={loading}>
           Save this address
         </Button>
@@ -129,4 +136,5 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
     </form>
   );
 };
+
 export default AddressForm;

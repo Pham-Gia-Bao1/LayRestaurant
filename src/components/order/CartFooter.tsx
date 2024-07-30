@@ -35,7 +35,7 @@ const CartFooter: React.FC<CartFooterProps> = ({ setCartVisible }) => {
   };
 
   return (
-    <div className="absolute bottom-0 w-full flex items-center justify-center gap-1 flex-col bg-white">
+    <div className="absolute bottom-0 w-full gap-1 flex-col bg-red-500">
       <Link href="/settings/products/order" passHref>
         <button
           onClick={handleGoToCart}

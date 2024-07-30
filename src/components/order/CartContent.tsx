@@ -16,7 +16,7 @@ const CartContent: React.FC = () => {
   }, []);
 
   return (
-    <div className={`p-4  pb-16 scrollbar-container overflow-scroll bg-white overflow-x-hidden h-full flex flex-col justify-start items-center`}>
+    <div className={`p-4  pb-16 scrollbar-container overflow-scroll mb-4 bg-white overflow-x-hidden h-full flex flex-col justify-start items-center`}>
       {uniqueCart.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (

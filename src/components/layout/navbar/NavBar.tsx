@@ -176,8 +176,8 @@ const NavBar: React.FC = () => {
             <Badge count={count}>
               <OrderSide />
             </Badge>
-            <ModeToggle />
-            <div className="text-lg text-white bg-gray-900 px-4 py-2 flex justify-center items-center rounded-full">
+            {/* <ModeToggle /> */}
+            <Link href="/profile" passHref className="text-lg text-white bg-gray-900 px-4 py-2 flex justify-center items-center rounded-full">
               <Avatar
                 className="mr-4"
                 alt="User Avatar"
@@ -185,7 +185,7 @@ const NavBar: React.FC = () => {
                 sx={{ width: 24, height: 24 }}
               />
               <p>{userProfile.name}</p>
-            </div>
+            </Link>
             {/* <LanguageSwitcher /> */}
             <Button onClick={handleLogout}>
               <ExitToApp />

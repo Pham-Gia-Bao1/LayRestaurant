@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 export const API_URL: string = "https://lay-restaurant.zeabur.app/api";
 export function formatNumber(number: number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -46,4 +47,36 @@ export function convertTotalContextStateToNumber(contextState: {
   }
   // Return 0 or handle default case if totalAmount is null or cannot be converted
   return 0;
+}
+
+export const generateRandomString = (length = 2) => {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
+
+export const extractOrderNumber = (inputString: string) => {
+  // Đoạn chuỗi cố định là "OD", lấy vị trí bắt đầu của "OD"
+  const prefix = 'OD';
+  const index = inputString.indexOf(prefix);
+
+  // Nếu không tìm thấy "OD", trả về null
+  if (index === -1) {
+    return null;
+  }
+
+  // Trả về phần chuỗi sau "OD"
+  return inputString.substring(index + prefix.length);
+};
+export function convertToStaticImport(value: string | undefined): StaticImport | string {
+  if (value === undefined && value === null) {
+    return '';
+  }
+
+  // Convert string to unknown first, then to StaticImport
+  return (value as unknown) as StaticImport;
 }

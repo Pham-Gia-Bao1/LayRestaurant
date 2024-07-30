@@ -37,26 +37,35 @@ export const fetchBookingsOfRoom = async (roomId: number): Promise<BookingRoom[]
 };
 // food's booking
 // Hàm gọi API cho Booking Foods
-export const fetchBookings = async (): Promise<BookingFood[]> => {
+export const fetchBookingsFood = async (): Promise<BookingFood[]> => {
     const response = await axios.get(`${API_URL}/booking-food`);
     return response.data;
 };
-export const fetchBookingById = async (id: number): Promise<BookingFood> => {
+export const fetchBookingFoodById = async (id: number): Promise<BookingFood> => {
     const response = await axios.get(`${API_URL}/booking-food/${id}`);
     return response.data;
 };
-export const createBooking = async (bookingData: BookingFood): Promise<BookingFood> => {
-    const response = await axios.post(`${API_URL}/booking-food`, bookingData);
-    return response.data;
+export const createBookingFood = async (bookingData: BookingFood): Promise<BookingFood> => {
+    try {
+        // Send a POST request to the API with bookingData
+        const response = await axios.post(`${API_URL}/booking-food`, bookingData);
+
+        // Return the created booking data from the response
+        return response.data;
+    } catch (error) {
+        // Handle errors (e.g., validation errors, network issues)
+        console.error('Error creating booking:', error);
+        throw error;
+    }
 };
-export const updateBooking = async (id: number, bookingData: BookingFood): Promise<BookingFood> => {
+export const updateBookingFood = async (id: number, bookingData: BookingFood): Promise<BookingFood> => {
     const response = await axios.put(`${API_URL}/booking-food/${id}`, bookingData);
     return response.data;
 };
-export const deleteBooking = async (id: number): Promise<void> => {
+export const deleteBookingFood = async (id: number): Promise<void> => {
     await axios.delete(`${API_URL}/booking-food/${id}`);
 };
-export const fetchBookingsByUserId = async (userId: number): Promise<BookingFood[]> => {
+export const fetchBookingsFoodByUserId = async (userId: number): Promise<BookingFood[]> => {
     const response = await axios.get(`${API_URL}/booking-food/user/${userId}`);
     return response.data;
 };
@@ -91,7 +100,7 @@ export type SearchRoomData = {
     description?: string;
     status?: boolean;
 }
-export const searchRooms = async (searchData: SearchRoomData) : Promise<RoomProp[]> => {
+export const searchRooms = async (searchData: SearchRoomData): Promise<RoomProp[]> => {
     try {
         const response = await axios.get(`${API_URL}/rooms/search`, {
             params: searchData, // Use `params` for GET requests
@@ -103,3 +112,15 @@ export const searchRooms = async (searchData: SearchRoomData) : Promise<RoomProp
         throw error;
     }
 };
+export const fetchBookingsRoomByUserId = async (userId: number): Promise<BookingRoom[]> => {
+    const response = await axios.get(`${API_URL}/bookingRooms/user/${userId}`);
+    return response.data;
+};
+
+// export const createNewBookingRoom = async (bookingData: BookingRoom) => {
+//     const response = await axios.post(`${API_URL}/bookingRooms`, {
+//         withCredentials: true,
+//         params: bookingData,
+//     })
+//     return response.data;
+// }

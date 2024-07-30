@@ -78,7 +78,7 @@ const OrderSumaryRoom = ({
   };
 
   return (
-    <div className="text-black w-full mx-auto bg-white p-6">
+    <div className="text-black w-full mx-auto bg-white p-6 rounded">
       <button
         onClick={handlePlaceOrder}
         className={`border-t w-full py-2 rounded-md font-bold mt-2 p-5 my-5 ${

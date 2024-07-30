@@ -42,7 +42,8 @@ const CardRestaurant = [
 ];
 export default function Home() {
   const { theme } = useTheme();
-  return (
+  console.log('home');
+  return (  
     <main className="flex min-h-screen flex-col items-center justify-between md:container md:mx-auto w-full">
       <div className="flex-1 p-4 sm:p-8 w-full">
         <div className="bg-white w-full sm:h-[80vh] h-auto flex flex-row gap-3 p-5 justify-between items-center flex-wrap sm:flex-nowrap">

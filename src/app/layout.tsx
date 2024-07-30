@@ -40,7 +40,7 @@ export default function RootLayout({
                       disableTransitionOnChange
                     >
                       {!shouldHideHeader && <Header />}
-                      <main className="bg-white">
+                      <main className="bg-white overflow-x-hidden">
                         {children}
                         <SpeedInsights />
                       </main>

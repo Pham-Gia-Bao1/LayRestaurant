@@ -4,29 +4,23 @@ import { Form, Input, Button, Typography, message } from "antd";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { AppDispatch } from "@/redux/store";
-import { setToken } from "@/redux/authSlice";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { fetchCsrfToken, register } from "@/api";
 import Image from "next/image";
-import RegisterImage from "../../../assets/images/RegisterImage.jpg";
-const { Title } = Typography;
+import { signIn, useSession } from "next-auth/react";
 import LoginImage from "../../../assets/images/LoginImage.png";
 import GGIcon from "../../../assets/images/icons/GGIcon.png";
-import FBIcon from "../../../assets/images/icons/FBIcon.png";
-import AppleIcon from "../../../assets/images/icons/AppleIcon.png";
 const RegisterPage: React.FC = () => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const [csrfToken, setCsrfToken] = useState<string>("");
-
   useEffect(() => {
     fetchToken();
   }, []);
-
   const fetchToken = async () => {
     try {
       const token = await fetchCsrfToken();
@@ -35,7 +29,6 @@ const RegisterPage: React.FC = () => {
       console.error("Error fetching CSRF token:", error);
     }
   };
-
   const onFinish = async (values: any) => {
     setLoading(true);
     try {
@@ -51,7 +44,6 @@ const RegisterPage: React.FC = () => {
         403: t("login.errorMessage.forbidden"),
         404: t("login.errorMessage.notFound"),
       };
-
       let errorMessage =
         errorMessages[status] ||
         (status >= 500
@@ -59,13 +51,19 @@ const RegisterPage: React.FC = () => {
           : error.response?.data?.message ||
             error.message ||
             t("login.errorMessage.default"));
-
       message.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
-
+  const handleSignInWithGoogle = async () => {
+    try {
+      const result = await signIn("google", { redirect: false });
+      console.log("Sign in result:", result); // In ra toàn bộ đối tượng
+    } catch (error) {
+      console.error("Error during sign in:", error);
+    }
+  };
   return (
     <div className=" w-screen">
       <div className="p-6 flex justify-center w-full h-[95vh] items-center flex-row-reverse mt-2 flex-wrap-reverse gap-10">
@@ -163,28 +161,11 @@ const RegisterPage: React.FC = () => {
               </Form.Item>
             </Form>
           </div>
-
           <div className="w-full -mt-10 flex flex-col gap-3">
             <p className="text-center text-black ">Or continue with</p>
             <div className=" w-full flex justify-center items-center gap-10 h-[80%]">
-              <Button className="w-[20%] h-full">
+              <Button className="w-96 h-full" onClick={handleSignInWithGoogle}>
                 <Image src={GGIcon} alt="Google Icon" width={24} height={24} />
-              </Button>
-              <Button className="w-[20%] h-full">
-                <Image
-                  src={FBIcon}
-                  alt="Facebook Icon"
-                  width={24}
-                  height={24}
-                />
-              </Button>
-              <Button className="w-[20%] h-full">
-                <Image
-                  src={AppleIcon}
-                  alt="Apple Icon"
-                  width={24}
-                  height={24}
-                />
               </Button>
             </div>
           </div>
@@ -193,5 +174,4 @@ const RegisterPage: React.FC = () => {
     </div>
   );
 };
-
 export default RegisterPage;

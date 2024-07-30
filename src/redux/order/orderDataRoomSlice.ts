@@ -13,7 +13,7 @@ const orderDataRoomSlice = createSlice({
   name: 'orderData',
   initialState,
   reducers: {
-    setOrderData: (state, action: PayloadAction<BookingRoom>) => {
+    setOrderData: (state, action: PayloadAction<any>) => {
       state.orderData = action.payload;
     }
   }

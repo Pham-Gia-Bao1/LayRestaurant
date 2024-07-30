@@ -304,22 +304,23 @@ export interface PosterOptions {
   title: string;
 }
 export interface BookingFood {
-  id: number;
+  id? : number;
   user_id: number;
-  order_number: string;
-  order_date: string; // Hoặc Date nếu bạn xử lý ngày bằng đối tượng Date
+  order_number: string | number;
+  order_date: string;
   total_amount: number;
   status: string;
   payment_method: string;
   delivery_address: string;
-  note?: string; // Trường này có thể là undefined
+  note?: string; // Note is optional
 }
 
 // Định nghĩa kiểu dữ liệu cho Booking Food Item
 export interface BookingFoodItem {
-  id: number;
+  id?: number;
   booking_id: number;
   food_id: number;
   quantity: number;
+  price : number;
   // Các trường khác tùy thuộc vào bảng của bạn
 }

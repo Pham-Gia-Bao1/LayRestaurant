@@ -13,8 +13,6 @@ import Link from "next/link";
 import Image from "next/image";
 import LoginImage from "../../../assets/images/LoginImage.png";
 import GGIcon from "../../../assets/images/icons/GGIcon.png";
-import FBIcon from "../../../assets/images/icons/FBIcon.png";
-import AppleIcon from "../../../assets/images/icons/AppleIcon.png";
 import { signIn, useSession } from "next-auth/react";
 const LoginPage: React.FC = () => {
   const { t } = useTranslation();
@@ -167,26 +165,11 @@ const LoginPage: React.FC = () => {
             <div className=" w-full flex justify-center items-center gap-10 h-[80%]">
               <Button
                 onClick={handleSignInWithGoogle}
-                className="w-[20%] h-full"
+                className="w-96 h-full"
               >
-                <Image src={GGIcon} alt="Google Icon" width={24} height={24} />
+                <Image src={GGIcon} alt="Google Icon" width={30} height={30} />
               </Button>
-              <Button className="w-[20%] h-full">
-                <Image
-                  src={FBIcon}
-                  alt="Facebook Icon"
-                  width={24}
-                  height={24}
-                />
-              </Button>
-              <Button className="w-[20%] h-full">
-                <Image
-                  src={AppleIcon}
-                  alt="Apple Icon"
-                  width={24}
-                  height={24}
-                />
-              </Button>
+
             </div>
           </div>
         </div>
