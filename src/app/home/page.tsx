@@ -14,6 +14,8 @@ import ThirthFoodImage from "../../assets/images/ThirthFood.png";
 import ForFoodImage from "../../assets/images/ForthFood.png";
 import Settings from "@/components/pages/Settings";
 import CartShop from "@/components/cart/CartShop";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { useEffect, useRef } from "react";
 const CardRestaurant = [
   {
     imageUrl: FirstFoodImage,
@@ -42,8 +44,24 @@ const CardRestaurant = [
 ];
 export default function Home() {
   const { theme } = useTheme();
-  console.log('home');
-  return (  
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (scrollRef.current) {
+        const maxScrollLeft =
+          scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+        if (scrollRef.current.scrollLeft >= maxScrollLeft) {
+          scrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          scrollRef.current.scrollBy({ left: 410, behavior: "smooth" });
+        }
+      }
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+  console.log("home");
+  return (
     <main className="flex min-h-screen flex-col items-center justify-between md:container md:mx-auto w-full">
       <div className="flex-1 p-4 sm:p-8 w-full">
         <div className="bg-white w-full sm:h-[80vh] h-auto flex flex-row gap-3 p-5 justify-between items-center flex-wrap sm:flex-nowrap">
@@ -99,25 +117,23 @@ export default function Home() {
           </div>
         </div>
         <div
-          className={`${theme} flex items-center justify-between  py-16 p-4 w-full flex-wrap`}
+          className={`${theme} flex items-center justify-between p-4 w-full sm:text-2xl`}
         >
-          <div className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-black ">
+          <div className="flex items-center space-x-2 sm:text-2xl">
+            <span className="sm:text-2xl font-bold text-black ">
               Up to <span className="text-blue-600">-40%</span> 🎉 Order.uk
               exclusive deals
             </span>
           </div>
           <div className="flex items-center space-x-4">
-            <button className="text-gray-600">Vegan</button>
-            <button className="text-gray-600">Sushi</button>
-            <button className="text-orange-600 border border-orange-600 px-4 py-1 rounded-full">
-              Pizza & Fast food
+            <button className="text-orange-600 border border-orange-600 px-4 py-1 rounded-full flex items-center">
+              <ArrowRightAltIcon />
             </button>
-            <button className="text-gray-600">others</button>
           </div>
         </div>
         <div
-          className={`${theme} sm:gap-3 gap-5 flex items-center justify-between p-3  w-full flex-wrap`}
+          ref={scrollRef}
+          className={`${theme} sm:gap-3 gap-5 flex items-center justify-between p-3  w-auto overflow-x-auto scrollbar-hide scroll-smooth overflow-hidden`}
         >
           {CardRestaurant.map((cart, index) => (
             <HomePageCartRestaurant

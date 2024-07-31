@@ -190,9 +190,9 @@ export const setUser = (userInfo: UserProfile): void => {
 export const getUser = (): UserProfile | null => {
   return user;
 };
-export const getAllUsers = async (): Promise<any> => {
+export const getAllUsers = async ( page : number): Promise<any> => {
   const header = headerAPI();
-  const apiUrl = `${API_URL}/users/messages`;
+  const apiUrl = `${API_URL}/users/messages?page=${page}`;
   try {
     const response: AxiosResponse<any> = await api.get(apiUrl, { headers: header });
     return response.data.data;

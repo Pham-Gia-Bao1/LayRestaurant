@@ -14,6 +14,9 @@ import { useTheme } from "next-themes";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Product } from "@/types";
+import { formatNumber } from "@/utils";
+import AddIcon from "@mui/icons-material/Add";
+
 interface ProductCardProps {
   params: Product;
   getData: () => void;
@@ -49,19 +52,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
   return (
     <div
-      className={`${theme} ${
-        theme === "dark" ? "bg-blue-500" : ""
-      } rounded-lg overflow-hidden relative flex flex-col justify-between h-full`}
+      className={` rounded-lg text-black overflow-hidden relative flex flex-col justify-between h-full`}
     >
       <Link href={`/settings/products/${params.id}`}>
-        <p className="absolute top-0 left-0 bg-blue-900 text-white px-2 py-1 rounded-br-lg"></p>
+        {/* <p className="absolute  top-2 left-2 text-xs bg-green-500 text-white px-2 py-1 rounded-full">
+          Best product
+        </p> */}
+         <p className="bg-green-500 p-1 rounded-full text-white absolute  bottom-28 right-4">
+              <AddIcon />
+            </p>
         {params.picture ? (
           <Image
             src={params.picture}
             width={500}
             height={500}
             alt="Dish"
-            className="w-full h-32 object-cover rounded"
+            className="w-full h-48 object-cover rounded-20"
           />
         ) : (
           <Image
@@ -69,19 +75,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
             width={500}
             height={500}
             alt="Dish"
-            className="w-full h-32 object-cover rounded"
+            className="w-full h-48 object-cover rounded"
           />
         )}
-        <div className="p-3">
-          <h2 className="mt-2 overflow-ellipsis overflow-hidden">
+        <div className="p-1 h-24 flex flex-col justify-between">
+          <h2 className="mt-2 truncate-description-2-line overflow-ellipsis overflow-hidden ">
             {params.name}
           </h2>
-          <p className="mt-2 overflow-ellipsis overflow-hidden truncate-description">
+          {/* <p className="hidden">
             {params.description}
-          </p>
-          <p className="overflow-ellipsis overflow-hidden">
-            ${params.price} • 30 Bowls
-          </p>
+          </p> */}
+          <div className="w-full flex justify-between">
+            <p className="overflow-ellipsis overflow-hidden font-bold">
+              {formatNumber(params.price * 1000)}
+            </p>
+          
+          </div>
         </div>
       </Link>
       <div className="absolute top-2 right-2">

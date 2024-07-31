@@ -135,6 +135,14 @@ body {
   transform: scale(1.02);
   transition: all 0.3s ease;
 }
-.bg-ticket {
+.hidden-line {
+   display: hidden;
 }
-
+.rounded-20{
+   border-radius: 15px;
+}
+.box-fllex-center{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}

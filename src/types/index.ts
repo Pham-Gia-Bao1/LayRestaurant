@@ -169,6 +169,8 @@ export interface UserProfile {
   remember_token: string;
   status: number;
   updated_at: string;
+  sent_messages?: Message[];
+  received_messages?: Message[];
 }
 export interface DecodedToken {
   sub: string;
@@ -323,4 +325,27 @@ export interface BookingFoodItem {
   quantity: number;
   price : number;
   // Các trường khác tùy thuộc vào bảng của bạn
+}
+
+
+
+export interface UserMessage {
+  id: number;
+  role_id: number;
+  name: string;
+  email: string;
+  email_verified_at: string | null;
+  password: string; // It's a good practice to avoid exfposing passwords, even as types
+  address: string;
+  profile_picture: string;
+  date_of_birth: string; // Consider using Date type if you plan to parse it
+  phone_number: string;
+  gender: 'male' | 'female' | 'other'; // Adjust based on your application's needs
+  status: number;
+  deleted_at: string | null;
+  remember_token: string | null;
+  created_at: string; // Consider using Date type if you plan to parse it
+  updated_at: string; // Consider using Date type if you plan to parse it
+  sent_messages: Message[];
+  received_messages: Message[];
 }

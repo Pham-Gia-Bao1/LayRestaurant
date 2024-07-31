@@ -287,7 +287,7 @@ const Settings: React.FC = () => {
               <div
                 className={`${theme} flex items-center justify-between py-6 sm:py-16 flex-wrap`}
               >
-                <span className="sm:text-2xl font-bold text-black ">
+                <span className="sm:text-2xl sm:ml-3 font-bold text-black ">
                   Order.uk Popular Categories
                 </span>
               </div>

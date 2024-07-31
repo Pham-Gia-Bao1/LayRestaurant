@@ -12,9 +12,7 @@ import ProfileImage from "../../assets/images/Poster/Poster1.png";
 import { RootState } from "@/redux/store";
 import { BookingFood, BookingFoodItem, BookingRoom, CartItem } from "@/types";
 import confetti from "canvas-confetti";
-import { ExitToApp } from "@mui/icons-material";
-import { Button, Menu, Dropdown, Badge } from "antd";
-import { SettingOutlined } from "@ant-design/icons";
+import { signOut } from 'next-auth/react';
 import {
   createBookingFood,
   createBookingFoodItem,
@@ -232,11 +230,16 @@ const ProfilePage: React.FC = () => {
       console.error("Failed to fetch room details:", error);
     }
   };
-  const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("__token__");
+  const handleLogout = async () => {
+    try {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("__token__");
+      }
+      dispatch(clearToken());
+      await signOut({ redirect: true, callbackUrl: '/' }); // Redirect after logout
+    } catch (error) {
+      console.error('Logout error:', error);
     }
-    dispatch(clearToken());
     router.push("/login");
   };
   return (

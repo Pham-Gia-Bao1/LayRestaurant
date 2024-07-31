@@ -9,6 +9,8 @@ import SubLoading from "@/components/loading/subLoading";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import { message } from "antd";
+import { Avatar } from "@mui/material";
+
 import {
   createNewMessage,
   deleteMessage,
@@ -25,6 +27,7 @@ import {
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { Message, MessagesPageProps, UserProfile } from "@/types";
+import SkeletonHeaderMessage from "../skeleton/SkeletonHeaderMessage";
 
 const Chat: React.FC<MessagesPageProps> = ({ senderId, recipientId }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -259,15 +262,14 @@ const Chat: React.FC<MessagesPageProps> = ({ senderId, recipientId }) => {
     <div className="w-full h-full mx-auto rounded-lg shadow-md overflow-hidden relative bg-gray-200 pt-20 ">
       <div className="sm:w-9/12  p-4 border-b  border-gray-200 flex items-center justify-between fixed  top-20 bg-white z-10 w-full">
         {loading || !recipient.profile_picture ? (
-          <SubLoading />
+          <SkeletonHeaderMessage />
         ) : (
           <div className="flex items-center">
-            <Image
-              width={300}
-              height={300}
+            <Avatar
+              className="mr-4"
+              alt="User Avatar"
               src={recipient.profile_picture}
-              alt="Profile"
-              className="w-10 h-10 rounded-full mr-3"
+              sx={{ width: 24, height: 24 }}
             />
             <div>
               <h2 className="text-lg text-gray-900 font-semibold">

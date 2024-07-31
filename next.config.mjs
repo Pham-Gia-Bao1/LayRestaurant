@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     domains: [
+      "localhost",
       "lay-restaurant.zeabur.app",
       "images.pexels.com",
       "res.cloudinary.com",
