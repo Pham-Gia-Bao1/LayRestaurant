@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { formatNumber } from "@/utils";
 import { CartItem } from "@/types";
 import { useCart } from "../context/CartContext";
 

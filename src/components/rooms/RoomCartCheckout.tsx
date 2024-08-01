@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTotal } from '../context/TotalContext';
-import { formatNumber } from '@/utils';
+import { formatMoney } from '@/utils';
 import { RoomCardCheckoutProps } from '@/types';
 const RoomCardCheckout: React.FC<RoomCardCheckoutProps> = ({
   imageUrl,
@@ -29,7 +29,7 @@ const RoomCardCheckout: React.FC<RoomCardCheckoutProps> = ({
         <div className="w-2/3 pl-4">
           <h2 className="text-xl font-bold">{roomName}</h2>
           <p className="text-gray-600">{description}</p>
-          <p className="text-red-500 font-bold mt-2">{formatNumber(parseInt(price) * 1000)} vnd</p>
+          <p className="text-red-500 font-bold mt-2">{formatMoney(parseInt(price))}</p>
           <p className="text-gray-700 mt-1">{roomType}</p>
           <p className="text-gray-700">Capacity: {capacity} people</p>
         </div>
@@ -50,7 +50,7 @@ const RoomCardCheckout: React.FC<RoomCardCheckoutProps> = ({
           </div>
           <div>
             <p className="text-gray-700">Total money</p>
-            <p className="font-bold">{formatNumber(total * 1000)} vnd</p>
+            <p className="font-bold">{formatMoney(total)}</p>
           </div>
         </div>
       </div>

@@ -1,6 +1,5 @@
 import React from "react";
 import { useTotal } from "../context/TotalContext";
-import { formatNumber } from "@/utils";
 import { makePayment } from "@/api";
 import { useRouter } from "next/navigation";
 import { BookingRoom, OrderSummaryProps } from "@/types";

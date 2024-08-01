@@ -25,7 +25,7 @@ import {
 import { message as antMessage } from "antd";
 import {
   convertToStaticImport,
-  formatNumber,
+  formatMoney,
   generateRandomString,
 } from "@/utils";
 import { isString } from "lodash";
@@ -334,12 +334,12 @@ const ProfilePage: React.FC = () => {
                     <p>Order Status: {booking.status}</p>
                     <p>
                       Price:
-                      {formatNumber(
+                      {formatMoney(
                         isString(booking.price)
                           ? parseInt(booking.price) * 1000
                           : booking.price * 1000
                       )}
-                      vnd
+                    
                     </p>
                     <p>Booking Date: {formatDate(booking.created_at)}</p>
                     <button
@@ -398,7 +398,7 @@ const ProfilePage: React.FC = () => {
                     <p>Order Food ID: {booking.id}</p>
                     <p>Order Status: {booking.status}</p>
                     <p>
-                      Total Amount: {formatNumber(booking.total_amount)} vnd
+                      Total Amount: {formatMoney(booking.total_amount)}
                     </p>
                     <p>Order Date: {formatDate(booking.order_date)}</p>
                     <button

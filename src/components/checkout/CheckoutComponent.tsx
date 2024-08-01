@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useTotal } from "../context/TotalContext";
-import { formatNumber } from "@/utils";
+import { formatMoney } from "@/utils";
 import { useCartPay } from "../context/CartPayContext";
 import { useRouter } from "next/navigation";
 import { clearRoom, setRoom } from "@/redux/roomSlice";
@@ -16,7 +16,7 @@ const CheckoutComponent = ({ products }: { products: number }) => {
   const handleBuyClick = () => {
     dispatch(clearRoom()); // Clear the room data
     router.push("/checkout"); // Navigate to the checkout page
-    dispatch(setOrderType('food'));
+    dispatch(setOrderType("food"));
   };
   return (
     <div className=" bg-white rounded box-shadow p-3">
@@ -24,13 +24,11 @@ const CheckoutComponent = ({ products }: { products: number }) => {
       <div className="mb-4 text-black flex flex-col gap-3 ">
         <div className="flex justify-between px-2">
           <p className=" font-semibold">Sub Total:</p>
-          <p className=" font-semibold">
-            {formatNumber(getTotalPrice() * 1000)} vnd
-          </p>
+          <p className=" font-semibold">{formatMoney(getTotalPrice())}</p>
         </div>
         <div className="flex justify-between px-2">
           <p className=" font-semibold">Delivery Fee:</p>
-          <p className=" font-semibold">{formatNumber(20000)} vnd</p>
+          <p className=" font-semibold">{formatMoney(20)} </p>
         </div>
       </div>
       <div className="rounded text-black font-bold flex justify-between items-center p-2">
@@ -38,9 +36,8 @@ const CheckoutComponent = ({ products }: { products: number }) => {
         <div className="flex gap-5  sm:justify-center items-center justify-end">
           <p className="text-red-500 text-xl">
             {products > 0 && getTotalPrice()
-              ? formatNumber(getTotalPrice() * 1000 + 20000)
+              ? formatMoney(getTotalPrice() + 20)
               : 0}
-            vnd
           </p>
           <button
             onClick={handleBuyClick}

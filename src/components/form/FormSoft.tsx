@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Form, Button, Select } from "antd";
 import { getAllPrice } from "@/api";
 import { FormSoftProps } from "@/types";
+import { formatMoney } from "@/utils";
 const FormSoft: React.FC<FormSoftProps> = ({
   open,
   onFinish,
@@ -27,7 +28,7 @@ const FormSoft: React.FC<FormSoftProps> = ({
   return (
     <Modal
       className="text-center float-right mt-32 mr-10"
-      title="Product Form"
+      title="Filter"
       footer={null}
       visible={open}
       onCancel={handleCancel}
@@ -43,7 +44,7 @@ const FormSoft: React.FC<FormSoftProps> = ({
               <Select.Option
                 key={index}
                 value={price}
-              >{`$${price}`}</Select.Option>
+              >{formatMoney(price)}</Select.Option>
             ))}
           </Select>
         </Form.Item>

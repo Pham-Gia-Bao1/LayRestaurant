@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { BookingRoom, PropductParameters, RoomProp } from "@/types";
 import { fetchBookingsOfRoom, getRoomDetail } from "@/api/roomAPI";
-import { capitalizeFirstLetter, formatNumber } from "@/utils";
+import { capitalizeFirstLetter, formatMoney } from "@/utils";
 import WifiIcon from "@mui/icons-material/Wifi";
 import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
 import AirIcon from "@mui/icons-material/Air";
@@ -160,7 +160,7 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
             </div>
             <div className="mb-5 w-full flex justify-between text-center items-center">
               <p className="text-lg font-bold text-red-500">
-                {formatNumber(parseInt(room.price) * 1000)} vnd / 1 day
+                {formatMoney(parseInt(room.price) * 1000)} vnd / 1 day
               </p>
               <Rate
                 allowHalf
@@ -211,7 +211,7 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
                   Days: ({days > 0 ? days : "0"})
                 </p>
                 <p className="font-bold text-xl">
-                  Money: ({days > 0 ? formatNumber(total * 1000) : "0"})
+                  Money: ({days > 0 ? formatMoney(total) : "0"})
                 </p>
               </div>
               <button

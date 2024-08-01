@@ -9,7 +9,7 @@ import { RootState } from "@/redux/store";
 import { useCart } from "../context/CartContext";
 import { useCartPay } from "../context/CartPayContext";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { formatNumber } from "@/utils";
+import { formatMoney } from "@/utils";
 interface ProductCardCheckOutProps {
   id: number | string;
   imageSrc: string;
@@ -135,7 +135,7 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
       </div>
       <div className="flex items-center w-3/12">
         <h1 className="text-red-500">
-          {formatNumber(price * quantity * 1000)} vnd
+          {formatMoney(price * quantity)}
         </h1>
       </div>
       <div className="flex items-center w-1/12">

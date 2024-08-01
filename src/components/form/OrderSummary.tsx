@@ -1,6 +1,6 @@
 import React from "react";
 import { useTotal } from "../context/TotalContext";
-import { formatNumber } from "@/utils";
+import { formatMoney } from "@/utils";
 import { makePayment } from "@/api";
 import { useRouter } from "next/navigation";
 import { BookingFood, OrderSummaryProps } from "@/types";
@@ -65,16 +65,16 @@ const OrderSummary = ({
         <h2 className="text-lg font-bold">Order Summary</h2>
         <div className="flex justify-between mt-2">
           <span>Items ({totalItems})</span>
-          <span>{formatNumber(itemTotal)} vnd</span>
+          <span>{formatMoney(itemTotal)} vnd</span>
         </div>
         <div className="flex justify-between mt-2">
           <span>Shipping and handling:</span>
-          <span>{formatNumber(shippingCost)} vnd</span>
+          <span>{formatMoney(shippingCost)} vnd</span>
         </div>
       </div>
       <div className="mt-4 border-t pt-4 flex justify-between">
         <span className="font-bold">Order Total:</span>
-        <span className="font-bold">{formatNumber(orderTotal)} vnd</span>
+        <span className="font-bold">{formatMoney(orderTotal)} vnd</span>
       </div>
       <button
         onClick={handlePlaceOrder}

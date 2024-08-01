@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef, ChangeEvent } from "react";
 import axios from "axios";
-import { API_URL, formatNumber } from "@/utils";
+import { API_URL, formatMoney } from "@/utils";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
 import { useTheme } from "next-themes";
@@ -188,7 +188,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                 </p>
               </div>
               <p className="text-lg sm:text-xl font-semibold text-green-600 mb-2 ">
-                {formatNumber(price * 1000)} vnd
+                {formatMoney(price)}
               </p>
               <div className="flex items-center mb-4">
                 <button

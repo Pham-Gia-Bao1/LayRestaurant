@@ -14,7 +14,7 @@ import { useTheme } from "next-themes";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Product } from "@/types";
-import { formatNumber } from "@/utils";
+import { formatMoney } from "@/utils";
 import AddIcon from "@mui/icons-material/Add";
 
 interface ProductCardProps {
@@ -85,7 +85,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </p> */}
           <div className="w-full flex justify-between">
             <p className="overflow-ellipsis overflow-hidden font-bold">
-              {formatNumber(params.price * 1000)}
+              {formatMoney(params.price )}
             </p>
 
           </div>

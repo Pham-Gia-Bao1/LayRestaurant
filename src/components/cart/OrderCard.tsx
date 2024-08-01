@@ -12,7 +12,6 @@ import { RootState } from "@/redux/store";
 import { useCart } from "../context/CartContext";
 import { useCartPay } from "../context/CartPayContext";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { formatNumber } from "@/utils";
 
 const OrderCard: React.FC<OrderCardProps> = ({
   id,

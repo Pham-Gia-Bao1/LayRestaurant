@@ -146,13 +146,11 @@ export default function Home() {
           ))}
         </div>
         <div
-          className={`${theme} sm:gap-3 gap-5 flex items-center justify-between w-full flex-wrap`}
-        >
+          className={`${theme} sm:gap-3 gap-5 flex items-center justify-between w-full flex-wrap`}>
           <Settings />
         </div>
         <div
-          className={`${theme} flex items-center justify-between  py-12 p-4 w-full flex-wrap`}
-        >
+          className={`${theme} flex items-center justify-between  py-12 p-4 w-full flex-wrap`}>
           <div className="flex items-center">
             <span className="text-2xl font-bold text-black ">
               Popular Restaurants
