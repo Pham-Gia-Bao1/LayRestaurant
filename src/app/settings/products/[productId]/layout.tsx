@@ -1,11 +1,9 @@
-import type { Metadata } from "next";
+// pages/home.tsx
+import { generateMetadata } from "@/utils";
 
-export const metadata: Metadata = {
-  title: "ProductDetail",
-  description: "View and manage your product details on BitStorm",
-};
+export const metadata = generateMetadata("ProductDetail", "View and manage your product details on LayRestarant");
 
-export default function ProductDetailLayout({
+export default function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

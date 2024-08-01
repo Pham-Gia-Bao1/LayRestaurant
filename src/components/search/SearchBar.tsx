@@ -25,26 +25,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({ setProducts }) => {
       handleSearch();
     }
   };
-  const handleExpand = () => {
-    setExpanded((pre) => searchTerm ? pre : !pre);
-    if (!expanded) {
-      setTimeout(() => {
-        handleSearch();
-      }, 300); // Wait for the transition to complete before performing the search
-    } else {
-      handleSearch();
-    }
-  };
+
   return (
     <Paper
+      className="w-full border-0"
       component="form"
       onSubmit={(e) => e.preventDefault()} // Prevent form submission on Enter key press
       sx={{
         p: "4px 4px",
         display: "flex",
         alignItems: "center",
-        width: expanded ? 350 : 55, // Adjust the width based on the expanded state
-        transition: "width 0.3s ease-in-out" // Smooth transition effect
       }}
     >
       <InputBase
@@ -55,14 +45,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({ setProducts }) => {
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyPress={handleKeyPress}
       />
-      <IconButton
-        type="button"
-        sx={{ p: "10px" }}
-        aria-label="search"
-        onClick={handleExpand} // Expand the input when the button is clicked
-      >
+      <button className="bg-orange-500 h-full w-[20%] p-2 hover:bg-orange-600">
         <SearchIcon />
-      </IconButton>
+      </button>
     </Paper>
   );
 };

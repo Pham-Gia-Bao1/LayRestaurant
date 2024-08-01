@@ -1,17 +1,24 @@
 import { Metadata } from "next";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import iconPath from '../assets/images/LogoCustomine.png';
 export const API_URL: string = "https://lay-restaurant.zeabur.app/api";
+
 export function formatNumber(number: number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 export function generateMetadata(pageTitle: string, pageDescription: string): Metadata {
+  const defaultTitle = NAME_RETAURANT;
+
   return {
     title: {
-      default: "BitStorm",
-      template: "%s | BitStorm",
-      absolute: `${pageTitle} | BitStorm`,
+      default: defaultTitle,
+      template: pageTitle ? `%s | ${NAME_RETAURANT}` : defaultTitle,
+      absolute: pageTitle ? `${pageTitle} | ${NAME_RETAURANT}` : defaultTitle,
     },
     description: pageDescription,
+    icons: {
+      icon: LOGO, // Use the .src property for the URL path
+    },
   };
 }
 export const setStorage = (storageName: string, value: any) => {
@@ -80,3 +87,26 @@ export function convertToStaticImport(value: string | undefined): StaticImport |
   // Convert string to unknown first, then to StaticImport
   return (value as unknown) as StaticImport;
 }
+
+export const NAME_RETAURANT : any | string = process.env.NAME_RETAURANT || 'LayRestaurant';
+export const LOGO : any | string = process.env.LOGO || iconPath.src;
+export const CURRENCY_UNIT: string = process.env.CURRENCY_UNIT || 'vnd';
+
+// Hàm định dạng tiền theo đơn vị tiền tệ
+export const formatMoney = (money: number, currency: string = CURRENCY_UNIT): string => {
+  // Nếu đơn vị tiền là VND, nhân tiền lên 1000
+  const adjustedMoney = currency.toLowerCase() === 'vnd' ? money * 1000 : money;
+
+  // Tạo đối tượng Intl.NumberFormat để định dạng số với phân tách dấu chấm
+  const formatter = new Intl.NumberFormat('vi-VN', {
+    style: 'decimal',
+    minimumFractionDigits: 0,
+  });
+
+  // Định dạng giá trị tiền
+  const formattedMoney = formatter.format(adjustedMoney);
+
+  // Trả về chuỗi kết quả kèm theo đơn vị tiền tệ viết hoa
+  return `${formattedMoney} ${currency.toUpperCase()}`;
+};
+

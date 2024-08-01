@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { generateMetadata } from "@/utils";
 
-export const metadata: Metadata = {
-  title: "Register",
-  description: "Register a new account on BitStorm",
-};
+export const metadata = generateMetadata("Register", "Register a new account on LayRestaurant");
 
 export default function RegisterLayout({
   children,

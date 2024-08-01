@@ -8,11 +8,12 @@ import { setRoom } from "@/redux/roomSlice";
 import { setCurrentUser } from "@/redux/userSlice";
 import { TextField } from "@mui/material";
 import Image from "next/image";
-import ProfileImage from "../../assets/images/Poster/Poster1.png";
+import ProfileImage from "../../assets/images/ProfileUser.png";
 import { RootState } from "@/redux/store";
 import { BookingFood, BookingFoodItem, BookingRoom, CartItem } from "@/types";
 import confetti from "canvas-confetti";
-import { signOut } from 'next-auth/react';
+import { signOut } from "next-auth/react";
+import { Avatar } from "@mui/material";
 import {
   createBookingFood,
   createBookingFoodItem,
@@ -31,6 +32,7 @@ import { isString } from "lodash";
 import { useCart } from "@/components/context/CartContext";
 import { clearToken } from "@/redux/authSlice";
 import { useRouter } from "next/navigation";
+import ActionButton from "@/components/button/AcTionButton";
 const ProfilePage: React.FC = () => {
   const { cart, refreshCart, removeFromCart } = useCart();
   const dispatch = useDispatch();
@@ -236,9 +238,9 @@ const ProfilePage: React.FC = () => {
         localStorage.removeItem("__token__");
       }
       dispatch(clearToken());
-      await signOut({ redirect: true, callbackUrl: '/' }); // Redirect after logout
+      await signOut({ redirect: true, callbackUrl: "/" }); // Redirect after logout
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     }
     router.push("/login");
   };
@@ -249,21 +251,22 @@ const ProfilePage: React.FC = () => {
           <div className="col-span-4 sm:col-span-3">
             <div className="bg-white rounded-lg p-6">
               <div className="flex flex-col items-center">
-                <Image
-                  width={500}
-                  height={500}
-                  src={currentUser ? currentUser.profile_picture : ProfileImage}
-                  className="w-32 h-32 bg-gray-300 mb-4 shrink-0 rounded-full"
-                  alt="Profile"
+                <Avatar
+                  className="mr-4 bg-green-400 rounded-full"
+                  alt="User Avatar"
+                  src={currentUser?.profile_picture ?? ProfileImage.src}
+                  sx={{ width: 200, height: 200 }}
                 />
                 <h1 className="text-xl font-bold">
                   {currentUser?.name || "John Doe"}
                 </h1>
-                <p className="text-gray-700">Software Developer</p>
                 <div className="mt-6 flex flex-wrap gap-4 justify-center">
-                  <button className="bg-green-500 p-3 rounded text-white">
-                    Change avatar
-                  </button>
+                  <ActionButton
+                    type="success"
+                    hover="hover:bg-green-800"
+                    content="Change Avatar"
+                    onClick={() => alert("Change avaatr!")}
+                  />
                 </div>
               </div>
             </div>
@@ -304,10 +307,17 @@ const ProfilePage: React.FC = () => {
                 </p>
               </div>
               <div className="w-full my-10 flex justify-between ">
-                <button className="bg-green-500 p-3 rounded text-white">
-                  Update profile
-                </button>
-                <button className="bg-gray-100 p-3 rounded text-black" onClick={handleLogout}> Logout</button>
+                <ActionButton
+                  type="success"
+                  content="Update profile"
+                  onClick={() => alert("Change profile!")}
+                />
+                 <ActionButton
+                  type="nomal"
+                  content="Logout"
+                  text-black
+                  onClick={() => alert("Logout!")}
+                />
               </div>
             </div>
             <div className="bg-white rounded-lg p-6 mt-6">

@@ -12,6 +12,7 @@ import { TotalProvider } from "@/components/context/TotalContext";
 import { CartPayProvider } from "@/components/context/CartPayContext";
 import { SessionProvider } from "next-auth/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { generateMetadata } from "@/utils";
 const ThemeProvider = ({ children, ...props }: any) => {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 };

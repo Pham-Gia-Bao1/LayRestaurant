@@ -52,12 +52,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
   return (
     <div
+    data-aos="fade-up"
       className={` rounded-lg text-black overflow-hidden relative flex flex-col justify-between h-full`}
     >
-      <Link href={`/settings/products/${params.id}`}>
-        {/* <p className="absolute  top-2 left-2 text-xs bg-green-500 text-white px-2 py-1 rounded-full">
-          Best product
-        </p> */}
+      <Link href={`/settings/products/${params.id}?name=${params.name}`}>
          <p className="bg-green-500 p-1 rounded-full text-white absolute  bottom-28 right-4">
               <AddIcon />
             </p>
@@ -89,7 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <p className="overflow-ellipsis overflow-hidden font-bold">
               {formatNumber(params.price * 1000)}
             </p>
-          
+
           </div>
         </div>
       </Link>

@@ -259,11 +259,11 @@ const Settings: React.FC = () => {
     (value, index, self) => self.indexOf(value) === index
   );
   const handleClick = async (type: string) => {
-    const updatedPath = `?type=${type}`;
-    router.push(updatedPath);
+    setLoading(true);
     try {
       const results = await getFoodsByType(type);
       setFoods(results);
+      setLoading(false);
     } catch (error) {
       throw error;
     }
@@ -276,70 +276,65 @@ const Settings: React.FC = () => {
   return (
     <div className="flex w-full">
       <div className={`w-full rounded-lg ${theme}`}>
-        {loading ? (
-          <>
-            <Loading />
-            <Skeleton variant="text" sx={{ fontSize: "1.5rem" }} width="30%" />
-          </>
-        ) : (
-          <>
-            <div className="flex items-center justify-between w-screen overflow-hidden pr-14 sm:pr-0 sm:w-full m-2 ml-0  flex-wrap">
-              <div
-                className={`${theme} flex items-center justify-between py-6 sm:py-16 flex-wrap`}
-              >
-                <span className="sm:text-2xl sm:ml-3 font-bold text-black ">
-                  Order.uk Popular Categories
-                </span>
-              </div>
-              <div className="flex items-center justify-end lg:w-2/4 sm:w-full md:w-full">
-                <SearchBar setProducts={setFoods} />
-              </div>
+        <>
+          <div className="flex items-center justify-between overflow-hidden sm:pr-0 w-full m-2 ml-0  flex-wrap">
+            <div
+              className={`${theme} flex items-center justify-between py-6 sm:py-16 flex-wrap`}
+            >
+              <span className="sm:text-2xl sm:ml-3 font-bold text-black ">
+                Order.uk Popular Categories
+              </span>
             </div>
-            <div className="flex justify-between mb-4 flex-wrap gap-3">
-              <div className="scroll-container p-2 flex sm:gap-3 gap-1.5 justify-start items-center overflow-x-auto whitespace-nowrap">
+            <div className="flex items-center w-full sm:w-1/2 mb-5 sm:mb-0">
+              <SearchBar setProducts={setFoods} />
+            </div>
+          </div>
+          <div className="flex justify-between mb-4 flex-wrap gap-3">
+            <div className="scroll-container p-2 flex sm:gap-3 gap-1.5 justify-start items-center overflow-x-auto whitespace-nowrap">
+              <button
+                type="button"
+                className={`${theme} box-shadow px-3 py-2 active:bg-green-500 text-black hover:bg-green-100 rounded whitespace-nowrap`}
+                onClick={handleClickAll}
+              >
+                All
+              </button>
+              {uniqueTypes.map((type, index) => (
                 <button
                   type="button"
-                  className={`${theme} box-shadow px-3 py-2 active:bg-red-500 hover:bg-gray-800 rounded whitespace-nowrap`}
-                  onClick={handleClickAll}
+                  key={index}
+                  value={type}
+                  className={`${theme} box-shadow px-3 min-w-fit py-2 active:bg-green-500 text-black hover:bg-green-100 rounded whitespace-nowrap`}
+                  onClick={() => handleClick(type)}
                 >
-                  All
+                  {type}
                 </button>
-                {uniqueTypes.map((type, index) => (
-                  <button
-                    type="button"
-                    key={index}
-                    className={`${theme} box-shadow px-3 min-w-fit py-2 active:bg-red-500 hover:bg-gray-800 rounded whitespace-nowrap`}
-                    onClick={() => handleClick(type)}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex justify-end items-center gap-2 ">
-                <button
-                  onClick={showFilterForm}
-                  className={`${theme} box-shadow px-4 py-2 rounded`}
-                >
-                  <FilterAltIcon />
-                </button>
-                {currentUser?.role_id == 1 ? (
-                  <button
-                    type="button"
-                    className={`${theme} box-shadow px-4 py-2 active:bg-red-500 hover:bg-gray-800 rounded`}
-                    onClick={() =>
-                      token
-                        ? showModal(0)
-                        : message.error("You need to login first!")
-                    }
-                  >
-                    <AddIcon />
-                  </button>
-                ) : null}
-              </div>
+              ))}
             </div>
-          </>
-        )}
+
+            <div className="flex justify-end items-center gap-2">
+              <button
+                onClick={showFilterForm}
+                className={`${theme} box-shadow px-4 py-2 rounded hover:bg-green-100 text-black ml-2 sm:mr-2`}
+              >
+                <FilterAltIcon />
+              </button>
+              {currentUser?.role_id == 1 ? (
+                <button
+                  type="button"
+                  className={`${theme} box-shadow px-4 py-2 active:bg-green-500 text-black hover:bg-green-100 rounded`}
+                  onClick={() =>
+                    token
+                      ? showModal(0)
+                      : message.error("You need to login first!")
+                  }
+                >
+                  <AddIcon />
+                </button>
+              ) : null}
+            </div>
+          </div>
+        </>
+
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 flex-wrap p-2 relative">
           <FormSoft
             loading={isSubmitFilter}

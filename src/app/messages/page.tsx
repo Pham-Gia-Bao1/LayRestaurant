@@ -1,6 +1,8 @@
 
+import { generateMetadata } from '@/utils';
 import Image from 'next/image'
 import React from 'react'
+export const metadata = generateMetadata("Messages", "Check your messages and stay connected at LayRestaurant.");
 export default function page() {
   return (
     <main className=" min-h-screen flex flex-col items-center justify-betwee bg-white h-full">

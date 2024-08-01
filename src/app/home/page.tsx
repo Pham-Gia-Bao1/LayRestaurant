@@ -80,7 +80,7 @@ export default function Home() {
               alt="Top Icon"
               className="absolute bottom-0 left-0"
             />
-            <div className="flex items-center space-x-2 ">
+            <div className="flex items-center space-x-2 " data-aos="fade-right">
               <Image
                 width={24}
                 height={24}
@@ -90,16 +90,16 @@ export default function Home() {
               />
               <p className="text-sm text-gray-500">People Trust us</p>
             </div>
-            <h1 className="text-5xl text-center sm:text-start  sm:text-7xl font-bold text-gray-800">
+            <h1 data-aos="fade-right" className="text-5xl text-center sm:text-start  sm:text-7xl font-bold text-gray-800">
               We are <span className="text-red-500">Serious</span> For{" "}
               <span className="text-yellow-500">Food & Delivery.</span>
             </h1>
-            <p className="text-lg text-center sm:text-start sm:text-xl text-gray-600">
+            <p data-aos="fade-right" className="text-lg text-center sm:text-start sm:text-xl text-gray-600">
               Best cooks and best delivery guys all at your service. Hot tasty
               food will reach you in 60 minutes.
             </p>
           </div>
-          <div className="w-full relative flex items-center justify-center sm:w-1/2">
+          <div className="w-full relative flex items-center justify-center sm:w-1/2" data-aos="fade-left">
             <Image
               width={300}
               height={300}
@@ -119,14 +119,14 @@ export default function Home() {
         <div
           className={`${theme} flex items-center justify-between p-4 w-full sm:text-2xl`}
         >
-          <div className="flex items-center space-x-2 sm:text-2xl">
-            <span className="sm:text-2xl font-bold text-black ">
+          <div className="flex items-center space-x-2 sm:text-2xl" data-aos="fade-up">
+            <span className="sm:text-2xl font-bold text-black" data-aos="fade-up">
               Up to <span className="text-blue-600">-40%</span> 🎉 Order.uk
               exclusive deals
             </span>
           </div>
-          <div className="flex items-center space-x-4">
-            <button className="text-orange-600 border border-orange-600 px-4 py-1 rounded-full flex items-center">
+          <div className="flex items-center space-x-4" data-aos="fade-up">
+            <button data-aos="fade-up" className="text-orange-600 border border-orange-600 px-4 py-1 rounded-full flex items-center">
               <ArrowRightAltIcon />
             </button>
           </div>
@@ -160,11 +160,17 @@ export default function Home() {
           </div>
         </div>
         <div
-          className={`${theme} flex items-center justify-between w-full flex-wrap`}
+          className={`${theme} sm:gap-3 gap-5 flex items-center justify-between p-3  w-auto overflow-x-auto scrollbar-hide scroll-smooth overflow-hidden`}
         >
-          <div className="flex items-center w-full">
-            <CartShop />
-          </div>
+          {CardRestaurant.map((cart, index) => (
+            <HomePageCartRestaurant
+              key={index}
+              imageUrl={cart.imageUrl}
+              discount={cart.discount}
+              title={cart.title}
+              restaurant={cart.restaurant}
+            />
+          ))}
         </div>
         <div>
           <Footer />

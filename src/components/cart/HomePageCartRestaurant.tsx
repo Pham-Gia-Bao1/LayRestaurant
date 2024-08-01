@@ -3,7 +3,7 @@ import React from 'react';
 
 const HomePageCartRestaurant: React.FC<any> = ({ imageUrl, discount, title, restaurant }) => {
   return (
-    <div className="relative min-w-[90%] sm:min-w-[24%]  sm:w-80  rounded-lg overflow-hidden">
+    <div className="relative min-w-[90%] sm:min-w-[24%]  sm:w-80  rounded-lg overflow-hidden" data-aos="fade-up">
       <Image width={1000} height={1000} src={imageUrl} alt={title} className="h-48 object-cover" />
       <div className="absolute top-0 left-0 bg-green-500 text-white px-2 py-1 rounded-br-lg">
         {discount}

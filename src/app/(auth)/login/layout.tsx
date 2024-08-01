@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+import { generateMetadata } from "@/utils";
 
-export const metadata: Metadata = {
-  title: "Login",
-  description: "Log in to your account on BitStorm",
-};
+export const metadata = generateMetadata("Login", "Log in to your account on LayRestaurant");
 
 export default function LoginLayout({
   children,
