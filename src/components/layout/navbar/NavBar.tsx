@@ -13,9 +13,7 @@ import { clearToken } from "@/redux/authSlice";
 import { ExitToApp } from "@mui/icons-material";
 import { setCurrentUser } from "@/redux/userSlice";
 import OrderSide from "@/components/order/OrderSide";
-import LanguageSwitcher from "@/components/switchLanguage/LanguageSwitcher";
 import { useCart } from "@/components/context/CartContext";
-import useAuthCheck from "@/hooks/useAuth";
 
 const ModeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();

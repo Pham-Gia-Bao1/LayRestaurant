@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { BookingRoom, PropductParameters, RoomProp } from "@/types";
 import { fetchBookingsOfRoom, getRoomDetail } from "@/api/roomAPI";
-import { capitalizeFirstLetter, formatMoney } from "@/utils";
+import { capitalizeFirstLetter, formatMoney, LOGO } from "@/utils";
 import WifiIcon from "@mui/icons-material/Wifi";
 import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
 import AirIcon from "@mui/icons-material/Air";
@@ -14,7 +14,7 @@ import RoomGallery from "@/components/rooms/roomDetails/RoomGallery";
 import PopularRoomsBox from "@/components/rooms/PopularRoomsBox";
 import Footer from "@/components/layout/Footer";
 import Image from "next/image";
-import ContactImage from "../../../assets/images/rooms/friends-laughing-using-mobiles 2.png";
+import ContactImage from "../../../assets/images/rooms/RoomListBottomImage.png";
 import GoogleMapEmbed from "@/components/map/Map";
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +26,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartPay } from "@/components/context/CartPayContext";
 import { setOrderType } from "@/redux/orderTypeSlice";
+import Loading from "@/components/loading/Loading";
 const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
   const days = useSelector((state: RootState) => state.day.days);
   const { clearCartPay } = useCartPay();
@@ -55,7 +56,7 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
   };
   const handleBuyClick = () => {
     clearCartPay(); // Clear the cart data
-    dispatch(setOrderType('room'));
+    dispatch(setOrderType("room"));
     router.push("/checkout"); // Navigate to the checkout page
   };
   const handleDateChange = () => {
@@ -118,140 +119,142 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
     return isDateAvailable(date);
   };
   if (!room) {
-    return <p>Loading...</p>;
+    return (
+      <p className="w-full h-[60vh] flex justify-center items-center">
+        <Loading />
+      </p>
+    );
   }
   return (
-    <main className="flex min-h-screen sm:px-10 px-5 flex-col w-full items-center justify-between md:container md:mx-auto">
-      <div className="flex w-full mt-10 gap-10 flex-col items-center text-black">
-        <div className="w-full flex flex-wrap lg:flex-nowrap">
-          <RoomGallery room={room} />
-          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-5">
-            <div className="mb-5 w-full flex justify-between items-center bg-gray-200 p-3 rounded">
-              <h3 className="text-3xl font-bold">{room.name}</h3>
-              <div className="flex items-center justify-center">
-                <span>Active</span>
-                <span
-                  className={`w-5 h-5 inline-block ml-2 rounded-full ${
-                    room.status !== "booked" ? "bg-green-500" : "bg-red-500"
+    <>
+      <head>
+        <title>{room ? room.name : "Loading..."}</title>
+        <meta
+          name="description"
+          content={room ? room.description : "Loading product details..."}
+        />
+        <link rel="icon" href={LOGO} />
+      </head>
+
+      <main className="flex min-h-screen sm:px-10 px-5 flex-col w-full items-center justify-between md:container md:mx-auto">
+        <div className="flex w-full mt-10 gap-10 flex-col items-center text-black">
+          <div className="w-full flex flex-wrap lg:flex-nowrap">
+            <RoomGallery room={room} />
+            <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-5">
+              <div className="mb-5 w-full flex justify-between items-center bg-gray-200 p-3 rounded">
+                <h3 className="text-3xl font-bold">{room.name}</h3>
+                <div className="flex items-center justify-center">
+                  <span>Active</span>
+                  <span
+                    className={`w-5 h-5 inline-block ml-2 rounded-full bg-green-500
+                  `}
+                  ></span>
+                </div>
+              </div>
+              <div className="mb-5 w-full flex justify-between">
+                <p className="sm:text-lg">{room.description}</p>
+              </div>
+              <div className="mb-5 w-full flex justify-between items-center bg-gray-200 p-3 rounded">
+                <div className="bg-gray-200 sm:w-[20%] w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
+                  <WifiIcon />
+                  <p>Wifi</p>
+                </div>
+                <div className="bg-gray-200 sm:w-[20%]  w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
+                  <LocalLaundryServiceIcon />
+                  <p>Laundry</p>
+                </div>
+                <div className="bg-gray-200 sm:w-[20%]  w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
+                  <AirIcon />
+                  <p>AC</p>
+                </div>
+                <div className="bg-gray-200 sm:w-[20%] w-[10%]  h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
+                  <WineBarIcon />
+                  <p>Wine</p>
+                </div>
+              </div>
+              <div className="mb-5 w-full flex justify-between text-center items-center flex-wrap">
+                <p className="sm:text-lg font-bold text-green-500">
+                  {formatMoney(parseInt(room.price))} / 1 day
+                </p>
+                <Rate
+                  allowHalf
+                  value={room.star_rating}
+                  onChange={handleRateChange}
+                />
+              </div>
+              <div className="mb-5 w-full flex justify-between text-center font-bold">
+                <p className="p-2 rounded bg-orange-100">
+                  {capitalizeFirstLetter(room.room_type)} room
+                </p>
+                <p className="p-2 rounded bg-orange-100">
+                  Capacity: {room.capacity} people
+                </p>
+              </div>
+              <div className="mb-5 w-full flex justify-between text-center items-end flex-wrap bg-gray-200 p-3 rounded">
+                <div className="w-full grid grid-cols-2 gap-5">
+                  <div className="flex gap-2 w-full pb-3 items-start flex-col">
+                    <label className="text-sm">Check-in day:</label>
+                    <DatePicker
+                      selected={checkInDate}
+                      onChange={(date) => dispatch(setCheckInDate(date))}
+                      filterDate={filterDates}
+                      minDate={new Date()}
+                      placeholderText="Select check-in date"
+                      className="bg-white w-full text-black px-3 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      dateFormat="yyyy-MM-dd"
+                    />
+                  </div>
+                  <div className="flex gap-2 w-full items-start flex-col">
+                    <label className="text-sm">Check-out day:</label>
+                    <DatePicker
+                      selected={checkOutDate}
+                      onChange={(date) => dispatch(setCheckOutDate(date))}
+                      filterDate={filterDates}
+                      minDate={checkInDate ? new Date(checkInDate) : new Date()}
+                      placeholderText="Select check-out date"
+                      className="bg-white w-full text-black px-3 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      dateFormat="yyyy-MM-dd"
+                    />
+                  </div>
+                </div>
+                {dateError && <p className="text-red-500">{dateError}</p>}
+              </div>
+              <div className="mb-5 w-full flex justify-between text-center items-center flex-wrap bg-gray-200 p-3 rounded">
+                <div className="flex gap-3">
+                  <p className="font-bold text-xl">
+                    Days: ({days > 0 ? days : "0"})
+                  </p>
+                  <p className="font-bold text-xl">
+                    Money: ({days > 0 ? formatMoney(total) : "0"})
+                  </p>
+                </div>
+                <button
+                  onClick={handleBuyClick}
+                  className={`px-5 py-5 rounded w-full m-3 sm:w-auto  ${
+                    days > 0
+                      ? "bg-green-500 text-white cursor-pointer hover:bg-green-600"
+                      : "bg-gray-300 text-gray-600 cursor-not-allowed"
                   }`}
-                ></span>
+                  disabled={days <= 0}
+                >
+                  Booking now
+                </button>
               </div>
-            </div>
-            <div className="mb-5 w-full flex justify-between">
-              <p className="sm:text-lg">{room.description}</p>
-            </div>
-            <div className="mb-5 w-full flex justify-between">
-              <div className="bg-gray-200 sm:w-[20%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
-                <WifiIcon />
-                <p>Wifi</p>
-              </div>
-              <div className="bg-gray-200 sm:w-[20%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
-                <LocalLaundryServiceIcon />
-                <p>Laundry</p>
-              </div>
-              <div className="bg-gray-200 sm:w-[20%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
-                <AirIcon />
-                <p>AC</p>
-              </div>
-              <div className="bg-gray-200 sm:w-[20%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
-                <WineBarIcon />
-                <p>Wine</p>
-              </div>
-            </div>
-            <div className="mb-5 w-full flex justify-between text-center items-center">
-              <p className="text-lg font-bold text-red-500">
-                {formatMoney(parseInt(room.price) * 1000)} vnd / 1 day
-              </p>
-              <Rate
-                allowHalf
-                value={room.star_rating}
-                onChange={handleRateChange}
-              />
-            </div>
-            <div className="mb-5 w-full flex justify-between text-center font-bold">
-              <p className="p-2 rounded bg-orange-100">
-                {capitalizeFirstLetter(room.room_type)} room
-              </p>
-              <p className="p-2 rounded bg-orange-100">
-                Capacity: {room.capacity} people
-              </p>
-            </div>
-            <div className="mb-5 w-full flex justify-between text-center items-end flex-wrap bg-gray-200 p-3 rounded">
-              <div className="w-full grid grid-cols-2 gap-5">
-                <div className="flex gap-2 w-full pb-3 items-start flex-col">
-                  <label className="text-sm">Check-in day:</label>
-                  <DatePicker
-                    selected={checkInDate}
-                    onChange={(date) => dispatch(setCheckInDate(date))}
-                    filterDate={filterDates}
-                    minDate={new Date()}
-                    placeholderText="Select check-in date"
-                    className="bg-white w-full text-black px-3 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    dateFormat="yyyy-MM-dd"
-                  />
-                </div>
-                <div className="flex gap-2 w-full items-start flex-col">
-                  <label className="text-sm">Check-out day:</label>
-                  <DatePicker
-                    selected={checkOutDate}
-                    onChange={(date) => dispatch(setCheckOutDate(date))}
-                    filterDate={filterDates}
-                    minDate={checkInDate ? new Date(checkInDate) : new Date()}
-                    placeholderText="Select check-out date"
-                    className="bg-white w-full text-black px-3 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    dateFormat="yyyy-MM-dd"
-                  />
-                </div>
-              </div>
-              {dateError && <p className="text-red-500">{dateError}</p>}
-            </div>
-            <div className="mb-5 w-full flex justify-between text-center items-center flex-wrap bg-gray-200 p-3 rounded">
-              <div className="flex gap-3">
-                <p className="font-bold text-xl">
-                  Days: ({days > 0 ? days : "0"})
-                </p>
-                <p className="font-bold text-xl">
-                  Money: ({days > 0 ? formatMoney(total) : "0"})
-                </p>
-              </div>
-              <button
-                onClick={handleBuyClick}
-                className={`px-5 py-5 rounded w-full m-3 sm:w-auto  ${
-                  days > 0
-                    ? "bg-green-500 text-white cursor-pointer"
-                    : "bg-gray-300 text-gray-600 cursor-not-allowed"
-                }`}
-                disabled={days <= 0}
-              >
-                Booking now
-              </button>
             </div>
           </div>
-        </div>
-        <div className="w-full h-96">
-          <GoogleMapEmbed />
-        </div>
-        <div className="w-full my-10">
-          <PopularRoomsBox />
-        </div>
-        <div className="flex w-full items-center justify-between p-10 bg-gray-200 rounded-3xl">
-          <div className="w-1/2">
+          <div className="w-full sm:h-96 h-80">
+            <GoogleMapEmbed />
+          </div>
+          <div className="w-full my-10">
+            <PopularRoomsBox />
+          </div>
+          <div className="flex w-full items-center justify-between p-10 bg-gray-200 rounded-3xl">
             <Image src={ContactImage} alt="Friends laughing using mobiles" />
           </div>
-          <div className="w-1/2 flex flex-col items-start justify-center gap-4">
-            <p className="text-4xl font-bold">Contact us</p>
-            <p className="text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-              adipiscing quis non sed.
-            </p>
-            <button className="px-5 py-2 rounded bg-green-500 text-white">
-              Booking now
-            </button>
-          </div>
         </div>
-      </div>
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </>
   );
 };
 export default RoomDetail;

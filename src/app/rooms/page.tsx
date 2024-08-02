@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import TopRoomImage from "../../assets/images/rooms/TopRoomImage.svg";
+import TopRoomImage from "../../assets/images/rooms/TopImageRoom.png";
 import HeartIcon from "../../assets/images/HeartIcon.png";
 import FirstBgIcon from "../../assets/images/icons/Orange.png";
 import SecondBgIcon from "../../assets/images/icons/Mint.png";
@@ -14,7 +14,7 @@ export default function RoomPage() {
   return (
     <main className="flex min-h-screen flex-col w-[100%] items-center justify-between md:container md:mx-auto">
       <div className="flex-1 p-4 sm:p-8 w-full ">
-        <div className=" relative w-full sm:h-[80vh] h-auto flex flex-row gap-3 p-5 justify-between items-center flex-wrap sm:flex-nowrap">
+        <div className=" relative w-full sm:h-[80vh] h-auto flex flex-row-reverse gap-3 p-5 justify-between items-center flex-wrap sm:flex-nowrap">
           <div className=" flex flex-col justify-center items-center sm:items-start w-full sm:w-[50%]  space-y-4 sm:pl-10 ">
             <Image
               width={100}
@@ -52,7 +52,7 @@ export default function RoomPage() {
           <div className="w-full relative flex items-center justify-center sm:w-1/2">
             <Image
               width={600}
-              height={510}
+              height={600}
               src={TopRoomImage}
               alt="Top banner"
               className="object-contain z-10"

@@ -22,7 +22,7 @@ const OrderSumaryRoom = ({
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const room = useSelector((state: RootState) => state.room.room);
   const orderType = useSelector((state: RootState) => state.orderType.order_type);
-
+  const isOrderEnabled = paymentMethod && isExitedAddress;
   const checkInDate = useSelector(
     (state: RootState) => state.dates.checkInDate
   );
@@ -81,9 +81,9 @@ const OrderSumaryRoom = ({
       <button
         onClick={handlePlaceOrder}
         className={`border-t w-full py-2 rounded-md font-bold mt-2 p-5 my-5 ${
-          total ? "bg-blue-600 text-white" : "bg-gray-300 cursor-not-allowed"
+          isOrderEnabled ? "bg-blue-500 text-white hover:bg-blue-600" : "bg-gray-300 cursor-not-allowed"
         }`}
-        disabled={!isExitedAddress}
+        disabled={!isOrderEnabled}
       >
         Place Order
       </button>

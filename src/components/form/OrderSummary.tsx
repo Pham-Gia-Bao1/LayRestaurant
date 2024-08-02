@@ -14,8 +14,8 @@ const OrderSummary = ({
   totalItems,
 }: OrderSummaryProps) => {
   const { getTotalPrice, selectedItems } = useCartPay();
-  const shippingCost = 20000;
-  const itemTotal = getTotalPrice() * 1000;
+  const shippingCost = 20;
+  const itemTotal = getTotalPrice();
   const orderTotal = itemTotal + shippingCost;
   const isOrderEnabled = paymentMethod && isExitedAddress;
   const router = useRouter();
@@ -47,7 +47,7 @@ const OrderSummary = ({
 
 
     try {
-      const paymentResponse = await makePayment(orderTotal);
+      const paymentResponse = await makePayment(orderTotal * 1000);
       console.log(paymentResponse);
       const { data } = paymentResponse;
       if (paymentResponse.code === "00") {
@@ -65,11 +65,11 @@ const OrderSummary = ({
         <h2 className="text-lg font-bold">Order Summary</h2>
         <div className="flex justify-between mt-2">
           <span>Items ({totalItems})</span>
-          <span>{formatMoney(itemTotal)} vnd</span>
+          <span>{formatMoney(itemTotal)}</span>
         </div>
         <div className="flex justify-between mt-2">
           <span>Shipping and handling:</span>
-          <span>{formatMoney(shippingCost)} vnd</span>
+          <span>{formatMoney(shippingCost)}</span>
         </div>
       </div>
       <div className="mt-4 border-t pt-4 flex justify-between">
@@ -80,7 +80,7 @@ const OrderSummary = ({
         onClick={handlePlaceOrder}
         className={`border-t w-full py-2 rounded-md font-bold mt-2 p-5 my-5 ${
           isOrderEnabled
-            ? "bg-blue-600 text-white"
+            ? "bg-blue-500 text-white hover:bg-blue-600"
             : "bg-gray-300 cursor-not-allowed"
         }`}
         disabled={!isOrderEnabled}

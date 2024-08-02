@@ -56,7 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       className={` rounded-lg text-black overflow-hidden relative flex flex-col justify-between h-full`}
     >
       <Link href={`/settings/products/${params.id}?name=${params.name}`}>
-         <p className="bg-green-500 p-1 rounded-full text-white absolute  bottom-28 right-4">
+         <p className="bg-green-500 hover:bg-green-600 p-1 rounded-full text-white absolute  bottom-28 right-4">
               <AddIcon />
             </p>
         {params.picture ? (
@@ -80,9 +80,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <h2 className="mt-2 truncate-description-2-line overflow-ellipsis overflow-hidden ">
             {params.name}
           </h2>
-          {/* <p className="hidden">
-            {params.description}
-          </p> */}
           <div className="w-full flex justify-between">
             <p className="overflow-ellipsis overflow-hidden font-bold">
               {formatMoney(params.price )}

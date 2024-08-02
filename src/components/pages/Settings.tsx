@@ -40,6 +40,7 @@ const Settings: React.FC = () => {
   const [loadingGetMoreData, setLoadingGetMoreData] = useState<boolean>(false); // Separate loading state for fetching more data
   const fetchingMoreData = useRef<boolean>(false);
   const [isMaxPage, setIsMaxPage] = useState<boolean>(false);
+  const [activeButton, setActiveButton] = useState<string | null>(null);
   const [data, setData] = useState<DataType>({
     name: "",
     price: 0,
@@ -131,6 +132,7 @@ const Settings: React.FC = () => {
     }
   };
   const showFilterForm = () => {
+    setActiveButton("filter");
     setIsFilter((pre) => !pre);
   };
   const onFinishFilter: FormProps["onFinish"] = async (values) => {
@@ -140,6 +142,7 @@ const Settings: React.FC = () => {
       setIsFilter(false);
       setIsSubmitFilter(false);
       setFoods(filteredData.data);
+      setIsMaxPage(true);
     } catch (error) {
       console.error("Error fetching filtered foods:", error);
     }
@@ -153,6 +156,7 @@ const Settings: React.FC = () => {
         form.setFieldsValue(foodDetails.data);
         setImageUrl(foodDetails.data.picture);
         setFileList([{ url: foodDetails.data.picture }]);
+        setIsMaxPage(true);
       } catch (error) {
         console.error("Failed to fetch food details:", error);
       }
@@ -269,9 +273,14 @@ const Settings: React.FC = () => {
     }
   };
   const handleClickAll = () => {
-    const originPath = "/";
-    router.push(originPath);
+    setActiveButton("all");
     getData();
+    setIsMaxPage(false);
+  };
+  const handleButtonClick = (type: string) => {
+    setActiveButton(type); // Set the clicked button as active
+    handleClick(type); // Call the click handler
+    setIsMaxPage(true);
   };
   return (
     <div className="flex w-full">
@@ -293,7 +302,9 @@ const Settings: React.FC = () => {
             <div className="scroll-container p-2 flex sm:gap-3 gap-1.5 justify-start items-center overflow-x-auto whitespace-nowrap">
               <button
                 type="button"
-                className={`${theme} box-shadow px-3 py-2 active:bg-green-500 text-black hover:bg-green-100 rounded whitespace-nowrap`}
+                className={`text-black hover:bg-green-100 px-3 py-2 active:bg-green-400 rounded box-shadow ${
+                  activeButton === "all" ? "bg-green-400" : ""
+                }`}
                 onClick={handleClickAll}
               >
                 All
@@ -303,8 +314,10 @@ const Settings: React.FC = () => {
                   type="button"
                   key={index}
                   value={type}
-                  className={`${theme} box-shadow px-3 min-w-fit py-2 active:bg-green-500 text-black hover:bg-green-100 rounded whitespace-nowrap`}
-                  onClick={() => handleClick(type)}
+                  className={`text-black hover:bg-green-100 px-3 py-2 ${
+                    activeButton === type ? "bg-green-400" : ""
+                  } rounded box-shadow`}
+                  onClick={() => handleButtonClick(type)}
                 >
                   {type}
                 </button>
@@ -314,7 +327,9 @@ const Settings: React.FC = () => {
             <div className="flex justify-end items-center gap-2">
               <button
                 onClick={showFilterForm}
-                className={`${theme} box-shadow px-4 py-2 rounded hover:bg-green-100 text-black ml-2 sm:mr-2`}
+                className={`${
+                  activeButton === "filter" ? "bg-green-400" : ""
+                } text-black hover:bg-green-100 px-3 py-2 active:bg-green-400 rounded box-shadow`}
               >
                 <FilterAltIcon />
               </button>

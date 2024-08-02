@@ -1,4 +1,4 @@
-import { addFoodToCart, getShoppingCart, removeFoodFromCart } from "@/api";
+import { addFoodToCart, getShoppingCart, removeFoodFromCart, updateQuantityOrder } from "@/api";
 import { RootState } from "@/redux/store";
 import { CartContextType, CartItem } from "@/types";
 import { message } from "antd";
@@ -65,16 +65,22 @@ export const CartProvider = ({ children }: any) => {
       if (currentUser) {
         const existingItem = cart.find(cartItem => cartItem.id === item.id);
         if (existingItem) {
-          message.error("Product already exists in the shopping cart!");
-          return;
+          // If item already exists, increase its quantity
+          await updateQuantityOrder({
+            userId: currentUser.id,
+            foodId: isString(item.id) ? parseInt(item.id) : item.id,
+            quantity: existingItem.quantity + item.quantity,
+          });
+          message.success("Increased product quantity successfully");
+        } else {
+          // If item does not exist, add it to the cart
+          await addFoodToCart({
+            userId: currentUser.id,
+            foodId: isString(item.id) ? parseInt(item.id) : item.id,
+            quantity: item.quantity,
+          });
+          message.success("Added product successfully");
         }
-
-        await addFoodToCart({
-          userId: currentUser.id,
-          foodId: isString(item.id) ? parseInt(item.id) : item.id,
-          quantity: item.quantity,
-        });
-        message.success("Added product successfully");
         refreshCart();
       } else {
         message.error("Please log in to add items to cart");
@@ -84,6 +90,7 @@ export const CartProvider = ({ children }: any) => {
       message.error("Failed to add product to the cart");
     }
   };
+
 
   // Function to remove item from cart
   const removeFromCart = async (foodId: string | number) => {

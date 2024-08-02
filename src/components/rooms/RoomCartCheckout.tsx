@@ -24,9 +24,9 @@ const RoomCardCheckout: React.FC<RoomCardCheckoutProps> = ({
   const { total } = useTotal();
   return (
     <div className=" bg-white p-4  w-full">
-      <div className="flex">
-        <Image width={300} height={300} className="w-full rounded" src={imageUrl} alt={roomName}/>
-        <div className="w-2/3 pl-4">
+      <div className="flex flex-wrap">
+        <Image width={200} height={200} className="w-full sm:w-1/2 rounded" src={imageUrl} alt={roomName}/>
+        <div className="w-1/2 pl-2">
           <h2 className="text-xl font-bold">{roomName}</h2>
           <p className="text-gray-600">{description}</p>
           <p className="text-red-500 font-bold mt-2">{formatMoney(parseInt(price))}</p>

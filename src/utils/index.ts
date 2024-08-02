@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import iconPath from '../assets/images/LogoCustomine.png';
+import iconPath from '../assets/images/rooms/LayResLogo.png';
 export const API_URL: string = "https://lay-restaurant.zeabur.app/api";
 
 export function formatNumber(number: number) {
@@ -109,4 +109,5 @@ export const formatMoney = (money: number, currency: string = CURRENCY_UNIT): st
   // Trả về chuỗi kết quả kèm theo đơn vị tiền tệ viết hoa
   return `${formattedMoney} ${currency.toUpperCase()}`;
 };
+
 
