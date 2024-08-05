@@ -48,12 +48,13 @@ const ModeToggle: React.FC = () => {
 
 const privateLinks = [
   { title: "Messages" },
-  { title: "About us" },
+  { title: "About" },
 ];
 const publicLinks = [{ title: "Home" }, { title: "Rooms" }, { title: "Foods" }];
 
 const NavBar: React.FC = () => {
   const { cart } = useCart();
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const router = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
@@ -113,10 +114,17 @@ const NavBar: React.FC = () => {
         .then((data) => {
           setUserProfile(data);
           dispatch(setCurrentUser(data));
+          if(currentUser !== data){
+            setUserProfile(currentUser);
+          }
         })
         .catch((error) => console.error("Error getting user profile:", error));
     }
   }, [userInfo, dispatch]);
+
+  useEffect(() => {
+    setUserProfile(currentUser);
+  },[currentUser])
 
   const handleLogout = () => {
     if (typeof window !== "undefined") {
@@ -184,10 +192,7 @@ const NavBar: React.FC = () => {
               />
               <p>{userProfile.name}</p>
             </Link>
-            {/* <LanguageSwitcher /> */}
-            <Button onClick={handleLogout}>
-              <ExitToApp />
-            </Button>
+
           </div>
         ) : (
           <div className="flex justify-between gap-2">

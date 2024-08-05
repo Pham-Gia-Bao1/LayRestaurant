@@ -68,10 +68,7 @@ body {
 .editMode {
   background-color: lightgreen;
 }
-.back-ground-image {
-  background: url("../../src/assets/images/BackGroundMMessages2.jpg") no-repeat
-    center/cover;
-}
+
 /* .scrollbar-container {
   width: 5px;
 }

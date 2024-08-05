@@ -5,7 +5,7 @@ import { Form, FormProps, message } from "antd";
 import ProductForm from "@/components/form/Form";
 import ProductCard from "@/components/cart/ProductCard";
 import axios from "axios";
-import { API_URL } from "@/utils";
+import { API_URL, getUrlUpdateUserImg } from "@/utils";
 import { Skeleton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Loading from "@/components/loading/Loading";
@@ -237,28 +237,7 @@ const Settings: React.FC = () => {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
-  const getUrlUpdateUserImg = async (file: File) => {
-    const CLOUD_NAME = "dugeyusti";
-    const PRESET_NAME = "expert_upload";
-    const FOLDER_NAME = "BitStorm";
-    const api = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
-    const formData = new FormData();
-    formData.append("upload_preset", PRESET_NAME);
-    formData.append("folder", FOLDER_NAME);
-    formData.append("file", file);
-    const options = {
-      method: "POST",
-      body: formData,
-    };
-    try {
-      const res = await fetch(api, options);
-      const data = await res.json();
-      return data.secure_url;
-    } catch (error) {
-      console.error("Error uploading to Cloudinary:", error);
-      throw error;
-    }
-  };
+
   const uniqueTypes = allType.filter(
     (value, index, self) => self.indexOf(value) === index
   );

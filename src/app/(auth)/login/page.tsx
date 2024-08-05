@@ -51,6 +51,7 @@ const LoginPage: React.FC = () => {
         setStorage("__token__", access_token);
         setStorage("expires_in", expires_in);
         message.success(t("login.successMessage"));
+        document.cookie = `authToken=${access_token}; path=/; secure; httpOnly`;
         router.push("/");
       } else {
         message.error(t("login.blockedMessage"));

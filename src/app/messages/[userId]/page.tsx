@@ -1,10 +1,19 @@
 "use client"
 import { getUser } from "@/api";
+import { useAuth } from "@/components/context/AuthContext";
 import Chat from "@/components/pages/Chat";
 import { PropductProps, UserProfile } from "@/types";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 const MessageDetail: React.FC<PropductProps> = ({ params }) => {
   const [sender, setSender] = useState<UserProfile | null>(null);
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push("/login");
+    }
+  });
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {

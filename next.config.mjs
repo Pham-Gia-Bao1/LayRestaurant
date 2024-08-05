@@ -12,7 +12,8 @@ const nextConfig = {
       "png.pngtree.com",
       "img.freepik.com",
       "noithattugia.com",
-      "hips.hearstapps.com"
+      "hips.hearstapps.com",
+      "upload.wikimedia.org"
     ],
   },
 };

@@ -111,3 +111,25 @@ export const formatMoney = (money: number, currency: string = CURRENCY_UNIT): st
 };
 
 
+export const getUrlUpdateUserImg = async (file: File) => {
+  const CLOUD_NAME = "dugeyusti";
+  const PRESET_NAME = "expert_upload";
+  const FOLDER_NAME = "BitStorm";
+  const api = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+  const formData = new FormData();
+  formData.append("upload_preset", PRESET_NAME);
+  formData.append("folder", FOLDER_NAME);
+  formData.append("file", file);
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  try {
+    const res = await fetch(api, options);
+    const data = await res.json();
+    return data.secure_url;
+  } catch (error) {
+    console.error("Error uploading to Cloudinary:", error);
+    throw error;
+  }
+};

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCardCheckOut from "@/components/cart/ProductCardCheckOut";
 import { useCart } from "@/components/context/CartContext";
 import { useCartPay } from "@/components/context/CartPayContext";
@@ -9,13 +9,16 @@ import { CartItem } from "@/types";
 import CheckoutComponent from "@/components/checkout/CheckoutComponent";
 import { isString } from "lodash";
 import Settings from "@/components/pages/Settings";
+import { useAuth } from "@/components/context/AuthContext";
+import { useRouter } from "next/navigation";
 export default function Page() {
   const { cart } = useCart();
   const { theme } = useTheme();
-  const { selectedItems, addToCartPay, removeFromCartPay, getTotalPrice } =
-    useCartPay();
+  const { selectedItems, addToCartPay, removeFromCartPay, getTotalPrice } = useCartPay();
   const [selectedProducts, setSelectedProducts] = useState<CartItem[]>([]);
   const [selectAll, setSelectAll] = useState(false); // State to track select all
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
   const handleSelectProduct = (id: number | string, selected: boolean) => {
     const product = cart.find((item) => item.id === id);
     if (product) {
@@ -53,6 +56,11 @@ export default function Page() {
     }
   }, []);
   uniqueCart.sort((a, b) => a.id - b.id);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push("/login");
+    }
+  });
   return (
     <main>
       <div className="flex-1  w-full h-full">

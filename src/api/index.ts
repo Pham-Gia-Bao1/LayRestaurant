@@ -190,7 +190,7 @@ export const setUser = (userInfo: UserProfile): void => {
 export const getUser = (): UserProfile | null => {
   return user;
 };
-export const getAllUsers = async ( page : number): Promise<any> => {
+export const getAllUsers = async (page: number): Promise<any> => {
   const header = headerAPI();
   const apiUrl = `${API_URL}/users/messages?page=${page}`;
   try {
@@ -356,5 +356,21 @@ export const makePayment = async (price: number) => {
   } catch (error) {
     console.error('Error making payment:', error);
     throw error; // Ném lỗi để xử lý ở một nơi khác (nếu cần)
+  }
+};
+
+export const updateProfileImage = async (profile_picture: string): Promise<UserProfile> => {
+  const headers = headerAPI();
+  try {
+    const response = await axios.patch(
+      `${API_URL}/user/profile-image`,
+      { profile_picture }, // Ensure this matches what your API expects
+      { headers }
+    );
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error updating profile image:", error);
+    throw error; // Throw error to be caught by the caller
   }
 };
