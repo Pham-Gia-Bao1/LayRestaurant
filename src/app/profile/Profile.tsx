@@ -16,6 +16,7 @@ import {
   BookingRoom,
   CartItem,
   UserProfile,
+  UserProfileUpdate,
 } from "@/types";
 import confetti from "canvas-confetti";
 import { signOut } from "next-auth/react";
@@ -28,7 +29,7 @@ import {
   fetchBookingsRoomByUserId,
   getRoomDetail,
 } from "@/api/roomAPI";
-import { message as antMessage, Upload } from "antd";
+import { message as antMessage, Button, message, Upload } from "antd";
 import {
   convertToStaticImport,
   formatMoney,
@@ -41,8 +42,8 @@ import { clearToken } from "@/redux/authSlice";
 import { useRouter } from "next/navigation";
 import ActionButton from "@/components/button/AcTionButton";
 import { useAuth } from "@/components/context/AuthContext";
-import { updateProfileImage } from "@/api";
-
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { updateProfile, updateProfileImage } from "@/api";
 const Profile: React.FC = () => {
   const { cart, refreshCart, removeFromCart } = useCart();
   const dispatch = useDispatch();
@@ -59,13 +60,28 @@ const Profile: React.FC = () => {
   );
   const [fileList, setFileList] = useState<any[]>([]);
 
+  //
+  const [name, setName] = useState(currentUser?.name || "");
+  const [email, setEmail] = useState(currentUser?.email || "");
+  const [address, setAddress] = useState(currentUser?.address || "");
+  const [dateOfBirth, setDateOfBirth] = useState(
+    currentUser?.date_of_birth || ""
+  );
+  const [gender, setGender] = useState(currentUser?.gender || "");
+  const [phoneNumber, setPhoneNumber] = useState(
+    currentUser?.phone_number || ""
+  );
+
+  const [isUpdated, setIsUpdated] = useState<boolean>(false);
+  const [loadingButton, setLoadingButton] = useState<boolean>(false);
+
+  //
   useEffect(() => {
     if (!isAuthenticated) {
       // Redirect user to login page if not authenticated
       router.push("/login");
     }
   });
-
   useEffect(() => {
     const savedOrderDetails = sessionStorage.getItem("orderDetails");
     if (savedOrderDetails) {
@@ -146,7 +162,6 @@ const Profile: React.FC = () => {
       });
     }
   }, [dispatch]);
-
   useEffect(() => {
     if (currentUser) {
       Promise.all([fetchBookingsFood(), fetchBookingsRoom()]);
@@ -164,7 +179,6 @@ const Profile: React.FC = () => {
       }
     }
   }, [currentUser, selectedItems, removeFromCart]);
-
   const fetchBookingsFood = useCallback(async () => {
     try {
       if (currentUser) {
@@ -175,7 +189,6 @@ const Profile: React.FC = () => {
       console.log(error);
     }
   }, [currentUser]);
-
   const fetchBookingsRoom = useCallback(async () => {
     try {
       if (currentUser) {
@@ -186,7 +199,6 @@ const Profile: React.FC = () => {
       console.log(error);
     }
   }, [currentUser]);
-
   const createNewBookingRoom = useCallback(async (data: BookingRoom) => {
     try {
       const result = await createBookingRoom(data);
@@ -198,7 +210,6 @@ const Profile: React.FC = () => {
       console.log(error);
     }
   }, []);
-
   const createNewBookingFood = useCallback(
     async (data: BookingFood, selectedItems: CartItem[]) => {
       try {
@@ -239,11 +250,9 @@ const Profile: React.FC = () => {
     },
     []
   );
-
   const formatDate = (date: string | Date): string => {
     return new Date(date).toLocaleDateString();
   };
-
   const handleToggleExpand = (
     id: number,
     roomId: number,
@@ -254,7 +263,6 @@ const Profile: React.FC = () => {
       fetchRoomDetail(roomId);
     }
   };
-
   const fetchRoomDetail = async (roomId: number) => {
     try {
       const roomDetail = await getRoomDetail(roomId);
@@ -263,7 +271,6 @@ const Profile: React.FC = () => {
       console.error("Failed to fetch room details:", error);
     }
   };
-
   const handleLogout = async () => {
     try {
       signOut();
@@ -275,38 +282,21 @@ const Profile: React.FC = () => {
       console.error("Error logging out:", error);
     }
   };
-
   // Handle upload change
   const handleChange = async (info: any) => {
-    // Copy fileList and keep only the last file
     let fileList = [...info.fileList];
     fileList = fileList.slice(-1);
     setFileList(fileList);
-
-    // Check if the file upload is completed
     if (info.file.status === "done") {
-      // Get the image URL from the server response
-      const imgUrl = info.file.response.url;
-
-      // Upload the image and get the updated image URL
-      const uploadedImageUrl = await getUrlUpdateUserImg(fileList[0].originFileObj);
-
-      console.log("File type:", info.file.type);
-      console.log("Image URL from response:", imgUrl); // Log response URL
-      console.log("Uploaded Image URL:", uploadedImageUrl); // Log uploaded URL
-
-      // Ensure the image URL from the upload function is used
+      const uploadedImageUrl = await getUrlUpdateUserImg(
+        fileList[0].originFileObj
+      );
       setImageUrl(uploadedImageUrl);
-
       try {
-        // Update the profile image in the database with the uploaded URL
-        const updatedUser: UserProfile = await updateProfileImage(uploadedImageUrl);
-        console.log(updatedUser);
-
-        // Update user state
+        const updatedUser: UserProfile = await updateProfileImage(
+          uploadedImageUrl
+        );
         dispatch(setCurrentUser(updatedUser));
-
-        // Notify success
         antMessage.success("Profile picture updated successfully!");
       } catch (error) {
         console.error("Error updating profile image:", error);
@@ -314,6 +304,32 @@ const Profile: React.FC = () => {
       }
     } else if (info.file.status === "error") {
       antMessage.error("Failed to update profile picture.");
+    }
+  };
+  const handleSaveProfile = async () => {
+    setLoadingButton(true);
+    const dataUpdate: UserProfileUpdate = {
+      name,
+      email,
+      address,
+      gender,
+      phone_number: phoneNumber,
+      date_of_birth: dateOfBirth,
+      status: currentUser?.status ?? 2,
+    };
+    try {
+      const result = await updateProfile(dataUpdate);
+      console.log(result);
+      if (result) {
+        dispatch(setCurrentUser(result));
+        message.success("Update profile successfully");
+      }
+    } catch (error: any) {
+      console.log(error.message);
+      throw new Error(error.message);
+    } finally {
+      setIsUpdated(false);
+      setLoadingButton(false);
     }
   };
   return (
@@ -345,58 +361,156 @@ const Profile: React.FC = () => {
                     return isJpgOrPng && isLt2M;
                   }}
                 >
-                  <ActionButton type="success" content="Update profile" />
+                  <Button className="py-3" type="primary">
+                    Upload you avatar
+                  </Button>
                 </Upload>
               </div>
             </div>
           </div>
           <div className="col-span-4 sm:col-span-9 gap-8">
             <div className="bg-white rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Profile</h2>
-              <p className="text-gray-700 mb-6">
-                This is how others will see you on the site.
-              </p>
-              <hr />
-              <div className="w-full my-5">
-                <h2 className="text-xl font-bold mt-6 mb-4">Username</h2>
-                <TextField
-                  id="outlined-basic"
-                  label="Your name"
-                  variant="outlined"
-                  className="w-full"
-                  value={currentUser?.name || "user name"}
-                />
-                <p className="mt-2 text-gray-500">
-                  This is your public display name. It can be your real name or
-                  a pseudonym. You can only change this once every 30 days.
-                </p>
+              <div className="w-full  grid sm:grid-cols-2 grid-cols-1 gap-5">
+                <div className="">
+                  <h2 className="text-xl font-bold mb-4">Profile</h2>
+                  <p className="text-gray-700 mb-6">
+                    This is how others will see you on the site.
+                  </p>
+                </div>
+                <div className=" flex justify-end gap-5">
+                  <Button className="py-3">
+                    <RemoveRedEyeIcon />
+                  </Button>
+                  <Button className="py-3">
+                    <RemoveRedEyeIcon />
+                  </Button>
+                  <Button className="py-3">
+                    <RemoveRedEyeIcon />
+                  </Button>
+                </div>
               </div>
-              <div className="w-full my-10">
-                <h2 className="text-xl font-bold mt-6 mb-4">Email</h2>
-                <TextField
-                  id="outlined-basic"
-                  label="Your Email"
-                  variant="outlined"
-                  className="w-full"
-                  value={currentUser?.email || "user email"}
-                />
-                <p className="mt-2 text-gray-500">
-                  Enter an email address where you can be contacted. You can
-                  choose whether you want to show it to others.
-                </p>
+              <hr />
+
+              <div className="w-full my-5  grid gap-5 sm:grid-cols-2 grid-cols-1">
+                <div className="">
+                  <h2 className="text-xl font-bold mt-6 mb-4">Username</h2>
+                  <TextField
+                    id="outlined-basic"
+                    label="Your name"
+                    variant="outlined"
+                    className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
+                    value={name}
+                    onChange={
+                      isUpdated ? (e) => setName(e.target.value) : undefined
+                    }
+                  />
+                  <p className="mt-2 text-gray-500">
+                    This is your public display name. It can be your real name
+                    or a pseudonym. You can only change this once every 30 days.
+                  </p>
+                </div>
+                <div className="">
+                  <h2 className="text-xl font-bold mt-6 mb-4">Email</h2>
+                  <TextField
+                    id="outlined-basic"
+                    label="Your Email"
+                    variant="outlined"
+                    className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
+                    value={email}
+                    onChange={
+                      isUpdated ? (e) => setEmail(e.target.value) : undefined
+                    }
+                  />
+                  <p className="mt-2 text-gray-500">
+                    Enter an email address where you can be contacted. You can
+                    choose whether you want to show it to others.
+                  </p>
+                </div>
+              </div>
+
+              <div className="w-full my-5  grid gap-5 sm:grid-cols-2 grid-cols-1">
+                <div className="">
+                  <h2 className="text-xl font-bold mt-6 mb-4">Address</h2>
+                  <TextField
+                    id="outlined-basic"
+                    label="Your Address"
+                    variant="outlined"
+                    className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
+                    value={address}
+                    onChange={
+                      isUpdated ? (e) => setAddress(e.target.value) : undefined
+                    }
+                  />
+                </div>
+                <div className="">
+                  <h2 className="text-xl font-bold mt-6 mb-4">Date of Birth</h2>
+                  <TextField
+                    id="outlined-basic"
+                    label="Your Date of Birth"
+                    variant="outlined"
+                    type="date"
+                    className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
+                    value={dateOfBirth}
+                    onChange={
+                      isUpdated
+                        ? (e) => setDateOfBirth(e.target.value)
+                        : undefined
+                    }
+                  />
+                </div>
+              </div>
+              <div className="w-full my-5  grid gap-5 sm:grid-cols-2 grid-cols-1">
+                <div className="">
+                  <h2 className="text-xl font-bold mt-6 mb-4">Gender</h2>
+                  <TextField
+                    id="outlined-basic"
+                    label="Your Gender"
+                    variant="outlined"
+                    className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
+                    value={gender}
+                    onChange={
+                      isUpdated ? (e) => setGender(e.target.value) : undefined
+                    }
+                  />
+                </div>
+                <div className="">
+                  <h2 className="text-xl font-bold mt-6 mb-4">Phone Number</h2>
+                  <TextField
+                    id="outlined-basic"
+                    label="Your Phone Number"
+                    variant="outlined"
+                    className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
+                    value={phoneNumber}
+                    onChange={
+                      isUpdated
+                        ? (e) => setPhoneNumber(e.target.value)
+                        : undefined
+                    }
+                  />
+                </div>
               </div>
               <div className="w-full my-10 flex justify-between ">
-                <ActionButton
-                  type="success"
-                  content="Update profile"
-                  onClick={() => alert("Change profile!")}
-                />
-                <ActionButton
-                  type="nomal"
-                  content="Logout"
-                  text-black
-                  onClick={handleLogout}
-                />
+                {isUpdated && (
+                  <Button
+                    loading={loadingButton}
+                    type="primary"
+                    onClick={handleSaveProfile}
+                  >
+                    Save
+                  </Button>
+                )}
+                {!isUpdated && (
+                  <Button
+                    type="primary"
+                    onClick={() => setIsUpdated((pre) => !pre)}
+                  >
+                    Update profile
+                  </Button>
+                )}
+
+                <Button type="default" onClick={handleLogout}>
+                  Log out
+                </Button>
               </div>
             </div>
             <div className="bg-white rounded-lg p-6 mt-6">

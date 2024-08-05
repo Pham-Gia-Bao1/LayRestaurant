@@ -1,4 +1,4 @@
-import { AddToCartButtonProps, ConversationParameter, CsrfTokenResponse, FormDataAddNewAddress, Message, MessageData, Product, RegisterValues, RemoveFromCartButtonProps, SignInValues, UserProfile } from "@/types";
+import { AddToCartButtonProps, ConversationParameter, CsrfTokenResponse, FormDataAddNewAddress, Message, MessageData, Product, RegisterValues, RemoveFromCartButtonProps, SignInValues, UserProfile, UserProfileUpdate } from "@/types";
 import { API_URL, headerAPI } from "@/utils";
 import { message } from "antd";
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
@@ -365,6 +365,23 @@ export const updateProfileImage = async (profile_picture: string): Promise<UserP
     const response = await axios.patch(
       `${API_URL}/user/profile-image`,
       { profile_picture }, // Ensure this matches what your API expects
+      { headers }
+    );
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error updating profile image:", error);
+    throw error; // Throw error to be caught by the caller
+  }
+};
+
+
+export const updateProfile = async (dataUpdate: UserProfileUpdate): Promise<UserProfile> => {
+  const headers = headerAPI();
+  try {
+    const response = await axios.patch(
+      `${API_URL}/user/profile`,
+      { dataUpdate }, // Ensure this matches what your API expects
       { headers }
     );
     console.log(response.data.data);

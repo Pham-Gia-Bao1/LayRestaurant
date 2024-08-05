@@ -351,3 +351,12 @@ export interface UserMessage {
   sent_messages: Message[];
   received_messages: Message[];
 }
+export type UserProfileUpdate = {
+  name: string;
+  email: string;
+  address: string;
+  phone_number: string;
+  gender: string;
+  date_of_birth: Date | string;
+  status: number;
+}
