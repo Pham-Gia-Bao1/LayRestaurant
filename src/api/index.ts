@@ -1,4 +1,4 @@
-import { AddToCartButtonProps, ConversationParameter, CsrfTokenResponse, FormDataAddNewAddress, Message, MessageData, Product, RegisterValues, RemoveFromCartButtonProps, SignInValues, UserProfile, UserProfileUpdate } from "@/types";
+import { AddToCartButtonProps, ConversationParameter, CsrfTokenResponse, FormDataAddNewAddress, Message, MessageData, Product, RegisterValues, RemoveFromCartButtonProps, SignInValues, UpdateProfileResponse, UserProfile, UserProfileUpdate } from "@/types";
 import { API_URL, headerAPI } from "@/utils";
 import { message } from "antd";
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
@@ -378,16 +378,22 @@ export const updateProfileImage = async (profile_picture: string): Promise<UserP
 
 export const updateProfile = async (dataUpdate: UserProfileUpdate): Promise<UserProfile> => {
   const headers = headerAPI();
+
   try {
-    const response = await axios.patch(
+    // Make the API request and specify the response type
+    const response = await axios.patch<UpdateProfileResponse>(
       `${API_URL}/user/profile`,
-      { dataUpdate }, // Ensure this matches what your API expects
+      dataUpdate, // Send dataUpdate directly as the backend expects
       { headers }
     );
+
+    // Log the response data for debugging
     console.log(response.data.data);
-    return response.data.data;
+
+    // Return the `data` property from the response
+    return response.data.data; // This should now be of type UserProfile
   } catch (error) {
-    console.error("Error updating profile image:", error);
+    console.error("Error updating profile:", error);
     throw error; // Throw error to be caught by the caller
   }
 };

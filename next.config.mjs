@@ -13,7 +13,8 @@ const nextConfig = {
       "img.freepik.com",
       "noithattugia.com",
       "hips.hearstapps.com",
-      "upload.wikimedia.org"
+      "upload.wikimedia.org",
+      "www.google.com"
     ],
   },
 };

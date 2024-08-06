@@ -40,9 +40,10 @@ import { isString } from "lodash";
 import { useCart } from "@/components/context/CartContext";
 import { clearToken } from "@/redux/authSlice";
 import { useRouter } from "next/navigation";
-import ActionButton from "@/components/button/AcTionButton";
 import { useAuth } from "@/components/context/AuthContext";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { Select } from "antd";
+const { Option } = Select;
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { updateProfile, updateProfileImage } from "@/api";
 const Profile: React.FC = () => {
   const { cart, refreshCart, removeFromCart } = useCart();
@@ -64,6 +65,7 @@ const Profile: React.FC = () => {
   const [name, setName] = useState(currentUser?.name || "");
   const [email, setEmail] = useState(currentUser?.email || "");
   const [address, setAddress] = useState(currentUser?.address || "");
+  console.log(address);
   const [dateOfBirth, setDateOfBirth] = useState(
     currentUser?.date_of_birth || ""
   );
@@ -308,25 +310,28 @@ const Profile: React.FC = () => {
   };
   const handleSaveProfile = async () => {
     setLoadingButton(true);
+
     const dataUpdate: UserProfileUpdate = {
-      name,
-      email,
-      address,
-      gender,
+      name: name,
+      email: email,
+      address: address,
       phone_number: phoneNumber,
+      gender: gender,
       date_of_birth: dateOfBirth,
-      status: currentUser?.status ?? 2,
+      status: 1, // Ensure the UserProfileUpdate interface allows `status` to be a number
     };
     try {
       const result = await updateProfile(dataUpdate);
-      console.log(result);
+
       if (result) {
+        // Dispatch the user data into the Redux store
         dispatch(setCurrentUser(result));
-        message.success("Update profile successfully");
+        message.success("Profile updated successfully");
       }
     } catch (error: any) {
-      console.log(error.message);
-      throw new Error(error.message);
+      // Handle the error gracefully and show a message to the user
+      console.error(error.message);
+      message.error(error.message);
     } finally {
       setIsUpdated(false);
       setLoadingButton(false);
@@ -338,7 +343,7 @@ const Profile: React.FC = () => {
         <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
           <div className="col-span-4 sm:col-span-3">
             <div className="bg-white rounded-lg p-6">
-              <div className="mb-6">
+              <div className="mb-6  box-flex-center flex-col ">
                 <Avatar
                   src={imageUrl}
                   alt="Profile"
@@ -377,15 +382,14 @@ const Profile: React.FC = () => {
                     This is how others will see you on the site.
                   </p>
                 </div>
-                <div className=" flex justify-end gap-5">
-                  <Button className="py-3">
-                    <RemoveRedEyeIcon />
+                <div className=" flex justify-end gap-5 flex-wrap">
+                  <Button className="py-3 box-flex-center w-full sm:w-auto">
+                    View booking room history
+                    <ArrowDropDownIcon />
                   </Button>
-                  <Button className="py-3">
-                    <RemoveRedEyeIcon />
-                  </Button>
-                  <Button className="py-3">
-                    <RemoveRedEyeIcon />
+                  <Button className="py-3 box-flex-center w-full sm:w-auto">
+                    View booking food history
+                    <ArrowDropDownIcon />
                   </Button>
                 </div>
               </div>
@@ -462,16 +466,18 @@ const Profile: React.FC = () => {
               <div className="w-full my-5  grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
                   <h2 className="text-xl font-bold mt-6 mb-4">Gender</h2>
-                  <TextField
-                    id="outlined-basic"
-                    label="Your Gender"
-                    variant="outlined"
-                    className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
+                  <Select
+                    id="gender-select"
+                    className={`w-full h-14 ${isUpdated ? "bg-gray-100" : ""}`}
                     value={gender}
                     onChange={
-                      isUpdated ? (e) => setGender(e.target.value) : undefined
+                      isUpdated ? (value) => setGender(value) : undefined
                     }
-                  />
+                  >
+                    <Option value="male">Male</Option>
+                    <Option value="female">Female</Option>
+                    <Option value="other">Other</Option>
+                  </Select>
                 </div>
                 <div className="">
                   <h2 className="text-xl font-bold mt-6 mb-4">Phone Number</h2>
@@ -491,13 +497,21 @@ const Profile: React.FC = () => {
               </div>
               <div className="w-full my-10 flex justify-between ">
                 {isUpdated && (
-                  <Button
-                    loading={loadingButton}
-                    type="primary"
-                    onClick={handleSaveProfile}
-                  >
-                    Save
-                  </Button>
+                  <>
+                    <Button
+                      loading={loadingButton}
+                      type="primary"
+                      onClick={handleSaveProfile}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      type="default"
+                      onClick={() => setIsUpdated((prev) => !prev)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
                 )}
                 {!isUpdated && (
                   <Button
@@ -529,8 +543,8 @@ const Profile: React.FC = () => {
                       Price:
                       {formatMoney(
                         isString(booking.price)
-                          ? parseInt(booking.price) * 1000
-                          : booking.price * 1000
+                          ? parseInt(booking.price)
+                          : booking.price
                       )}
                     </p>
                     <p>Booking Date: {formatDate(booking.created_at)}</p>

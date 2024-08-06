@@ -138,8 +138,23 @@ body {
 .rounded-20{
    border-radius: 15px;
 }
-.box-fllex-center{
+.box-flex-center{
     display: flex;
     justify-items: center;
     align-items: center;
+}
+
+.custom-upload {
+  width: 500px;  /* Increase width here */
+  height: 500px; /* Increase height here */
+}
+
+.custom-upload .ant-upload-list {
+  height: 100%; /* Ensure the list takes up full height */
+}
+
+.custom-upload .ant-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

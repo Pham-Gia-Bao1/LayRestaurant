@@ -27,7 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   getData,
   openModal,
 }) => {
-  const { theme } = useTheme();
+  const [backupImage, setBackupImage] = useState<string>('https://www.google.com/url?sa=i&url=https%3A%2F%2Fvinhhanhfood.com%2Fcach-uop-thit-de-nuong-ngon%2F&psig=AOvVaw2dHPqGj-JdY4MMhLxafAtt&ust=1723004978434000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPjqyu7D34cDFQAAAAAdAAAAABAJ')
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const token = useSelector((state: RootState) => state.auth.token);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </p>
         {params.picture ? (
           <Image
-            src={params.picture}
+            src={params?.picture ?? backupImage}
             width={500}
             height={500}
             alt="Dish"

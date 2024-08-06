@@ -73,6 +73,7 @@ export interface ProductFormProps {
   handleChange: (info: any) => void;
   loading: boolean;
   types: string[];
+  checkTypeForm : number | null;
 }
 export interface HomePageCardSecondLevelProps {
   icon: React.ReactNode;
@@ -352,11 +353,17 @@ export interface UserMessage {
   received_messages: Message[];
 }
 export type UserProfileUpdate = {
-  name: string;
-  email: string;
-  address: string;
-  phone_number: string;
-  gender: string;
-  date_of_birth: Date | string;
-  status: number;
+  name: string;                // Required: User's name (string)
+  email: string;               // Required: User's email (string, email format)
+  address: string;             // Required: User's address (string)
+  phone_number: string;        // Required: User's phone number (string, 10 digits, starting with 0)
+  gender?: string;             // Optional: User's gender (string)
+  date_of_birth?: string;      // Optional: User's date of birth (string, format 'YYYY-MM-DD')
+  status?: number;             // Optional: User's status (number)
+};
+// Define an interface for the API response
+export interface UpdateProfileResponse {
+  success: boolean;
+  message: string;
+  data: UserProfile;
 }

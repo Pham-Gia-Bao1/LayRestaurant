@@ -27,7 +27,9 @@ const Settings: React.FC = () => {
   const [foods, setFoods] = useState<Product[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>(
+    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fvinhhanhfood.com%2Fcach-uop-thit-de-nuong-ngon%2F&psig=AOvVaw2dHPqGj-JdY4MMhLxafAtt&ust=1723004978434000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPjqyu7D34cDFQAAAAAdAAAAABAJ"
+  );
   const [fileList, setFileList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingButton, setLoadingButton] = useState<boolean>(false);
@@ -154,7 +156,7 @@ const Settings: React.FC = () => {
       try {
         const foodDetails = await axios.get(`${API_URL}/foods/${id}`);
         form.setFieldsValue(foodDetails.data);
-        setImageUrl(foodDetails.data.picture);
+        setImageUrl(foodDetails.data?.picture);
         setFileList([{ url: foodDetails.data.picture }]);
         setIsMaxPage(true);
       } catch (error) {
@@ -169,9 +171,7 @@ const Settings: React.FC = () => {
   const onFinish: FormProps["onFinish"] = async (values) => {
     setLoadingButton(true);
     try {
-      const uploadedImageUrl = await getUrlUpdateUserImg(
-        fileList[0].originFileObj
-      );
+      const uploadedImageUrl = await getUrlUpdateUserImg(fileList[0]);
       const newData: DataType = {
         name: values.name,
         price: values.price,
@@ -186,6 +186,7 @@ const Settings: React.FC = () => {
     } catch (error) {
       message.error("Image upload failed. Please try again.");
       setLoading(false);
+      setLoadingButton(false);
     }
     setIsModalOpen(false);
   };
@@ -227,15 +228,8 @@ const Settings: React.FC = () => {
     message.error("Failed to submit form!.");
   };
   const handleChange = (info: any) => {
-    let updatedFileList = [...info.fileList];
-    updatedFileList = updatedFileList.slice(-1);
-    setFileList(updatedFileList);
-    if (info.file.status === "done") {
-      setImageUrl(info.file.originFileObj);
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
+    setFileList([info]);
+    setImageUrl(info.name);
   };
 
   const uniqueTypes = allType.filter(
@@ -359,6 +353,7 @@ const Settings: React.FC = () => {
                   handleChange={handleChange}
                   loading={loadingButton}
                   types={allType}
+                  checkTypeForm={currentId}
                 />
                 <ProductCard
                   openModal={() => showModal(food.id)}
