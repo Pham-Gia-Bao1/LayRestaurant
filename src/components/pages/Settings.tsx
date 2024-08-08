@@ -109,8 +109,9 @@ const Settings: React.FC<SettingsProps> = ({ listFoods }) => {
   const getData = async () => {
     setLoading(true);
     try {
+      const fetchedFoods = await fetchFoodsData(1);
       setIsMaxPage(false);
-      setFoods(listFoods);
+      setFoods(fetchedFoods);
       fetchingMoreData.current = false;
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -314,7 +315,7 @@ const Settings: React.FC<SettingsProps> = ({ listFoods }) => {
               {currentUser?.role_id == 1 ? (
                 <button
                   type="button"
-                  className={`${theme} box-shadow px-4 py-2 active:bg-green-500 text-black hover:bg-green-100 rounded`}
+                  className={` box-shadow px-4 py-2 active:bg-green-500 text-black hover:bg-green-100 rounded`}
                   onClick={() =>
                     token
                       ? showModal(0)
@@ -337,7 +338,7 @@ const Settings: React.FC<SettingsProps> = ({ listFoods }) => {
           />
           {loading ? (
             [...Array(10)].map((_, index) => <SkeletonCard key={index} />)
-          ) : foods == undefined || foods.length == 0 ? (
+          ) : foods.length === 0 ? (
             showNotFound ? (
               <div className="absolute text-black flex items-center justify-center w-full text-center sm:text-3xl">
                 <h1>Product not found</h1>
