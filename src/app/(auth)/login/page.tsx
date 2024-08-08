@@ -87,9 +87,13 @@ const LoginPage: React.FC = () => {
   // const [signInResult, setSignInResult] = useState(null);
 
   const handleSignInWithGoogle = async () => {
+    setLoading(true);
     try {
       const result = await signIn("google", { redirect: false });
       console.log("Sign in result:", result); // In ra toàn bộ đối tượng
+      if (result) {
+        setLoading(false);
+      }
     } catch (error) {
       console.error("Error during sign in:", error);
     }
@@ -168,13 +172,9 @@ const LoginPage: React.FC = () => {
           <div className="w-full -mt-10 flex flex-col gap-3">
             <p className="text-center text-black ">Or continue with</p>
             <div className=" w-full flex justify-center items-center gap-10 h-[80%]">
-              <Button
-                onClick={handleSignInWithGoogle}
-                className="w-96 h-full"
-              >
+              <Button onClick={handleSignInWithGoogle} className="w-96 h-full">
                 <Image src={GGIcon} alt="Google Icon" width={30} height={30} />
               </Button>
-
             </div>
           </div>
         </div>
