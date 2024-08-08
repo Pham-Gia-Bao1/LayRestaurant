@@ -4,10 +4,6 @@ import { Metadata } from "next";
 import { API_URL } from "@/utils";
 import { Product } from "@/types";
 import Home from "./Home";
-export const metadata: Metadata = {
-  title: "Product List",
-  description: "A list of all available products."
-};
 // Hàm fetch danh sách sản phẩm
 export async function fetchFoods(): Promise<Product[]> {
   try {

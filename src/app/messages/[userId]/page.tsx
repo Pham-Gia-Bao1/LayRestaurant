@@ -1,38 +1,44 @@
-"use client"
-import { getUser } from "@/api";
-import { useAuth } from "@/components/context/AuthContext";
-import Chat from "@/components/pages/Chat";
-import { PropductProps, UserProfile } from "@/types";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-const MessageDetail: React.FC<PropductProps> = ({ params }) => {
-  const [sender, setSender] = useState<UserProfile | null>(null);
-  const { isAuthenticated } = useAuth();
-  const router = useRouter();
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login");
-    }
-  });
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const currentUser = await getUser();
-        if (currentUser) {
-          setSender(currentUser);
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
+import type { Metadata } from "next";
+import { API_URL, LOGO } from "@/utils";
+import { getUserById } from "@/api";
+import MessageDetail from "./MessageDetail";
+import { PropductProps } from "@/types";
+type Props = {
+  params: { userId: number };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { userId } = params;
+  try {
+    const response = await getUserById(userId);
+    const recipientUser = response.data;
+    return {
+      title: recipientUser?.name ?? "Message Detail",
+      description: "Texting with other recipients",
+      icons: {
+        icon: LOGO, // Use the .src property for the URL path
+      },
     };
-    fetchCurrentUser();
-  }, []);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return {
+      title: "Error",
+      description: "Unable to fetch user data",
+      icons: {
+        icon: LOGO, // Use the .src property for the URL path
+      },
+    };
+  }
+}
+
+const MessageDetailPage: React.FC<PropductProps> = ({ params }) => {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-between bg-red-500 h-full">
-      <div className="min-h-screen flex-1 bg-gray-800 text-white w-full">
-        {sender && <Chat senderId={sender.id} recipientId={params.userId} />}
-      </div>
-    </main>
+    <>
+      <MessageDetail params={params} />
+    </>
   );
 };
-export default MessageDetail;
+
+export default MessageDetailPage;

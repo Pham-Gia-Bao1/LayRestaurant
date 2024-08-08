@@ -164,9 +164,9 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                   className="object-cover w-full rounded-md"
                 />
               </div>
-              <div className=" flex flex-col">
+              <div className="flex flex-col">
                 <nav className="text-sm sm:text-base text-gray-600 mb-2 bg-gray-100">
-                  Quỳnh Anh restaurant » Thôn 2 Thanh Sen » Phúc Trạch » Bố
+                  Quỳnh Anh Restaurant » Village 2 Thanh Sen » Phúc Trạch » Bố
                   Trạch » Quảng Bình
                 </nav>
                 <h3 className="text-3xl truncate-description-2line sm:text-4xl font-bold text-blue-900 mb-2">
@@ -181,7 +181,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                 </p>
                 <div className="flex items-center mb-1">
                   <span className="text-green-600 font-semibold mr-2">
-                    Mở cửa
+                    Open
                   </span>
                   <p className="text-lg sm:text-xl text-gray-500">
                     09:00 - 22:00
@@ -199,12 +199,12 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                   </span>
                 </div>
                 <p className="text-lg sm:text-xl font-semibold text-green-600 mt-4">
-                  Giá: {formatMoney(price)}
+                  Price: {formatMoney(price)}
                 </p>
                 <div className="flex gap-4 mt-4">
                   <button
                     onClick={decrementQuantity}
-                    className="bg-gray-200 p-2 rounded-md border border-gray-300 hover:bg-gray-300"
+                    className="p-2 px-5 rounded-full border border-gray-300 bg-green-300 hover:bg-green-400"
                   >
                     -
                   </button>
@@ -213,11 +213,11 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                     min="1"
                     value={quantity}
                     onChange={handleQuantityChange}
-                    className="w-16 text-center border border-gray-300  text-black rounded-md"
+                    className="w-16 text-center border border-gray-300 text-black rounded-md"
                   />
                   <button
                     onClick={incrementQuantity}
-                    className="bg-gray-200 hover:bg-gray-300 p-2 rounded-md border border-gray-300"
+                    className="p-2 px-5 rounded-full border border-gray-300 bg-green-300 hover:bg-green-400"
                   >
                     +
                   </button>
@@ -225,7 +225,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                 <div className="flex gap-4 mt-6">
                   <button
                     onClick={handleAddToCart}
-                    className="bg-orange-500 text-white px-4 py-2 rounded-md flex justify-center items-center gap-3  hover:bg-orange-600"
+                    className="bg-orange-500 w-1/2 sm:w-auto  text-white px-4 py-4 rounded-md flex justify-center items-center gap-3 hover:bg-orange-600"
                     ref={buttonRef}
                   >
                     <ShoppingCartIcon />
@@ -233,7 +233,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                   </button>
                   <button
                     onClick={handleBuy}
-                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                    className="bg-green-500 w-1/2 sm:w-auto  text-white px-4 py-4 rounded-md hover:bg-green-600"
                   >
                     Buy now
                   </button>
@@ -243,7 +243,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                   ref={cartIconRef}
                 ></div>
                 <div
-                  ref={miniImageRef} // Thêm ref cho mini ảnh
+                  ref={miniImageRef} // Added ref for mini image
                   className="mini-image"
                   style={{
                     position: "fixed",
@@ -269,6 +269,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
       </main>
     </>
   );
+
 };
 
 export default ProductDetail;
