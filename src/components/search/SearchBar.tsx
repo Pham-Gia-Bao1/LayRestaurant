@@ -3,39 +3,44 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import { search } from "@/api"; // Make sure this path is correct
+import { search } from "@/api"; // Ensure this path is correct
 import { Product } from "@/types";
+
 interface SearchBarProps {
   setProducts: (products: Product[]) => void;
 }
+
 export const SearchBar: React.FC<SearchBarProps> = ({ setProducts }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [expanded, setExpanded] = useState<boolean>(false);
+
   const handleSearch = async () => {
     try {
       const result = await search(searchTerm);
       setProducts(result.data); // Update the products state with the search results
     } catch (error) {
-      console.error("Error searching foods:", error);
+      console.error("Error searching products:", error);
     }
   };
+
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      event.preventDefault(); // Prevent the default behavior of form submission
+      event.preventDefault(); // Prevent default form submission
       handleSearch();
     }
   };
 
   return (
     <Paper
-      className="w-full border-0"
       component="form"
-      onSubmit={(e) => e.preventDefault()} // Prevent form submission on Enter key press
+      onSubmit={(e) => e.preventDefault()} // Prevent form submission
       sx={{
         p: "4px 4px",
         display: "flex",
         alignItems: "center",
+
       }}
+      className="w-full"
     >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
@@ -45,9 +50,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({ setProducts }) => {
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyPress={handleKeyPress}
       />
-      <button className="bg-orange-500 h-full w-[20%] p-2 hover:bg-orange-600">
+      <IconButton
+        color="primary"
+        onClick={handleSearch}
+        sx={{ ml: 1 }}
+      >
         <SearchIcon />
-      </button>
+      </IconButton>
     </Paper>
   );
 };
