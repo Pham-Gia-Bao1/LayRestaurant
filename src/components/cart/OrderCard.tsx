@@ -12,6 +12,7 @@ import { RootState } from "@/redux/store";
 import { useCart } from "../context/CartContext";
 import { useCartPay } from "../context/CartPayContext";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { formatMoney } from "@/utils";
 
 const OrderCard: React.FC<OrderCardProps> = ({
   id,
@@ -85,9 +86,9 @@ const OrderCard: React.FC<OrderCardProps> = ({
           width={100} // Adjusted width and height for better image quality
           height={100}
         />
-        <div className="flex flex-col flex-grow">
-          <h3 className="text-lg font-semibold">{name}</h3>
-          <p className="text-gray-600">{price} 000 vnd</p>
+        <div className="flex flex-col flex-grow gap-1">
+          <h3 className="text-sm font-semibold truncate-description ">{name}</h3>
+          <p className="text-green-500">{formatMoney(Number(price))}</p>
         </div>
       </Link>
       <div className="flex items-center w-3/12">

@@ -47,17 +47,21 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
   return (
     <Modal
-      className="full-screen-modal"
+      className="full-screen-modal w-1/2"
       footer={null}
-      title={<h2>Create a new product</h2>}
+      title={
+        <h2>
+          {checkTypeForm == 0 ? "Create a new product" : "Update product"}
+        </h2>
+      }
       visible={open}
       onCancel={handleCancel}
-      width="80vw"
+      width="80%"
       style={{
         top: 20,
-        height: "90vh",
+
         padding: 0,
-        backgroundColor: "#eaeaea",
+        backgroundColor: "transparent",
         borderRadius: 8,
         overflow: "hidden",
       }}
@@ -71,6 +75,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
     >
       <Form
         name="productForm"
+        className="w-full h-full"
         layout="vertical"
         initialValues={{ remember: true }}
         onFinish={onFinish}
@@ -137,8 +142,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
             >
               <div
                 style={{
-                  width: "500px",
-                  height: "420px",
+                  width: "100%",
+                  height: "360px",
                   border: "2px dashed #d9d9d9",
                   borderRadius: "4px",
                   display: "flex",
@@ -201,7 +206,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         <Row justify="end">
           <Col>
             <Button loading={loading} type="primary" htmlType="submit">
-              Submit
+              {checkTypeForm == 0 ? 'Create' : 'Update' }
             </Button>
           </Col>
         </Row>
