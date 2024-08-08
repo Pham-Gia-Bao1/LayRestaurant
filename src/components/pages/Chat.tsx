@@ -72,6 +72,7 @@ const Chat: React.FC<MessagesPageProps> = ({ senderId, recipientId }) => {
 
     channel.bind("MessageSent", (data: { message: Message }) => {
       const receivedMessage = data.message;
+      console.log(receivedMessage);
       if (
         (receivedMessage.sender_id == senderId &&
           receivedMessage.recipient_id == recipientId) ||
@@ -184,10 +185,10 @@ const Chat: React.FC<MessagesPageProps> = ({ senderId, recipientId }) => {
       setNewMessage("");
       dispatch(addMessageAction(savedMessage));
       fetchMessages(page);
-      message.success("Add a new message successfully!");
+
     } catch (error) {
       console.error("Error creating message:", error);
-      message.error("Add a new message fail!");
+
     }
   };
 

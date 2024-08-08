@@ -60,12 +60,9 @@ const Profile: React.FC = () => {
     currentUser?.profile_picture || ProfileImage.src
   );
   const [fileList, setFileList] = useState<any[]>([]);
-
-  //
   const [name, setName] = useState(currentUser?.name || "");
   const [email, setEmail] = useState(currentUser?.email || "");
   const [address, setAddress] = useState(currentUser?.address || "");
-  console.log(address);
   const [dateOfBirth, setDateOfBirth] = useState(
     currentUser?.date_of_birth || ""
   );
@@ -73,14 +70,10 @@ const Profile: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState(
     currentUser?.phone_number || ""
   );
-
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
   const [loadingButton, setLoadingButton] = useState<boolean>(false);
-
-  //
   useEffect(() => {
     if (!isAuthenticated) {
-      // Redirect user to login page if not authenticated
       router.push("/login");
     }
   });
@@ -274,12 +267,10 @@ const Profile: React.FC = () => {
     }
   };
   const handleLogout = async () => {
+    router.push("/login");
     try {
       signOut();
-      // Clear authentication token from Redux store
       dispatch(clearToken());
-      // Redirect to login page
-      router.push("/login");
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -310,7 +301,6 @@ const Profile: React.FC = () => {
   };
   const handleSaveProfile = async () => {
     setLoadingButton(true);
-
     const dataUpdate: UserProfileUpdate = {
       name: name,
       email: email,
@@ -322,7 +312,6 @@ const Profile: React.FC = () => {
     };
     try {
       const result = await updateProfile(dataUpdate);
-
       if (result) {
         // Dispatch the user data into the Redux store
         dispatch(setCurrentUser(result));
@@ -394,7 +383,6 @@ const Profile: React.FC = () => {
                 </div>
               </div>
               <hr />
-
               <div className="w-full my-5  grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
                   <h2 className="text-xl font-bold mt-6 mb-4">Username</h2>
@@ -431,7 +419,6 @@ const Profile: React.FC = () => {
                   </p>
                 </div>
               </div>
-
               <div className="w-full my-5  grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
                   <h2 className="text-xl font-bold mt-6 mb-4">Address</h2>
@@ -497,7 +484,7 @@ const Profile: React.FC = () => {
               </div>
               <div className="w-full my-10 flex justify-between ">
                 {isUpdated && (
-                  <>
+                  <div className="flex justify-center items-center gap-5">
                     <Button
                       loading={loadingButton}
                       type="primary"
@@ -511,7 +498,7 @@ const Profile: React.FC = () => {
                     >
                       Cancel
                     </Button>
-                  </>
+                  </div>
                 )}
                 {!isUpdated && (
                   <Button
@@ -521,7 +508,6 @@ const Profile: React.FC = () => {
                     Update profile
                   </Button>
                 )}
-
                 <Button type="default" onClick={handleLogout}>
                   Log out
                 </Button>

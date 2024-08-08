@@ -1,12 +1,15 @@
+"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
-import { getAllUsers } from "@/api";
+import { getAllUsers } from "@/api"; // Thêm import cho addMessage
 import Link from "next/link";
 import MessageItem from "./MessageItem";
 import { UserProfile, Message } from "@/types";
 import SkeletonMessageItem from "../skeleton/SkeletonMessageItem";
 import debounce from "lodash.debounce";
+import Pusher from "pusher-js";
+import { addMessageAction } from "@/redux/messagesSlice";
 
 const ListUsers: React.FC = () => {
   const [listUsers, setListUsers] = useState<UserProfile[]>([]);
@@ -15,15 +18,13 @@ const ListUsers: React.FC = () => {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const messages = useSelector((state: RootState) => state.messages.messages);
   const token = useSelector((state: RootState) => state.auth.token);
-  const [readMessages, setReadMessages] = useState<{ [key: number]: boolean }>(
-    {}
-  );
+  const dispatch = useDispatch(); // Khai báo dispatch
+  const [readMessages, setReadMessages] = useState<{ [key: number]: boolean }>({});
   const fetchingMoreData = useRef<boolean>(false);
   const [isMaxPage, setIsMaxPage] = useState<boolean>(false);
   const [loadingGetMoreData, setLoadingGetMoreData] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
-
-  // Ref for parent-box
+  const [newMessage, setNewMessage] = useState<Message | null>(null);
   const parentBoxRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -35,16 +36,41 @@ const ListUsers: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const pusher = new Pusher("012362f40cb7a6656b0f", {
+      cluster: "ap1",
+    });
+    const channel = pusher.subscribe("chat");
+
+    channel.bind("MessageSent", (data: { message: Message }) => {
+      const receivedMessage = data.message;
+      setNewMessage(receivedMessage);
+      // Cập nhật tin nhắn mới vào Redux state
+      dispatch(addMessageAction(receivedMessage));
+      // Đánh dấu tin nhắn mới nhất là chưa đọc
+      if (currentUser && receivedMessage.sender_id !== currentUser.id) {
+        setReadMessages((prev) => ({
+          ...prev,
+          [receivedMessage.sender_id]: false,
+        }));
+      }
+    });
+
+    return () => {
+      channel.unbind_all();
+      channel.unsubscribe();
+    };
+  }, [dispatch, currentUser]);
+
+  useEffect(() => {
     const handleResize = () => {
-      // Ensure the height is recalculated if the component resizes
       if (parentBoxRef.current) {
         handleScroll();
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [parentBoxRef.current]);
 
@@ -64,7 +90,6 @@ const ListUsers: React.FC = () => {
         0;
       const scrollDifference = documentHeight - viewportHeight - scrollPosition;
 
-      // Calculate the threshold based on the parent-box
       if (
         scrollDifference < parentBoxRect.height * 2 &&
         !fetchingMoreData.current &&
@@ -127,6 +152,7 @@ const ListUsers: React.FC = () => {
         (message.sender_id === userId &&
           message.recipient_id === currentUser?.id)
     );
+    console.log(filteredMessages);
     if (filteredMessages.length > 0) {
       return filteredMessages[filteredMessages.length - 1].content;
     } else {
@@ -135,12 +161,22 @@ const ListUsers: React.FC = () => {
   };
 
   const getLastMessageOfCurrentUserWithAllRecipients = (user: UserProfile) => {
+    console.log(user.sent_messages);
     const allMessages = [
       ...(user.received_messages || []),
       ...(user.sent_messages || []),
+
     ];
+
+    console.log(allMessages);
+
+    allMessages.sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+
     return allMessages.length > 0
-      ? allMessages[allMessages.length - 1].content
+      ? allMessages[0].content
       : "";
   };
 
@@ -172,7 +208,7 @@ const ListUsers: React.FC = () => {
               <Link href={`/messages/${user.id}`} key={user.id}>
                 {token && currentUser !== null && (
                   <MessageItem
-                    lastMessage={lastMessage}
+                    lastMessage={newMessage ? newMessage.content : lastMessage}
                     name={user.name}
                     profileImage={user.profile_picture}
                     message={getLastMessageContentForCurrentUser(user.id)}

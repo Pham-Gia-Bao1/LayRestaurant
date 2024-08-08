@@ -1,4 +1,5 @@
-import React, { useState, useEffect, DragEvent } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Button, Select, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { ProductFormProps } from "@/types";
@@ -14,62 +15,35 @@ const ProductForm: React.FC<ProductFormProps> = ({
   handleChange,
   loading,
   types,
-  imageUrl = "",
+  imageUrl,
+  isUpload,
 }) => {
   const [allType, setAllType] = useState<string[]>(types);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [dragging, setDragging] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (imageUrl) {
-      // Reset selectedFile when imageUrl changes
-      setSelectedFile(null);
-    }
-  }, [imageUrl]);
-
+  const [isUploaded, setIsUploaded] = useState<boolean>(isUpload);
+  const [checkForm, setCheckForm] = useState<boolean>(false);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
+      setIsUploaded(true);
       setSelectedFile(file);
       handleChange(file); // Pass the file to handleChange if needed
+    } else {
+      setIsUploaded(false);
     }
   };
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragging(false);
-    const file = e.dataTransfer.files ? e.dataTransfer.files[0] : null;
-    if (file) {
-      setSelectedFile(file);
-      handleChange(file); // Pass the file to handleChange if needed
+  useEffect(() => {
+    if (checkTypeForm == 0) {
+      setCheckForm(true);
     }
-  };
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragging(true);
-  };
-
-  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragging(false);
-  };
+    setSelectedFile(null);
+    setIsUploaded(false);
+  }, [checkTypeForm]);
 
   const previewImage = selectedFile
     ? URL.createObjectURL(selectedFile)
     : imageUrl;
-
-  useEffect(() => {
-    // Revoke object URL when component unmounts or selectedFile changes
-    return () => {
-      if (selectedFile) {
-        URL.revokeObjectURL(previewImage);
-      }
-    };
-  }, [selectedFile, previewImage]);
 
   return (
     <Modal
@@ -165,21 +139,27 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 style={{
                   width: "500px",
                   height: "420px",
-                  border: dragging ? "2px solid #1890ff" : "2px dashed #d9d9d9",
+                  border: "2px dashed #d9d9d9",
                   borderRadius: "4px",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   position: "relative",
-                  backgroundColor: dragging ? "#f0f0f0" : "white",
                 }}
-                onDrop={handleDrop}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
               >
-                {checkTypeForm != 0 ? (
+                {isUploaded ? (
                   <img
                     src={previewImage}
+                    alt="Preview"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : checkTypeForm !== 0 || !checkForm ? (
+                  <img
+                    src={previewImage ?? ""}
                     alt="Preview"
                     style={{
                       width: "100%",
@@ -200,6 +180,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                     <PlusOutlined style={{ fontSize: "64px" }} />
                   </div>
                 )}
+
                 <input
                   type="file"
                   style={{

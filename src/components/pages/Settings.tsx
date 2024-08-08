@@ -19,12 +19,15 @@ import debounce from "lodash.debounce";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { DataType, Product } from "@/types";
-const Settings: React.FC = () => {
+interface SettingsProps {
+  listFoods: Product[]; // This prop is an array of Product
+}
+const Settings: React.FC<SettingsProps> = ({ listFoods }) => {
   const token = useSelector((state: RootState) => state.auth.token);
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const router = useRouter();
   const { theme } = useTheme();
-  const [foods, setFoods] = useState<Product[]>([]);
+  const [foods, setFoods] = useState<Product[]>(listFoods);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [imageUrl, setImageUrl] = useState<string>(
@@ -43,6 +46,7 @@ const Settings: React.FC = () => {
   const fetchingMoreData = useRef<boolean>(false);
   const [isMaxPage, setIsMaxPage] = useState<boolean>(false);
   const [activeButton, setActiveButton] = useState<string | null>(null);
+  const [isProductImageUploaded, setIsProductImageUploaded] = useState<boolean>(false);
   const [data, setData] = useState<DataType>({
     name: "",
     price: 0,
@@ -105,9 +109,8 @@ const Settings: React.FC = () => {
   const getData = async () => {
     setLoading(true);
     try {
-      const fetchedFoods = await fetchFoodsData(1);
       setIsMaxPage(false);
-      setFoods(fetchedFoods);
+      setFoods(listFoods);
       fetchingMoreData.current = false;
     } catch (error) {
       console.error("Failed to fetch data:", error);
@@ -166,6 +169,7 @@ const Settings: React.FC = () => {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsProductImageUploaded(false);
     form.resetFields();
   };
   const onFinish: FormProps["onFinish"] = async (values) => {
@@ -228,6 +232,7 @@ const Settings: React.FC = () => {
     message.error("Failed to submit form!.");
   };
   const handleChange = (info: any) => {
+    console.log(info);
     setFileList([info]);
     setImageUrl(info.name);
   };
@@ -332,7 +337,7 @@ const Settings: React.FC = () => {
           />
           {loading ? (
             [...Array(10)].map((_, index) => <SkeletonCard key={index} />)
-          ) : foods.length === 0 ? (
+          ) : foods == undefined || foods.length == 0 ? (
             showNotFound ? (
               <div className="absolute text-black flex items-center justify-center w-full text-center sm:text-3xl">
                 <h1>Product not found</h1>
@@ -354,6 +359,7 @@ const Settings: React.FC = () => {
                   loading={loadingButton}
                   types={allType}
                   checkTypeForm={currentId}
+                  isUpload={isProductImageUploaded}
                 />
                 <ProductCard
                   openModal={() => showModal(food.id)}

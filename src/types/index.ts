@@ -74,6 +74,8 @@ export interface ProductFormProps {
   loading: boolean;
   types: string[];
   checkTypeForm : number | null;
+  isUpload : boolean;
+
 }
 export interface HomePageCardSecondLevelProps {
   icon: React.ReactNode;
@@ -366,4 +368,7 @@ export interface UpdateProfileResponse {
   success: boolean;
   message: string;
   data: UserProfile;
+}
+export interface SettingsProps {
+  listFoods: Product[]; // This prop is an array of Product
 }

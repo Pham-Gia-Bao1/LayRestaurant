@@ -9,7 +9,7 @@ interface MessageItemProps {
   message: string;
   isRead: boolean;
   isActive: boolean;
-  onRead: () => void; // Define onRead prop as a function with no parameters
+  onRead: () => void;
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({
@@ -19,7 +19,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
   message,
   isRead,
   isActive,
-  onRead, // Destructure onRead from props
+  onRead,
 }) => {
   const [initialIsRead, setIsRead] = useState(isRead);
   const [initialLastMessage, setInitialLastMessage] = useState(lastMessage);
