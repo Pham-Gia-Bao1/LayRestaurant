@@ -23,11 +23,15 @@ const LoginPage: React.FC = () => {
   const { data: session } = useSession();
   useEffect(() => {
     if (session && session.accessToken) {
+      // Clear any existing session before redirecting
       dispatch(setToken(session.accessToken)); // saving the access token in Redux
       setStorage("__token__", session.accessToken);
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.clear();
       router.push("/");
     }
-  }, [session]);
+  }, [session, dispatch, router]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
