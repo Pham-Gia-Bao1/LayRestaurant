@@ -169,7 +169,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                   Quỳnh Anh Restaurant » Village 2 Thanh Sen » Phúc Trạch » Bố
                   Trạch » Quảng Bình
                 </nav>
-                <h3 className="text-3xl truncate-description-2line sm:text-4xl font-bold text-blue-900 mb-2">
+                <h3 className="text-3xl truncate-description sm:text-4xl font-bold text-blue-900 mb-2">
                   {product.name}
                 </h3>
                 <div className="flex items-center justify-center w-32 mb-4 bg-red-600">

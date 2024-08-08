@@ -98,7 +98,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <MoreVertIcon />
           </IconButton>
         ) : null}
-        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose} >
           <MenuItem
             onClick={() => {
               openModal(params.id);
