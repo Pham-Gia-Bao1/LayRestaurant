@@ -105,7 +105,7 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
           onClick={(e) => e.stopPropagation()} // Prevent the click event from bubbling up to the parent div
         />
       </div>
-      <div className="flex items-center h-14 w-3/12 m-3">
+      <div className="flex  w-[50%] overflow-hidden sm:w-3/12 m-3 items-center">
         <Image
           src={imageSrc}
           alt={title}
@@ -113,20 +113,20 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
           height={100}
         />
         <div className="flex flex-col ml-4">
-          <span className="text-xl font-bold text-black truncate-description-1-line">{title}</span>
-          <span className="text-black text-sm  truncate-description-1-line">
+          <span className="sm:text-xl text-sm font-bold text-black truncate-description-1-line">{title}</span>
+          <span className="text-black text-xs sm:text-sm  truncate-description-1-line">
             {description}
           </span>
         </div>
       </div>
-      <div className="flex items-center w-3/12">
+      <div className="flex items-center sm:w-3/12 w-0 ">
         <h1 className="text-black hidden sm:block ">{type}</h1>
       </div>
       <div className="flex items-center w-3/12">
         <IconButton onClick={handleDecrement} disabled={loading}>
           <Remove />
         </IconButton>
-        <span className="text-lg text-black">
+        <span className="text-xs sm:text-lg text-black ">
           {loading ? <CircularProgress size={20} /> : quantity}
         </span>
         <IconButton onClick={handleIncrement} disabled={loading}>
@@ -134,7 +134,7 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
         </IconButton>
       </div>
       <div className="flex items-center w-3/12">
-        <h1 className="text-red-500">
+        <h1 className="text-red-500 text-xs sm:text-lg">
           {formatMoney(price * quantity)}
         </h1>
       </div>

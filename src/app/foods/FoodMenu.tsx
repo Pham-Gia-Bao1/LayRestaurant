@@ -23,7 +23,7 @@ import Footer from "@/components/layout/Footer";
 import { isString } from "lodash";
 import { PosterOptions } from "../../types";
 
-const posters: PosterOptions[] = [
+export const posters: PosterOptions[] = [
   {
     id: 1,
     image: Poster1,
@@ -85,7 +85,8 @@ const FoodMenu: React.FC = () => {
     setLoadingButtons((prev) => ({ ...prev, [productId]: true }));
     try {
       await getProduct(productId); // Ensure product data is fetched
-
+      console.log(product);
+      console.log(token);
       if (product && token) {
         const cartItem: CartItem = {
           id: product.id,
@@ -239,7 +240,7 @@ const FoodMenu: React.FC = () => {
                   className="flex items-center justify-between mb-4 p-3 box-shadow bg-white"
                 >
                   <div className="flex items-center">
-                    <div className="h-16 w-24 relative">
+                    <div className="h-16 w-24 min-w-24 max-w-24 bg-red-500 relative">
                       <Image
                         src={food.picture}
                         alt={food.name}
@@ -247,11 +248,11 @@ const FoodMenu: React.FC = () => {
                         className="object-cover rounded"
                       />
                     </div>
-                    <div className="ml-4">
-                      <h3 className="text-sm font-medium truncate-description-2line">
+                    <div className="ml-4 flex flex-col gap-2">
+                      <h3 className="text-sm font-medium truncate-description-2-line">
                         {food.name}
                       </h3>
-                      <p className="text-xs text-gray-500 truncate-description-1line">
+                      <p className="text-xs text-gray-500 truncate-description-1-line">
                         {food.price.toLocaleString()} VND
                       </p>
                     </div>

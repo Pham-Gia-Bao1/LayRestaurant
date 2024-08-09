@@ -16,6 +16,36 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import Image from "next/image";
 import Loading from "@/components/loading/Loading";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { posters } from "@/app/foods/FoodMenu";
+import ReviewsComponent from "@/components/review/ReviewComponent";
+import Footer from "@/components/layout/Footer";
+const reviews = [
+  {
+    id: 1,
+    content: "The food was absolutely delicious and perfectly seasoned.",
+    author: "John Doe",
+  },
+  {
+    id: 2,
+    content: "The staff was friendly and attentive. Highly recommend!",
+    author: "Jane Smith",
+  },
+  {
+    id: 3,
+    content: "The food was okay, but the atmosphere was great.",
+    author: "Alice Johnson",
+  },
+  {
+    id: 4,
+    content: "The food was cold and not as expected.",
+    author: "Bob Brown",
+  },
+  {
+    id: 5,
+    content: "One of the best meals I've had in a long time.",
+    author: "Carol Davis",
+  }
+];
 
 const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
@@ -155,13 +185,13 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
           {error && <div className="text-center text-red-500">{error}</div>}
           {product && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 p-6">
-              <div className="">
+              <div className="overflow-hidden">
                 <Image
                   width={1000}
-                  height={1100}
+                  height={500}
                   src={product.picture}
                   alt={product.name}
-                  className="object-cover w-full rounded-md"
+                  className="object-cover rounded-md"
                 />
               </div>
               <div className="flex flex-col">
@@ -169,7 +199,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                   Quỳnh Anh Restaurant » Village 2 Thanh Sen » Phúc Trạch » Bố
                   Trạch » Quảng Bình
                 </nav>
-                <h3 className="text-3xl truncate-description sm:text-4xl font-bold text-blue-900 mb-2">
+                <h3 className="text-3xl truncate-description-2-line sm:text-4xl font-bold text-blue-900 mb-2">
                   {product.name}
                 </h3>
                 <div className="flex items-center justify-center w-32 mb-4 bg-red-600">
@@ -188,17 +218,12 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                   </p>
                 </div>
                 <div className="flex items-center">
-                  <Rate
-                    allowHalf
-                    value={rating}
-                    onChange={handleRateChange}
-                    className="text-lg"
-                  />
+                  <Rate allowHalf value={rating} className="text-lg" />
                   <span className="ml-2 text-yellow-500 text-sm font-semibold">
                     {rating} / 5
                   </span>
                 </div>
-                <p className="text-lg sm:text-xl font-semibold text-green-600 mt-4">
+                <p className="text-lg sm:text-xl font-semibold text-green-600 mt-2">
                   Price: {formatMoney(price)}
                 </p>
                 <div className="flex gap-4 mt-4">
@@ -263,13 +288,26 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                   />
                 </div>
               </div>
+              <div className=" scrollbar-hide flex items-start gap-2 w-full justify-between z-30 overflow-x-scroll sm:overflow-hidden">
+                {posters.map((poster) => (
+                  <Image
+                    key={poster.id}
+                    width={150}
+                    height={100}
+                    src={poster.image}
+                    alt={poster.title}
+                    className="bg-white object-cover "
+                  />
+                ))}
+              </div>
+              <ReviewsComponent reviews={reviews} />
             </div>
           )}
         </div>
+        <Footer />
       </main>
     </>
   );
-
 };
 
 export default ProductDetail;

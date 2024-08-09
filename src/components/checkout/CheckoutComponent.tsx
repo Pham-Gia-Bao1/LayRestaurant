@@ -31,18 +31,20 @@ const CheckoutComponent = ({ products }: { products: number }) => {
           <p className=" font-semibold">{formatMoney(20)} </p>
         </div>
       </div>
-      <div className="rounded text-black font-bold flex justify-between items-center p-2">
-        <p>Total Payment ({products})</p>
-        <div className="flex gap-5  sm:justify-center items-center justify-end">
-          <p className="text-red-500 text-xl">
+      <div className="rounded text-black font-bold flex justify-between items-center p-2 flex-wrap sm:flex-nowrap">
+        <p>Total Payment ({products}) products</p>
+        <div className="flex gap-5 mt-5  sm:justify-center items-center justify-end  w-full sm:w-1/2">
+          <p className="text-red-500 text-xl text-end w-[70%] flex  justify-start sm:justify-end">
             {products > 0 && getTotalPrice()
               ? formatMoney(getTotalPrice() + 20)
               : 0}
           </p>
           <button
             onClick={handleBuyClick}
-            className={`p-5 w-52 text-white float-right rounded ${
-              products > 0 ? "bg-red-500" : "bg-gray-300"
+            className={`p-5 sm:w-52 w-full text-white float-right rounded  ${
+              products > 0
+                ? "bg-green-500 hover:bg-green-600 active:bg-green-800"
+                : "bg-gray-300"
             }`}
           >
             Buy
