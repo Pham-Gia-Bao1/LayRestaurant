@@ -1,12 +1,15 @@
 import { RootState } from "@/redux/store";
+import Image from "next/image";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-// Define the Review type
+// Define the Review type with image and avatar
 interface Review {
   id: number;
   content: string;
   author: string;
+  image?: string; // Optional image URL
+  avatar?: string; // Optional avatar URL
 }
 
 // Define the props for the ReviewsComponent
@@ -36,6 +39,8 @@ const ReviewsComponent: React.FC<ReviewsComponentProps> = ({ reviews }) => {
       id: reviewsData.length + 1, // Generate a new ID
       content: reviewInput,
       author: currentUser?.name ?? "Anonymous", // Replace with actual author data if available
+      image: "", // Placeholder image URL
+      avatar: currentUser?.profile_picture ?? "https://via.placeholder.com/50", // Placeholder avatar URL
     };
 
     // Update the reviewsData state
@@ -57,15 +62,38 @@ const ReviewsComponent: React.FC<ReviewsComponentProps> = ({ reviews }) => {
         />
         <button
           onClick={handleReviewSubmit}
-          className=" bg-blue-500 w-[25%] text-white px-3 py-1 rounded hover:bg-blue-600"
+          className="bg-blue-500 w-[25%] text-white px-3 py-1 rounded hover:bg-blue-600"
         >
           Add
         </button>
       </div>
-      {reviewsData.slice(0, 10).map((poster) => (
-        <div key={poster.id} className="p-2 bg-gray-100   w-full">
-          <p>{poster.content}</p>
-          <p className="text-sm text-gray-500">{poster.author}</p>
+      {reviewsData.slice(0, 10).map((review) => (
+        <div
+          key={review.id}
+          className="p-2 bg-gray-100 w-full flex items-start gap-4"
+        >
+          {review.avatar && (
+            <Image
+              width={50}
+              height={50}
+              src={review.avatar}
+              alt={review.author}
+              className="w-12 h-12 rounded-full object-cover"
+            />
+          )}
+          <div className="flex-1">
+            <p className="font-bold">{review.author}</p>
+            <p>{review.content}</p>
+            {review.image && (
+              <Image
+              height={100}
+                width={100}
+                src={review.image}
+                alt="Review"
+                className="mt-2 max-w-full h-auto rounded"
+              />
+            )}
+          </div>
         </div>
       ))}
     </div>
