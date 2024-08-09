@@ -33,8 +33,8 @@ const CheckoutComponent = ({ products }: { products: number }) => {
       </div>
       <div className="rounded text-black font-bold flex justify-between items-center p-2 flex-wrap sm:flex-nowrap">
         <p>Total Payment ({products}) products</p>
-        <div className="flex gap-5 mt-5  sm:justify-center items-center justify-end  w-full sm:w-1/2">
-          <p className="text-red-500 text-xl text-end w-[70%] flex  justify-start sm:justify-end">
+        <div className="flex gap-3 mt-5  sm:justify-center items-center justify-end  w-full sm:w-1/2">
+          <p className="text-red-500 text-lg text-start w-[70%] flex  justify-start sm:justify-end">
             {products > 0 && getTotalPrice()
               ? formatMoney(getTotalPrice() + 20)
               : 0}

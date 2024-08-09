@@ -19,71 +19,7 @@ export const metadata = generateMetadata(
 const AboutUs: React.FC = () => {
   return (
     <div className="container mx-auto p-6 text-gray-900 bg-gray-100">
-      {/* Header Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 mb-16">
-        <div className="flex flex-col items-center justify-center text-center p-4">
-          <h1 className="text-5xl font-extrabold text-teal-700">About Us</h1>
-          <p className="text-lg mt-4 max-w-2xl text-gray-700">
-            Welcome to our restaurant and hotel! Here, we offer unique culinary
-            services and an excellent lodging experience.
-          </p>
-        </div>
-        <div className="ml-5 flex justify-center">
-          <Image
-            width={500}
-            height={500}
-            src={TopImage}
-            alt="Lay main image"
-            className="rounded-xl shadow-2xl"
-          />
-        </div>
-      </div>
-      {/* Contact Information Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 mb-16">
-        <div className="ml-5 flex justify-center items-center">
-          <Image
-            width={500}
-            height={500}
-            src={SubTopImage}
-            alt="Chef image"
-            className="rounded-xl shadow-2xl"
-          />
-        </div>
-        <div className="flex flex-col items-center justify-center text-center p-4">
-          <h2 className="text-3xl font-bold text-teal-700">Contact Information</h2>
-          <p className="mt-2 flex items-center text-gray-700">
-            <PhoneOutlined className="mr-2 text-teal-500" /> Phone Number: +84 123 456 789
-          </p>
-          <p className="mt-2 text-gray-700">
-            Address: 123 ABC Street, XYZ Ward, District 1, HCMC
-          </p>
-          <div className="flex mt-4">
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-teal-600 hover:text-teal-800 mr-4"
-            >
-              <FacebookOutlined className="text-3xl" />
-            </a>
-            <a
-              href="https://zalo.me"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-teal-600 hover:text-teal-800"
-            >
-              <Image
-                width={24}
-                height={24}
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_Zalo.svg/2048px-Logo_Zalo.svg.png"
-                alt="Zalo"
-                className="w-6 h-6 inline"
-              />
-            </a>
-          </div>
-        </div>
-      </div>
-      {/* Restaurant Introduction Section */}
+
       <section className="mb-16">
         <h2 className="text-3xl font-bold text-teal-700 mb-6 text-center">Restaurant Introduction</h2>
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

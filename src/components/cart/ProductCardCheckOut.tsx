@@ -93,33 +93,33 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
     <div
       className={`${
         checked ? "bg-green-300" : "bg-white"
-      } p-2 box-shadow flex items-center justify-between rounded-lg mb-4 mx-2`}
+      } p-2 box-shadow flex items-center justify-between rounded-lg mb-4 mx-2 relative pt-3`}
       onClick={handleProductClick}
     >
-      <div className="flex items-center h-14 w-1/12">
+      <div className="flex items-center absolute top-0 mb-5 w-1/12 left-0">
         <input
           type="checkbox"
           onChange={handleCheckboxChange}
           checked={checked}
-          className="w-6 h-6 text-center"
+          className="w-5 h-5 text-center rounded"
           onClick={(e) => e.stopPropagation()} // Prevent the click event from bubbling up to the parent div
         />
       </div>
-      <div className="flex  w-[50%] overflow-hidden sm:w-3/12 m-3 items-center">
+      <div className="flex w-[40%] overflow-hidden sm:w-3/12  mt-5 items-center flex-wrap">
         <Image
           src={imageSrc}
           alt={title}
           width={100}
           height={100}
         />
-        <div className="flex flex-col ml-4">
+        <div className="flex flex-col">
           <span className="sm:text-xl text-sm font-bold text-black truncate-description-1-line">{title}</span>
           <span className="text-black text-xs sm:text-sm  truncate-description-1-line">
             {description}
           </span>
         </div>
       </div>
-      <div className="flex items-center sm:w-3/12 w-0 ">
+      <div className="flex items-center sm:w-3/12 w-0 bg-red-500 sm:pl-14 ">
         <h1 className="text-black hidden sm:block ">{type}</h1>
       </div>
       <div className="flex items-center w-3/12">
