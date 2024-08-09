@@ -31,7 +31,6 @@ const LoginPage: React.FC = () => {
       router.push("/");
     }
   }, [session, dispatch, router]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -43,7 +42,6 @@ const LoginPage: React.FC = () => {
     };
     fetchData();
   }, []);
-
   const onFinish = async (values: { email: string; password: string }) => {
     setLoading(true);
     try {
@@ -69,7 +67,6 @@ const LoginPage: React.FC = () => {
         403: t("login.errorMessage.forbidden"),
         404: t("login.errorMessage.notFound"),
       };
-
       let errorMessage =
         errorMessages[status] ||
         (status >= 500
@@ -77,15 +74,12 @@ const LoginPage: React.FC = () => {
           : error.response?.data?.message ||
             error.message ||
             t("login.errorMessage.default"));
-
       message.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
-
   // const [signInResult, setSignInResult] = useState(null);
-
   const handleSignInWithGoogle = async () => {
     setLoading(true);
     try {
@@ -98,7 +92,6 @@ const LoginPage: React.FC = () => {
       console.error("Error during sign in:", error);
     }
   };
-
   return (
     <div className=" w-screen">
       <div className="p-6 flex justify-center w-full h-[95vh] items-center flex-row-reverse mt-2 flex-wrap-reverse gap-10">
@@ -113,9 +106,8 @@ const LoginPage: React.FC = () => {
         <div className="sm:w-1/3 w-full h-full flex flex-col justify-center gap-7 p-8">
           <div className=" w-full p-3">
             <h1 className="text-black text-3xl font-bold">WELCOME BACK!</h1>
-            {loading && <span>{t("login.loadingMessage")}</span>}
             <div className="mt-2">
-              <span className="text-black">{t("login.noAccount")}</span>{" "}
+              <span className="text-black">{t("login.noAccount")}</span>
               <Link
                 href="/register"
                 className="text-blue-500 hover:text-blue-700"
@@ -168,7 +160,6 @@ const LoginPage: React.FC = () => {
               </Form.Item>
             </Form>
           </div>
-
           <div className="w-full -mt-10 flex flex-col gap-3">
             <p className="text-center text-black ">Or continue with</p>
             <div className=" w-full flex justify-center items-center gap-10 h-[80%]">
@@ -182,5 +173,4 @@ const LoginPage: React.FC = () => {
     </div>
   );
 };
-
 export default LoginPage;

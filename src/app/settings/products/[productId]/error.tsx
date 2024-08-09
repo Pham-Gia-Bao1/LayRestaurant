@@ -1,25 +1,20 @@
-// app/error.tsx
-'use client';
+"use client";
+import React from "react";
 
-import { useEffect } from 'react';
-
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
-  useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error);
-  }, [error]);
-
+export default function ErrorPage() {
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button onClick={() => reset()}>
-        Try again
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6 text-center">
+      <h1 className="text-4xl font-bold text-gray-800 mb-4">
+        Oops! Something went wrong.
+      </h1>
+      <p className="text-lg text-gray-600 mb-8">
+        We encountered an unexpected error. Please try again later or contact support.
+      </p>
+      <button
+        className="px-6 py-3 text-white bg-orange-500 rounded-md hover:bg-orange-600 transition-colors"
+        onClick={() => (window.location.href = "/")}
+      >
+        Go Back Home
       </button>
     </div>
   );
