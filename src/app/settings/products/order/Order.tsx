@@ -73,7 +73,7 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
                     <h1 className="m-3">Shopping Cart</h1>
                   </div>
                   <div className="flex items-center py-2 box-shadow mb-5 font-bold text-black border-gray-200 justify-between mx-2 p-4">
-                    <div className="flex items-center h-14 w-1/12 ml-3">
+                    <div className="flex items-center h-14 w-1/12">
                       <h1>
                         <input
                           type="checkbox"
@@ -85,16 +85,16 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
                     <div className="flex items-center h-14 w-3/12">
                       <h1>Product</h1>
                     </div>
-                    <div className="flex items-center w-3/12">
+                    <div className="items-center w-3/12 hidden sm:flex">
                       <h1>Type</h1>
                     </div>
-                    <div className="flex items-center w-3/12">
+                    <div className="flex items-center w-3/12 ml-20 pl-5 sm:ml-0">
                       <h1>Quantity</h1>
                     </div>
                     <div className="flex items-center w-3/12">
                       <h1>Price</h1>
                     </div>
-                    <div className="flex items-center w-1/12">
+                    <div className=" items-center w-1/12 hidden sm:flex">
                       <h1>Action</h1>
                     </div>
                   </div>
