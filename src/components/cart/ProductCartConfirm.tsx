@@ -20,7 +20,7 @@ const ProductCartConfirm : React.FC<ProductCardCheckOutProps> = ({
         />
         <div className="flex flex-col ml-4">
           <span className="text-xl font-bold text-black truncate-description-1-line">{title}</span>
-          <span className="text-black text-sm truncate-description-2-line">{description}</span>
+          <span className="text-black text-sm truncate-description-1-line sm:truncate-description-2-line">{description}</span>
         </div>
       </div>
     </div>

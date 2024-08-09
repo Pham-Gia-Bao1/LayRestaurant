@@ -88,7 +88,7 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
                     <div className="items-center w-3/12 hidden sm:flex">
                       <h1>Type</h1>
                     </div>
-                    <div className="flex items-center w-3/12 ml-20 pl-5 sm:ml-0">
+                    <div className="flex items-center w-3/12 ml-5 pl-1 sm:ml-0">
                       <h1>Quantity</h1>
                     </div>
                     <div className="flex items-center w-3/12">
