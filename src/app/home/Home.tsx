@@ -112,6 +112,7 @@ const Home: React.FC<SettingsProps> = ({ listFoods }) => {
               src={GridBg}
               alt="Top Icon"
               className="absolute top-0 right-0"
+
             />
             <Image
               width={600}
