@@ -113,8 +113,9 @@ const LoginPage: React.FC = () => {
         <div className="sm:w-1/3 w-full h-full flex flex-col justify-center gap-7 p-8">
           <div className=" w-full p-3">
             <h1 className="text-black text-3xl font-bold">WELCOME BACK!</h1>
+
             <div className="mt-2">
-              <span className="text-black">{t("login.noAccount")}</span>
+              <span className="text-black">{t("login.noAccount")}</span>{" "}
               <Link
                 href="/register"
                 className="text-blue-500 hover:text-blue-700"
