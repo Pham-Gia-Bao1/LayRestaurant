@@ -125,7 +125,7 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
                     ))
                   )}
                 </div>
-                <div className="bg-red-400 w-full sticky bottom-0">
+                <div className="w-full sticky bottom-0">
                   <CheckoutComponent products={selectedItems.length} />
                 </div>
               </div>
