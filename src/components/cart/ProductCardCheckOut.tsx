@@ -105,7 +105,7 @@ const ProductCardCheckOut: React.FC<ProductCardCheckOutProps> = ({
           onClick={(e) => e.stopPropagation()} // Prevent the click event from bubbling up to the parent div
         />
       </div>
-      <div className="flex w-[40%] overflow-hidden sm:w-3/12  mt-5 items-center flex-wrap sm:flex-nowrap">
+      <div className="flex w-[40%] overflow-hidden sm:w-3/12  mt-5 items-center flex-wrap sm:flex-nowrap sm:gap-3">
         <Image
           src={imageSrc}
           alt={title}

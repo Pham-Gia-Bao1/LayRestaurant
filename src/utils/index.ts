@@ -19,6 +19,7 @@ export function generateMetadata(pageTitle: string, pageDescription: string): Me
     icons: {
       icon: LOGO, // Use the .src property for the URL path
     },
+
   };
 }
 export const setStorage = (storageName: string, value: any) => {
