@@ -12,7 +12,6 @@ const HomePageCartRestaurant: React.FC<any> = ({
     <div
       className="relative min-w-[90%] sm:min-w-[24%]  sm:w-80  rounded-lg overflow-hidden cursor-pointer"
       data-aos="fade-up"
-      data-aos-anchor-placement="top-bottom"
     >
       <Link href="foods">
         <Image

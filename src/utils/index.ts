@@ -8,7 +8,6 @@ export function formatNumber(number: number) {
 }
 export function generateMetadata(pageTitle: string, pageDescription: string): Metadata {
   const defaultTitle = NAME_RETAURANT;
-  const imageUrl = LOGO; // URL hình ảnh logo
 
   return {
     title: {
@@ -18,26 +17,7 @@ export function generateMetadata(pageTitle: string, pageDescription: string): Me
     },
     description: pageDescription,
     icons: {
-      icon: imageUrl, // Sử dụng .src để lấy đường dẫn URL
-    },
-    openGraph: {
-      title: pageTitle || defaultTitle,
-      description: pageDescription,
-      images: [
-        {
-          url: imageUrl,
-          width: 800, // Bạn có thể điều chỉnh kích thước cho phù hợp
-          height: 600,
-          alt: 'Lay Restaurant Logo',
-        },
-      ],
-      url: "https://lay-restaurant.vercel.app",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: pageTitle || defaultTitle,
-      description: pageDescription,
+      icon: LOGO, // Use the .src property for the URL path
     },
   };
 }

@@ -10,6 +10,7 @@ import { CartItem, Product, PropductParameters } from "@/types";
 import { useCartPay } from "@/components/context/CartPayContext";
 import { isString } from "lodash";
 import { useRouter } from "next/navigation";
+
 import axios from "axios";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import Image from "next/image";
@@ -23,37 +24,27 @@ const reviews = [
     id: 1,
     content: "The food was absolutely delicious and perfectly seasoned.",
     author: "John Doe",
-    image: "https://via.placeholder.com/150?text=Dish+1",
-    avatar: "https://via.placeholder.com/50?text=JD",
   },
   {
     id: 2,
     content: "The staff was friendly and attentive. Highly recommend!",
     author: "Jane Smith",
-    image: "https://via.placeholder.com/150?text=Dish+2",
-    avatar: "https://via.placeholder.com/50?text=JS",
   },
   {
     id: 3,
     content: "The food was okay, but the atmosphere was great.",
     author: "Alice Johnson",
-    image: "https://via.placeholder.com/150?text=Dish+3",
-    avatar: "https://via.placeholder.com/50?text=AJ",
   },
   {
     id: 4,
     content: "The food was cold and not as expected.",
     author: "Bob Brown",
-    image: "https://via.placeholder.com/150?text=Dish+4",
-    avatar: "https://via.placeholder.com/50?text=BB",
   },
   {
     id: 5,
     content: "One of the best meals I've had in a long time.",
     author: "Carol Davis",
-    image: "https://via.placeholder.com/150?text=Dish+5",
-    avatar: "https://via.placeholder.com/50?text=CD",
-  },
+  }
 ];
 
 const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
@@ -68,13 +59,11 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
   const { addToCartPay } = useCartPay();
   const [price, setPrice] = useState<number>(1);
   const router = useRouter();
+
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const cartIconRef = useRef<HTMLDivElement | null>(null);
   const miniImageRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    // Cuộn lên đầu trang khi component được render
-    window.scrollTo(0, 0);
-  }, []);
+
   useEffect(() => {
     const productId = params.productId ?? 1;
     if (isNaN(productId)) {
@@ -84,6 +73,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
     }
     getData(productId);
   }, [params.productId]);
+
   async function getData(productId: number): Promise<void> {
     const apiUrl = `${API_URL}/foods/${productId}`;
     try {
@@ -108,6 +98,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
       console.error("Failed to fetch data:", error);
     }
   }
+
   const handleAddToCart = () => {
     if (product && token) {
       const cartItem: CartItem = {
@@ -147,6 +138,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
     }
     refreshCart();
   };
+
   const handleBuy = () => {
     if (product && token && currentUser) {
       const cartItem: CartItem = {
@@ -168,9 +160,11 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
     }
     refreshCart();
   };
+
   const handleRateChange = (value: number) => {
     setRating(value);
   };
+
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
   const decrementQuantity = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
@@ -178,6 +172,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
     const value = parseInt(event.target.value, 10);
     setQuantity(isNaN(value) ? 1 : value); // Ensure the quantity is always at least 1
   };
+
   return (
     <>
       <main className="flex flex-col items-center overflow-x-hidden py-6">
@@ -190,7 +185,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
           {error && <div className="text-center text-red-500">{error}</div>}
           {product && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 p-6">
-              <div className="overflow-hidden" data-aos="fade-right">
+              <div className="overflow-hidden">
                 <Image
                   width={1000}
                   height={500}
@@ -314,4 +309,5 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
     </>
   );
 };
+
 export default ProductDetail;
