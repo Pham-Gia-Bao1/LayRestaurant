@@ -4,7 +4,7 @@ import { generateMetadata } from "@/utils";
 import { Product } from "@/types";
 import { fetchFoods } from "@/app/home/page";
 import Order from "./Order";
-export const metadata: Metadata = generateMetadata("Shopping Cart", "Manage your products in the shopping cart on Lay");
+export const metadata: Metadata = generateMetadata("Order", "Manage your products in the shopping cart on Lay");
 export default async function page() {
   let foods: Product[] | null = null;
   try {
