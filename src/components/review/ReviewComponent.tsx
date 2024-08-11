@@ -1,47 +1,49 @@
 import { RootState } from "@/redux/store";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
-// Define the Review type
+// Định nghĩa kiểu Review
 interface Review {
   id: number;
   content: string;
   author: string;
 }
 
-// Define the props for the ReviewsComponent
+// Định nghĩa props cho ReviewsComponent
 interface ReviewsComponentProps {
   reviews: Review[];
 }
 
-// Define the ReviewsComponent using React.FC with props type
+// Định nghĩa ReviewsComponent sử dụng React.FC với kiểu props
 const ReviewsComponent: React.FC<ReviewsComponentProps> = ({ reviews }) => {
   const [reviewInput, setReviewInput] = useState("");
   const [reviewsData, setReviewData] = useState<Review[]>(reviews);
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const { t } = useTranslation();
 
-  // Handle changes in the review input field
+  // Xử lý thay đổi trong trường nhập review
   const handleReviewInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setReviewInput(event.target.value);
   };
 
-  // Handle the review submission
+  // Xử lý việc gửi review
   const handleReviewSubmit = () => {
     if (reviewInput.trim() === "") return;
 
-    // Create a new review object
+    // Tạo một đối tượng review mới
     const newReview: Review = {
-      id: reviewsData.length + 1, // Generate a new ID
+      id: reviewsData.length + 1, // Tạo ID mới
       content: reviewInput,
-      author: currentUser?.name ?? "Anonymous", // Replace with actual author data if available
+      author: currentUser?.name ?? t("Anonymous"), // Thay thế bằng dữ liệu tác giả thực tế nếu có
     };
 
-    // Update the reviewsData state
+    // Cập nhật trạng thái reviewsData
     setReviewData((prevReviews) => [newReview, ...prevReviews]);
 
-    // Clear the input field after submission
+    // Xóa trường nhập sau khi gửi
     setReviewInput("");
   };
 
@@ -53,17 +55,17 @@ const ReviewsComponent: React.FC<ReviewsComponentProps> = ({ reviews }) => {
           value={reviewInput}
           onChange={handleReviewInputChange}
           className="border border-gray-100 rounded p-1 w-full"
-          placeholder="Write your review..."
+          placeholder={t("review.placeholder")}
         />
         <button
           onClick={handleReviewSubmit}
-          className=" bg-blue-500 w-[25%] text-white px-3 py-1 rounded hover:bg-blue-600"
+          className="bg-blue-500 w-[25%] text-white px-3 py-1 rounded hover:bg-blue-600"
         >
-          Add
+          {t("review.addButton")}
         </button>
       </div>
       {reviewsData.slice(0, 10).map((poster) => (
-        <div key={poster.id} className="p-2 bg-gray-100   w-full">
+        <div key={poster.id} className="p-2 bg-gray-100 w-full">
           <p>{poster.content}</p>
           <p className="text-sm text-gray-500">{poster.author}</p>
         </div>

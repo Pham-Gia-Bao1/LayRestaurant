@@ -6,12 +6,17 @@ import CreditCard from "../cards/CreditCard";
 import Momo from "../cards/Momo";
 import VNpay from "../cards/VNpay";
 import { PaymentOptionsProps } from "@/types";
+import { useTranslation } from "react-i18next";
+
 const PaymentOptions: React.FC<PaymentOptionsProps> = ({ setPaymentMethod }) => {
+  const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState("vnpay");
+
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     setPaymentMethod(option); // Update payment method in parent component
   };
+
   return (
     <div>
       <div className="flex justify-center items-center gap-2 p-6 bg-white rounded">
@@ -30,14 +35,14 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ setPaymentMethod }) => 
               selectedOption === "credit-card" ? "text-black" : "text-gray-400"
             }`}
           >
-            Credit Card
+            {t('payment_options.credit_card')}
           </p>
           <p
             className={`text-gray-600 text-xs ${
               selectedOption === "credit-card" ? "" : "text-gray-400"
             }`}
           >
-            Pay with credit card
+            {t('payment_options.pay_with_credit_card')}
           </p>
         </div>
         <div
@@ -52,14 +57,14 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ setPaymentMethod }) => 
               selectedOption === "momo" ? "text-black" : "text-gray-400"
             }`}
           >
-            MOMO
+            {t('payment_options.momo')}
           </p>
           <p
             className={`text-gray-600 text-xs ${
               selectedOption === "momo" ? "" : "text-gray-400"
             }`}
           >
-            Pay using MOMO
+            {t('payment_options.pay_using_momo')}
           </p>
         </div>
         <div
@@ -74,14 +79,14 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ setPaymentMethod }) => 
               selectedOption === "vnpay" ? "text-black" : "text-gray-400"
             }`}
           >
-            VNPay
+            {t('payment_options.vnpay')}
           </p>
           <p
             className={`text-gray-600 text-xs ${
               selectedOption === "vnpay" ? "" : "text-gray-400"
             }`}
           >
-            Pay using VNPay
+            {t('payment_options.pay_using_vnpay')}
           </p>
         </div>
       </div>
@@ -93,4 +98,5 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ setPaymentMethod }) => 
     </div>
   );
 };
+
 export default PaymentOptions;

@@ -2,6 +2,8 @@
 "use client";
 import Image, { StaticImageData } from 'next/image';
 import React, { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
+
 import RoomImage1 from "../../assets/images/rooms/RoomImage1.jpg";
 import RoomImage2 from "../../assets/images/rooms/RoomImage2.jpg";
 import RoomImage3 from "../../assets/images/rooms/RoomImage3.jpg";
@@ -77,6 +79,7 @@ const rooms: Room[] = [
 ];
 
 const BestRooms: React.FC = () => {
+  const { t } = useTranslation(); // Initialize useTranslation hook
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -96,7 +99,7 @@ const BestRooms: React.FC = () => {
 
   return (
     <div className="container p-8">
-      <h2 className="text-2xl font-bold mb-4 text-black">The best rooms</h2>
+      <h2 className="text-2xl font-bold mb-4 text-black">{t('best_rooms.title')}</h2>
       <div className="relative">
         <div
           ref={scrollRef}
@@ -114,7 +117,7 @@ const BestRooms: React.FC = () => {
               />
               <div className="p-4 absolute bottom-5 z-10">
                 <h3 className="text-lg font-semibold">{room.name}</h3>
-                <p className="text-gray-600">{room.destinations} Destinations</p>
+                <p className="text-gray-600">{room.destinations} {t('best_rooms.destination_text')}</p>
               </div>
             </div>
           ))}

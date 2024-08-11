@@ -48,7 +48,6 @@ import { updateProfile, updateProfileImage } from "@/api";
 import { useTranslation } from "react-i18next";
 const Profile: React.FC = () => {
   const { t } = useTranslation();
-
   const { cart, refreshCart, removeFromCart } = useCart();
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
@@ -338,7 +337,7 @@ const Profile: React.FC = () => {
               <div className="mb-6 box-flex-center flex-col">
                 <Avatar
                   src={imageUrl}
-                  alt={t('profile.avatarAlt')}  // Dịch văn bản
+                  alt={t('profile.avatarAlt')}
                   style={{ width: 100, height: 100, marginBottom: "16px" }}
                 />
                 <Upload
@@ -349,17 +348,17 @@ const Profile: React.FC = () => {
                     const isJpgOrPng =
                       file.type === "image/jpeg" || file.type === "image/png";
                     if (!isJpgOrPng) {
-                      antMessage.error(t('profile.uploadError'));  // Dịch văn bản
+                      antMessage.error(t('profile.uploadError'));
                     }
                     const isLt2M = file.size / 1024 / 1024 < 2;
                     if (!isLt2M) {
-                      antMessage.error(t('profile.sizeError'));  // Dịch văn bản
+                      antMessage.error(t('profile.sizeError'));
                     }
                     return isJpgOrPng && isLt2M;
                   }}
                 >
                   <Button className="py-3" type="primary">
-                    {t('profile.uploadAvatar')}  // Dịch văn bản trên nút
+                    {t('profile.uploadAvatar')}
                   </Button>
                 </Upload>
               </div>
@@ -369,18 +368,18 @@ const Profile: React.FC = () => {
             <div className="bg-white rounded-lg p-6">
               <div className="w-full grid sm:grid-cols-2 grid-cols-1 gap-5">
                 <div className="">
-                  <h2 className="text-xl font-bold mb-4">{t('profile.profileSectionTitle')}</h2>  // Dịch tiêu đề
+                  <h2 className="text-xl font-bold mb-4">{t('profile.profileSectionTitle')}</h2>
                   <p className="text-gray-700 mb-6">
-                    {t('profile.profileDescription')}  // Dịch mô tả
+                    {t('profile.profileDescription')}
                   </p>
                 </div>
                 <div className="flex justify-end gap-5 flex-wrap">
                   <Button className="py-3 box-flex-center w-full sm:w-auto">
-                    {t('profile.viewBookingRoomHistory')}  // Dịch văn bản trên nút
+                    {t('profile.viewBookingRoomHistory')}
                     <ArrowDropDownIcon />
                   </Button>
                   <Button className="py-3 box-flex-center w-full sm:w-auto">
-                    {t('profile.viewBookingFoodHistory')}  // Dịch văn bản trên nút
+                    {t('profile.viewBookingFoodHistory')}
                     <ArrowDropDownIcon />
                   </Button>
                 </div>
@@ -388,7 +387,7 @@ const Profile: React.FC = () => {
               <hr />
               <div className="w-full my-5 grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.username')}</h2>  // Dịch tiêu đề
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.username')}</h2>
                   <TextField
                     id="outlined-basic"
                     label={t('profile.usernameLabel')}  // Dịch nhãn
@@ -400,11 +399,11 @@ const Profile: React.FC = () => {
                     }
                   />
                   <p className="mt-2 text-gray-500">
-                    {t('profile.usernameNote')}  // Dịch chú thích
+                    {t('profile.usernameNote')}
                   </p>
                 </div>
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.email')}</h2>  // Dịch tiêu đề
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.email')}</h2>
                   <TextField
                     id="outlined-basic"
                     label={t('profile.emailLabel')}  // Dịch nhãn
@@ -416,13 +415,13 @@ const Profile: React.FC = () => {
                     }
                   />
                   <p className="mt-2 text-gray-500">
-                    {t('profile.emailNote')}  // Dịch chú thích
+                    {t('profile.emailNote')}
                   </p>
                 </div>
               </div>
               <div className="w-full my-5 grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.address')}</h2>  // Dịch tiêu đề
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.address')}</h2>
                   <TextField
                     id="outlined-basic"
                     label={t('profile.addressLabel')}  // Dịch nhãn
@@ -435,7 +434,7 @@ const Profile: React.FC = () => {
                   />
                 </div>
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.dob')}</h2>  // Dịch tiêu đề
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.dob')}</h2>
                   <TextField
                     id="outlined-basic"
                     label={t('profile.dobLabel')}  // Dịch nhãn
@@ -453,7 +452,7 @@ const Profile: React.FC = () => {
               </div>
               <div className="w-full my-5 grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.gender')}</h2>  // Dịch tiêu đề
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.gender')}</h2>
                   <Select
                     id="gender-select"
                     className={`w-full h-14 ${isUpdated ? "bg-gray-100" : ""}`}
@@ -468,7 +467,7 @@ const Profile: React.FC = () => {
                   </Select>
                 </div>
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.phone')}</h2>  // Dịch tiêu đề
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.phone')}</h2>
                   <TextField
                     id="outlined-basic"
                     label={t('profile.phoneLabel')}  // Dịch nhãn
@@ -491,13 +490,13 @@ const Profile: React.FC = () => {
                       type="primary"
                       onClick={handleSaveProfile}
                     >
-                      {t('profile.save')}  // Dịch văn bản trên nút
+                      {t('profile.save')}
                     </Button>
                     <Button
                       type="default"
                       onClick={() => setIsUpdated((prev) => !prev)}
                     >
-                      {t('profile.cancel')}  // Dịch văn bản trên nút
+                      {t('profile.cancel')}
                     </Button>
                   </div>
                 )}
@@ -506,26 +505,26 @@ const Profile: React.FC = () => {
                     type="primary"
                     onClick={() => setIsUpdated((pre) => !pre)}
                   >
-                    {t('profile.updateProfile')}  // Dịch văn bản trên nút
+                    {t('profile.updateProfile')}
                   </Button>
                 )}
                 <Button type="default" onClick={handleLogout}>
-                  {t('profile.logout')}  // Dịch văn bản trên nút
+                  {t('profile.logout')}
                 </Button>
               </div>
             </div>
             <div className="bg-white rounded-lg p-6 mt-6">
-              <h2 className="text-xl font-bold mb-4">{t('profile.bookingRoomHistory')}</h2>  // Dịch tiêu đề
+              <h2 className="text-xl font-bold mb-4">{t('profile.bookingRoomHistory')}</h2>
               <ul className="divide-y divide-gray-200">
                 {bookingsRoom.map((booking) => (
                   <li
                     key={booking.id}
                     className="py-4 flex flex-col items-start"
                   >
-                    <p>{t('profile.hotelName')}: Quỳnh Anh</p>  // Dịch văn bản
-                    <p>{t('profile.orderer')}: {currentUser?.name}</p>  // Dịch văn bản
-                    <p>{t('profile.orderRoomId')}: {booking.id}</p>  // Dịch văn bản
-                    <p>{t('profile.orderStatus')}: {booking.status}</p>  // Dịch văn bản
+                    <p>{t('profile.hotelName')}: Quỳnh Anh</p>
+                    <p>{t('profile.orderer')}: {currentUser?.name}</p>
+                    <p>{t('profile.orderRoomId')}: {booking.id}</p>
+                    <p>{t('profile.orderStatus')}: {booking.status}</p>
                     <p>
                       {t('profile.price')}:
                       {formatMoney(
@@ -534,7 +533,7 @@ const Profile: React.FC = () => {
                           : booking.price
                       )}
                     </p>
-                    <p>{t('profile.bookingDate')}: {formatDate(booking.created_at)}</p>  // Dịch văn bản
+                    <p>{t('profile.bookingDate')}: {formatDate(booking.created_at)}</p>
                     <button
                       onClick={() =>
                         handleToggleExpand(
@@ -546,8 +545,8 @@ const Profile: React.FC = () => {
                       className="text-blue-500 mt-2"
                     >
                       {expandedBooking === booking.id
-                        ? t('profile.viewLess')  // Dịch văn bản
-                        : t('profile.viewMore')}  // Dịch văn bản
+                        ? t('profile.viewLess')
+                        : t('profile.viewMore')}
                     </button>
                     {expandedBooking === booking.id && (
                       <div className="mt-4">
@@ -564,7 +563,7 @@ const Profile: React.FC = () => {
                             width={100}
                             height={100}
                             src={convertToStaticImport(roomDetail?.image1)}
-                            alt={t('profile.roomDetailAlt')}  // Dịch văn bản
+                            alt={t('profile.roomDetailAlt')}
                           />
                           <div>
                             <h4 className="font-bold text-lg">
@@ -573,7 +572,6 @@ const Profile: React.FC = () => {
                             <p>{roomDetail?.description}</p>
                           </div>
                         </div>
-                        {/* Thêm chi tiết khác nếu cần */}
                       </div>
                     )}
                   </li>
@@ -581,17 +579,17 @@ const Profile: React.FC = () => {
               </ul>
             </div>
             <div className="bg-white rounded-lg p-6 mt-6">
-              <h2 className="text-xl font-bold mb-4">{t('profile.bookingFoodHistory')}</h2>  // Dịch tiêu đề
+              <h2 className="text-xl font-bold mb-4">{t('profile.bookingFoodHistory')}</h2>
               <ul className="divide-y divide-gray-200">
                 {bookingsFood.map((booking) => (
                   <li
                     key={booking.id}
                     className="py-4 flex flex-col items-start"
                   >
-                    <p>{t('profile.orderFoodId')}: {booking.id}</p>  // Dịch văn bản
-                    <p>{t('profile.orderStatus')}: {booking.status}</p>  // Dịch văn bản
-                    <p>{t('profile.totalAmount')}: {formatMoney(booking.total_amount)}</p>  // Dịch văn bản
-                    <p>{t('profile.orderDate')}: {formatDate(booking.order_date)}</p>  // Dịch văn bản
+                    <p>{t('profile.orderFoodId')}: {booking.id}</p>
+                    <p>{t('profile.orderStatus')}: {booking.status}</p>
+                    <p>{t('profile.totalAmount')}: {formatMoney(booking.total_amount)}</p>
+                    <p>{t('profile.orderDate')}: {formatDate(booking.order_date)}</p>
                     <button
                       onClick={() =>
                         handleToggleExpand(
@@ -603,8 +601,8 @@ const Profile: React.FC = () => {
                       className="text-blue-500 mt-2"
                     >
                       {expandedBooking === booking.id
-                        ? t('profile.viewLess')  // Dịch văn bản
-                        : t('profile.viewMore')}  // Dịch văn bản
+                        ? t('profile.viewLess')
+                        : t('profile.viewMore')}
                     </button>
                     {expandedBooking === booking.id && (
                       <div className="mt-4">

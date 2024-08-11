@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import RoomDetail from './app/rooms/[productId]/page';
 const resources = {
   en: {
     translation: {
@@ -177,8 +178,110 @@ const resources = {
         "orderFoodId": "Order Food ID",
         "totalAmount": "Total Amount",
         "deliveryAddress": "Delivery Address",
-        "paymentMethod": "Payment Method"
+        "paymentMethod": "Payment Method",
+        "status": "booked"
       },
+      productDetail:
+      {
+        "favorite": "Favorite",
+        "open": "Open",
+        "price": "Price",
+        "add_to_cart": "Add to cart",
+        "buy_now": "Buy now",
+        "address": "Quỳnh Anh Restaurant » Village 2 Thanh Sen » Phúc Trạch » Bố Trạch » Quảng Bình"
+      },
+      review: {
+        "placeholder": "Write your review...",
+        "addButton": "Add",
+        "authorAnonymous": "Anonymous"
+      },
+      reviews: {
+        "review1": "The food was absolutely delicious and perfectly seasoned.",
+        "review2": "The staff was friendly and attentive. Highly recommend!",
+        "review3": "The food was okay, but the atmosphere was great.",
+        "review4": "The food was cold and not as expected.",
+        "review5": "One of the best meals I've had in a long time."
+      },
+      baskets: {
+        basketTitle: "My Basket",
+        basketButton: "Go to the shopping cart"
+      },
+      "order": {
+        "shopping_cart": "Shopping Cart",
+        "product": "Product",
+        "type": "Type",
+        "quantity": "Quantity",
+        "price": "Price",
+        "action": "Action",
+        "empty_order_list": "Order list is empty."
+      },
+      "checkout": {
+        "sub_total": "Sub Total",
+        "delivery_fee": "Delivery Fee",
+        "total_payment": "Total Payment",
+        "products": "products",
+        "buy": "Buy"
+      },
+      "payment_options": {
+        "credit_card": "Credit Card",
+        "pay_with_credit_card": "Pay with credit card",
+        "momo": "MOMO",
+        "pay_using_momo": "Pay using MOMO",
+        "vnpay": "VNPay",
+        "pay_using_vnpay": "Pay using VNPay"
+      },
+      "address_form": {
+        "new_address": "New Address",
+        "add_delivery_address": "To place an order, please add a delivery address.",
+        "full_name": "Full Name",
+        "phone_number": "Phone Number",
+        "province": "Province",
+        "district": "District",
+        "specific_address": "Specific Address",
+        "save_address": "Save this address",
+        "full_name_required": "Full Name is required",
+        "phone_number_required": "Phone Number is required",
+        "specific_address_required": "Specific Address is required",
+        "province_required": "Province is required",
+        "district_required": "District is required"
+      },
+      "order_summary": {
+        "title": "Order Summary",
+        "items": "Items ({count})",
+        "shipping_and_handling": "Shipping and handling:",
+        "order_total": "Order Total",
+        "place_order": "Place Order",
+        "agree_to": "By placing your order, you agree to our",
+        "privacy_policy": "Privacy policy",
+        "and": "and",
+        "conditions_of_use": "Conditions of use"
+      },
+      "search_box": {
+        "name_label": "Name",
+        "price_label": "Price",
+        "capacity_label": "Capacity",
+        "room_type_label": "Room Type",
+        "select_room_type": "Select Room Type",
+        "single": "Single",
+        "multiple": "Multiple",
+        "double": "Double",
+        "search_button": "Search"
+      },
+      "best_rooms": {
+        "title": "The Best Rooms",
+        "destination_text": "Destinations"
+      },
+      "popular_rooms": {
+        "title": "Most Popular Rooms",
+        "button_label": "All rooms",
+        "not_found_message": "Not found"
+      },
+      roomDetails: {
+        "welcome": "Welcome",
+        "book_now": "Book now",
+        "room_description": "Description"
+      }
+
 
 
 
@@ -362,8 +465,109 @@ const resources = {
         "orderFoodId": "ID đơn hàng món ăn",
         "totalAmount": "Tổng số tiền",
         "deliveryAddress": "Địa chỉ giao hàng",
-        "paymentMethod": "Phương thức thanh toán"
+        "paymentMethod": "Phương thức thanh toán",
+        "status": "Đã đặt"
+      },
+      productDetail: {
+        "favorite": "Yêu thích",
+        "open": "Mở cửa",
+        "price": "Giá",
+        "add_to_cart": "Thêm vào giỏ hàng",
+        "buy_now": "Mua ngay",
+        "address": "Nhà hàng Quỳnh Anh » Thôn 2 Thanh Sen » Phúc Trạch » Bố Trạch » Quảng Bình"
+      },
+      "review": {
+        "placeholder": "Viết đánh giá về sản phẩm",
+        "addButton": "Thêm",
+        "authorAnonymous": "Ẩn danh"
+      },
+      reviews: {
+        "review1": "Món ăn cực kỳ ngon và được nêm nếm hoàn hảo.",
+        "review2": "Nhân viên thân thiện và chu đáo. Rất đáng để thử!",
+        "review3": "Món ăn ổn, nhưng không khí ở đây thì tuyệt vời.",
+        "review4": "Món ăn lạnh và không như mong đợi.",
+        "review5": "Một trong những bữa ăn ngon nhất tôi đã có trong thời gian dài."
+      },
+      baskets: {
+        basketTitle: "Giỏ hàng của tôi",
+        basketButton: "Đi đến giỏ hàng"
+      },
+      "order": {
+        "shopping_cart": "Giỏ hàng",
+        "product": "Sản phẩm",
+        "type": "Loại",
+        "quantity": "Số lượng",
+        "price": "Giá",
+        "action": "Hành động",
+        "empty_order_list": "Danh sách đơn hàng trống."
+      },
+      "checkout": {
+        "sub_total": "Tổng phụ",
+        "delivery_fee": "Phí giao hàng",
+        "total_payment": "Tổng thanh toán",
+        "products": "sản phẩm",
+        "buy": "Mua"
+      },
+      "payment_options": {
+        "credit_card": "Thẻ tín dụng",
+        "pay_with_credit_card": "Thanh toán bằng thẻ tín dụng",
+        "momo": "MOMO",
+        "pay_using_momo": "Thanh toán bằng MOMO",
+        "vnpay": "VNPay",
+        "pay_using_vnpay": "Thanh toán bằng VNPay"
+      },
+      "address_form": {
+        "new_address": "Địa chỉ mới",
+        "add_delivery_address": "Để đặt hàng, vui lòng thêm địa chỉ giao hàng.",
+        "full_name": "Họ và tên",
+        "phone_number": "Số điện thoại",
+        "province": "Tỉnh",
+        "district": "Quận/Huyện",
+        "specific_address": "Địa chỉ cụ thể",
+        "save_address": "Lưu địa chỉ này",
+        "full_name_required": "Họ và tên là bắt buộc",
+        "phone_number_required": "Số điện thoại là bắt buộc",
+        "specific_address_required": "Địa chỉ cụ thể là bắt buộc",
+        "province_required": "Tỉnh là bắt buộc",
+        "district_required": "Quận/Huyện là bắt buộc"
+      },
+      "order_summary": {
+        "title": "Tóm tắt đơn hàng",
+        "items": "Số lượng sản phẩm ({count})",
+        "shipping_and_handling": "Chi phí vận chuyển và xử lý:",
+        "order_total": "Tổng đơn hàng",
+        "place_order": "Đặt hàng",
+        "agree_to": "Bằng cách đặt hàng, bạn đồng ý với",
+        "privacy_policy": "Chính sách bảo mật",
+        "and": "và",
+        "conditions_of_use": "Điều kiện sử dụng"
+      },
+      "search_box": {
+        "name_label": "Tên",
+        "price_label": "Giá",
+        "capacity_label": "Sức chứa",
+        "room_type_label": "Loại phòng",
+        "select_room_type": "Chọn loại phòng",
+        "single": "Đơn",
+        "multiple": "Nhiều",
+        "double": "Đôi",
+        "search_button": "Tìm kiếm"
+      },
+      "best_rooms": {
+        "title": "Những phòng tốt nhất",
+        "destination_text": "Điểm đến"
+      },
+      "popular_rooms": {
+        "title": "Những phòng phổ biến nhất",
+        "button_label": "Tất cả các phòng",
+        "not_found_message": "Không tìm thấy"
+      },
+      roomDetails: {
+        "welcome": "Chào mừng",
+        "book_now": "Đặt ngay",
+        "room_description": "Mô tả"
       }
+
     },
   },
 };

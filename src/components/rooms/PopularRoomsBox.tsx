@@ -8,10 +8,13 @@ import NotFOundImage from "../../assets/images/NotFoundProductImage.webp";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { setRooms } from "@/redux/roomsSlice";
-import RoomCard from "./RoomCart";
+
 import Image from "next/image";
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
+import RoomCard from "./RoomCart";
 
 export default function PopularRoomsBox() {
+  const { t } = useTranslation(); // Initialize useTranslation hook
   const dispatch = useDispatch<AppDispatch>();
   const rooms = useSelector((state: RootState) => state.rooms.rooms);
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -35,13 +38,13 @@ export default function PopularRoomsBox() {
     getRooms();
   }, [dispatch]);
 
-  const buttonLabels = ["All rooms"];
+  const buttonLabels = [t('popular_rooms.button_label')];
 
   return (
     <div className="py-12 p-4 w-full">
       <div className="flex flex-wrap items-center justify-between p-5 mb-4">
         <h2 className="text-2xl font-bold text-black w-full md:w-2/3 mb-4 md:mb-0">
-          Most Popular Rooms
+          {t('popular_rooms.title')}
         </h2>
         <div className="w-full md:w-1/3 flex justify-between sm:justify-end gap-2">
           {buttonLabels.map((label) => (
@@ -49,7 +52,7 @@ export default function PopularRoomsBox() {
               onClick={handleClickAll}
               key={label}
               type="button"
-              className="box-shadow w-56 px-4 py-2 text-black hover:bg-gay-100 rounded"
+              className="box-shadow w-56 px-4 py-2 text-black hover:bg-gray-100 rounded"
             >
               {label}
             </button>
@@ -67,7 +70,7 @@ export default function PopularRoomsBox() {
               width={500}
               height={500}
               src={NotFOundImage}
-              alt="Not found"
+              alt={t('popular_rooms.not_found_message')}
             />
           </div>
         ) : (

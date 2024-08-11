@@ -3,6 +3,7 @@ import Link from "next/link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { CartItem } from "@/types";
 import { useCart } from "../context/CartContext";
+import { useTranslation } from "react-i18next";
 
 interface CartFooterProps {
   setCartVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,6 +12,7 @@ interface CartFooterProps {
 const CartFooter: React.FC<CartFooterProps> = ({ setCartVisible }) => {
   const { cart } = useCart();
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const { t } = useTranslation();
 
   const uniqueCart = cart.reduce<CartItem[]>((acc, current) => {
     const x = acc.find((item) => item.name === current.name);
@@ -44,7 +46,7 @@ const CartFooter: React.FC<CartFooterProps> = ({ setCartVisible }) => {
             <ArrowForwardIcon className="text-green-600" />
           </span>
           <p className="text-2xl w-full text-white font-semibold">
-            Go to Shopping Cart
+            {t("baskets.basketButton")}
           </p>
         </button>
       </Link>

@@ -8,11 +8,14 @@ import { useCartPay } from "../context/CartPayContext";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { setOrderData } from "@/redux/order/orderDataRoomSlice";
+import { useTranslation } from "react-i18next"; // Import useTranslation
+
 const OrderSummary = ({
   paymentMethod,
   isExitedAddress,
   totalItems,
 }: OrderSummaryProps) => {
+  const { t } = useTranslation(); // Use useTranslation hook
   const { getTotalPrice, selectedItems } = useCartPay();
   const shippingCost = 20;
   const itemTotal = getTotalPrice();
@@ -45,7 +48,6 @@ const OrderSummary = ({
       sessionStorage.setItem("orderDetails", JSON.stringify(orderDetails));
     }
 
-
     try {
       const paymentResponse = await makePayment(orderTotal * 1000);
       console.log(paymentResponse);
@@ -59,21 +61,22 @@ const OrderSummary = ({
       console.error("Error making payment:", error);
     }
   };
+
   return (
     <div className="text-black w-full mx-auto bg-white p-6 rounded">
       <div className="mt-4 pt-4">
-        <h2 className="text-lg font-bold">Order Summary</h2>
+        <h2 className="text-lg font-bold">{t('order_summary.title')}</h2>
         <div className="flex justify-between mt-2">
-          <span>Items ({totalItems})</span>
+          <span>{t('order_summary.items', { count: totalItems })}</span>
           <span>{formatMoney(itemTotal)}</span>
         </div>
         <div className="flex justify-between mt-2">
-          <span>Shipping and handling:</span>
+          <span>{t('order_summary.shipping_and_handling')}</span>
           <span>{formatMoney(shippingCost)}</span>
         </div>
       </div>
       <div className="mt-4 border-t pt-4 flex justify-between">
-        <span className="font-bold">Order Total:</span>
+        <span className="font-bold">{t('order_summary.order_total')}:</span>
         <span className="font-bold">{formatMoney(orderTotal)} vnd</span>
       </div>
       <button
@@ -85,20 +88,21 @@ const OrderSummary = ({
         }`}
         disabled={!isOrderEnabled}
       >
-        Place Order
+        {t('order_summary.place_order')}
       </button>
       <p className="text-sm text-center mt-1">
-        By placing your order, you agree to our company
+        {t('order_summary.agree_to')}{" "}
         <a href="#" className="text-blue-600 underline">
-          Privacy policy
-        </a>
-        addNewDeliveryAddress
+          {t('order_summary.privacy_policy')}
+        </a>{" "}
+        {t('order_summary.and')}{" "}
         <a href="#" className="text-blue-600 underline">
-          Conditions of use
+          {t('order_summary.conditions_of_use')}
         </a>
         .
       </p>
     </div>
   );
 };
+
 export default OrderSummary;
