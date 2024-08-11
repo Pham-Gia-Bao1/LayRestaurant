@@ -19,35 +19,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { posters } from "@/app/foods/FoodMenu";
 import ReviewsComponent from "@/components/review/ReviewComponent";
 import Footer from "@/components/layout/Footer";
-const reviews = [
-  {
-    id: 1,
-    content: "The food was absolutely delicious and perfectly seasoned.",
-    author: "John Doe",
-  },
-  {
-    id: 2,
-    content: "The staff was friendly and attentive. Highly recommend!",
-    author: "Jane Smith",
-  },
-  {
-    id: 3,
-    content: "The food was okay, but the atmosphere was great.",
-    author: "Alice Johnson",
-  },
-  {
-    id: 4,
-    content: "The food was cold and not as expected.",
-    author: "Bob Brown",
-  },
-  {
-    id: 5,
-    content: "One of the best meals I've had in a long time.",
-    author: "Carol Davis",
-  }
-];
+import { useTranslation } from "react-i18next";
 
 const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
+  const { t } = useTranslation();
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const token = useSelector((state: RootState) => state.auth.token);
   const [product, setProduct] = useState<Product | null>(null);
@@ -64,6 +39,33 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
   const cartIconRef = useRef<HTMLDivElement | null>(null);
   const miniImageRef = useRef<HTMLDivElement | null>(null);
 
+  const reviews = [
+    {
+      id: 1,
+      content: t("reviews.review1"),
+      author: "John Doe",
+    },
+    {
+      id: 2,
+      content: t("reviews.review2"),
+      author: "Jane Smith",
+    },
+    {
+      id: 3,
+      content: t("reviews.review3"),
+      author: "Alice Johnson",
+    },
+    {
+      id: 4,
+      content: t("reviews.review4"),
+      author: "Bob Brown",
+    },
+    {
+      id: 5,
+      content: t("reviews.review5"),
+      author: "Carol Davis",
+    },
+  ];
   useEffect(() => {
     const productId = params.productId ?? 1;
     if (isNaN(productId)) {
@@ -196,26 +198,25 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
               </div>
               <div className="flex flex-col">
                 <nav className="text-sm sm:text-base text-gray-600 mb-2 bg-gray-100">
-                  Quỳnh Anh Restaurant » Village 2 Thanh Sen » Phúc Trạch » Bố
-                  Trạch » Quảng Bình
+                  {t("productDetail.address")}
                 </nav>
                 <h3 className="text-3xl truncate-description-2-line sm:text-4xl font-bold text-blue-900 mb-2">
                   {product.name}
                 </h3>
                 <div className="flex items-center justify-center w-32 mb-4 bg-red-600">
                   <ThumbUpIcon fontSize="small" className="text-white mr-2" />
-                  <p className="text-white">Favorite</p>
+                  <p className="text-white">{t("productDetail.favorite")}</p>
                 </div>
                 <p className="text-gray-700 truncate-description text-base sm:text-lg mb-2">
                   {product.description}
                 </p>
                 <div className="flex items-center mb-1">
                   <span className="text-green-600 font-semibold mr-2">
-                    Open
+                    {t("productDetail.open")}
                   </span>
-                  <p className="text-lg sm:text-xl text-gray-500">
+                  <span className="text-green-600 font-semibold mr-2">
                     09:00 - 22:00
-                  </p>
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <Rate allowHalf value={rating} className="text-lg" />
@@ -223,9 +224,9 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                     {rating} / 5
                   </span>
                 </div>
-                <p className="text-lg sm:text-xl font-semibold text-green-600 mt-2">
-                  Price: {formatMoney(price)}
-                </p>
+                <span className="text-green-600 font-semibold mr-2">
+                  {t("productDetail.price")}: {formatMoney(price)}
+                </span>
                 <div className="flex gap-4 mt-4">
                   <button
                     onClick={decrementQuantity}
@@ -254,13 +255,13 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                     ref={buttonRef}
                   >
                     <ShoppingCartIcon />
-                    Add to cart
+                    {t("productDetail.add_to_cart")}
                   </button>
                   <button
                     onClick={handleBuy}
                     className="bg-green-500 w-1/2 sm:w-auto  text-white px-4 py-4 rounded-md hover:bg-green-600"
                   >
-                    Buy now
+                    {t("productDetail.buy_now")}
                   </button>
                 </div>
                 <div
@@ -288,7 +289,7 @@ const ProductDetail: React.FC<PropductParameters> = ({ params }) => {
                   />
                 </div>
               </div>
-              <div className=" scrollbar-hide flex items-start gap-2 w-full justify-between z-30 overflow-x-scroll sm:overflow-hidden">
+              <div className="scrollbar-hide flex items-start gap-2 w-full justify-between z-30 overflow-x-scroll sm:overflow-hidden">
                 {posters.map((poster) => (
                   <Image
                     key={poster.id}

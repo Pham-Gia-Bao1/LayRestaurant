@@ -6,9 +6,7 @@ import ProductForm from "@/components/form/Form";
 import ProductCard from "@/components/cart/ProductCard";
 import axios from "axios";
 import { API_URL, getUrlUpdateUserImg } from "@/utils";
-import { Skeleton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import Loading from "@/components/loading/Loading";
 import SkeletonCard from "@/components/skeleton/Skeleton";
 import { SearchBar } from "@/components/search/SearchBar";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -19,13 +17,14 @@ import debounce from "lodash.debounce";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { DataType, Product } from "@/types";
+import { useTranslation } from "react-i18next";
 interface SettingsProps {
   listFoods: Product[]; // This prop is an array of Product
 }
 const Settings: React.FC<SettingsProps> = ({ listFoods }) => {
   const token = useSelector((state: RootState) => state.auth.token);
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
-  const router = useRouter();
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const [foods, setFoods] = useState<Product[]>(listFoods);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +45,8 @@ const Settings: React.FC<SettingsProps> = ({ listFoods }) => {
   const fetchingMoreData = useRef<boolean>(false);
   const [isMaxPage, setIsMaxPage] = useState<boolean>(false);
   const [activeButton, setActiveButton] = useState<string | null>(null);
-  const [isProductImageUploaded, setIsProductImageUploaded] = useState<boolean>(false);
+  const [isProductImageUploaded, setIsProductImageUploaded] =
+    useState<boolean>(false);
   const [data, setData] = useState<DataType>({
     name: "",
     price: 0,
@@ -270,7 +270,7 @@ const Settings: React.FC<SettingsProps> = ({ listFoods }) => {
               className={`${theme} flex items-center justify-between py-6 sm:py-16 flex-wrap`}
             >
               <span className="sm:text-2xl sm:ml-3 font-bold text-black ">
-                Order.uk Popular Categories
+                {t('settings.title')}
               </span>
             </div>
             <div className="flex items-center w-full sm:w-1/2 mb-5 sm:mb-0">
@@ -286,7 +286,7 @@ const Settings: React.FC<SettingsProps> = ({ listFoods }) => {
                 }`}
                 onClick={handleClickAll}
               >
-                All
+                {t('settings.buttonAll')}
               </button>
               {uniqueTypes.map((type, index) => (
                 <button

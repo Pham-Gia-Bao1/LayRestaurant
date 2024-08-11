@@ -11,6 +11,8 @@ import { isString } from "lodash";
 import Settings from "@/components/pages/Settings";
 import { useAuth } from "@/components/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
+
 const Order: React.FC<SettingsProps> = ({ listFoods }) => {
   const { cart } = useCart();
   const { theme } = useTheme();
@@ -19,6 +21,8 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
   const [selectAll, setSelectAll] = useState(false); // State to track select all
   const { isAuthenticated } = useAuth();
   const router = useRouter();
+  const { t } = useTranslation();
+
   const handleSelectProduct = (id: number | string, selected: boolean) => {
     const product = cart.find((item) => item.id === id);
     if (product) {
@@ -31,6 +35,7 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
       }
     }
   };
+
   const handleCheckAll = () => {
     setSelectAll(!selectAll);
     if (!selectAll) {
@@ -47,6 +52,7 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
       });
     }
   };
+
   const uniqueCart = cart.reduce<CartItem[]>((acc, current) => {
     const x = acc.find((item) => item.name === current.name);
     if (!x) {
@@ -56,11 +62,13 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
     }
   }, []);
   uniqueCart.sort((a, b) => a.id - b.id);
+
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/login");
     }
   });
+
   return (
     <main>
       <div className="flex-1  w-full h-full">
@@ -70,7 +78,7 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
               <div className="grid grid-cols-1 gap-3 relative">
                 <div className="mt-2">
                   <div className="text-black text-3xl font-bold">
-                    <h1 className="m-3">Shopping Cart</h1>
+                    <h1 className="m-3">{t('order.shopping_cart')}</h1>
                   </div>
                   <div className="flex items-center py-2 box-shadow mb-5 font-bold text-black border-gray-200 justify-between mx-2 p-4">
                     <div className="flex items-center h-14 w-1/12">
@@ -83,23 +91,23 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
                       </h1>
                     </div>
                     <div className="flex items-center h-14 w-3/12">
-                      <h1>Product</h1>
+                      <h1>{t('order.product')}</h1>
                     </div>
                     <div className="items-center w-3/12 hidden sm:flex">
-                      <h1>Type</h1>
+                      <h1>{t('order.type')}</h1>
                     </div>
                     <div className="flex items-center w-3/12 ml-5 pl-1 sm:ml-0">
-                      <h1>Quantity</h1>
+                      <h1>{t('order.quantity')}</h1>
                     </div>
                     <div className="flex items-center w-3/12">
-                      <h1>Price</h1>
+                      <h1>{t('order.price')}</h1>
                     </div>
                     <div className=" items-center w-1/12 hidden sm:flex">
-                      <h1>Action</h1>
+                      <h1>{t('order.action')}</h1>
                     </div>
                   </div>
                   {uniqueCart.length === 0 ? (
-                    <p>Order list is empty.</p>
+                    <p>{t('order.empty_order_list')}</p>
                   ) : (
                     uniqueCart.map((product) => (
                       <ProductCardCheckOut
@@ -119,7 +127,7 @@ const Order: React.FC<SettingsProps> = ({ listFoods }) => {
                         onSelect={handleSelectProduct}
                         checked={
                           selectAll ||
-                          selectedItems.some((item : any) => item.id === product.id)
+                          selectedItems.some((item: any) => item.id === product.id)
                         }
                       />
                     ))

@@ -16,41 +16,44 @@ import Settings from "@/components/pages/Settings";
 import CartShop from "@/components/cart/CartShop";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useEffect, useRef } from "react";
-const CardRestaurant = [
-  {
-    imageUrl: FirstFoodImage,
-    discount: "-40%",
-    title: "Chef Burgers London",
-    restaurant: "Restaurant",
-  },
-  {
-    imageUrl: SecondFoodImage,
-    discount: "-20%",
-    title: "Grand Ai Cafe London",
-    restaurant: "Restaurant",
-  },
-  {
-    imageUrl: ThirthFoodImage,
-    discount: "-17%",
-    title: "Butterbrot Cafe London",
-    restaurant: "Restaurant",
-  },
-  {
-    imageUrl: ForFoodImage,
-    discount: "-17%",
-    title: "Butterbrot Cafe London",
-    restaurant: "Restaurant",
-  },
-];
+
 import { Product } from "@/types";
+import { useTranslation } from "react-i18next";
 
 // ];
 interface SettingsProps {
   listFoods: Product[]; // This prop is an array of Product
 }
 const Home: React.FC<SettingsProps> = ({ listFoods }) => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const CardRestaurant = [
+    {
+      imageUrl: FirstFoodImage,
+      discount: "-40%",
+      title: t("restaurants.chefBurgersLondon"),
+      restaurant: t("restaurants.restaurantLabel"),
+    },
+    {
+      imageUrl: SecondFoodImage,
+      discount: "-20%",
+      title: t("restaurants.grandAiCafeLondon"),
+      restaurant: t("restaurants.restaurantLabel"),
+    },
+    {
+      imageUrl: ThirthFoodImage,
+      discount: "-17%",
+      title: t("restaurants.butterbrotCafeLondon"),
+      restaurant: t("restaurants.restaurantLabel"),
+    },
+    {
+      imageUrl: ForFoodImage,
+      discount: "-17%",
+      title: t("restaurants.butterbrotCafeLondon"),
+      restaurant: t("restaurants.restaurantLabel"),
+    },
+  ];
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (scrollRef.current) {
@@ -94,18 +97,27 @@ const Home: React.FC<SettingsProps> = ({ listFoods }) => {
                 alt="Top Icon"
                 className="bg-pink-400 p-2 rounded-full"
               />
-              <p className="text-sm text-gray-500">People Trust us</p>
+              <p className="text-sm text-gray-500">{t("home.peopleTrustUs")}</p>
             </div>
-            <h1 data-aos="fade-right" className="text-5xl text-center sm:text-start  sm:text-7xl font-bold text-gray-800">
-              We are <span className="text-red-500">Serious</span> For{" "}
-              <span className="text-yellow-500">Food & Delivery.</span>
+            <h1
+              data-aos="fade-right"
+              className="text-5xl text-center sm:text-start  sm:text-7xl font-bold text-gray-800"
+            >
+              {t("home.weAreSerious")}{" "}
+              <span className="text-red-500">Serious</span>{" "}
+              {t("home.foodDelivery")}
             </h1>
-            <p data-aos="fade-right" className="text-lg text-center sm:text-start sm:text-xl text-gray-600">
-              Best cooks and best delivery guys all at your service. Hot tasty
-              food will reach you in 60 minutes.
+            <p
+              data-aos="fade-right"
+              className="text-lg text-center sm:text-start sm:text-xl text-gray-600"
+            >
+              {t("home.bestCooks")}
             </p>
           </div>
-          <div className="w-full relative flex items-center justify-center sm:w-1/2" data-aos="fade-left">
+          <div
+            className="w-full relative flex items-center justify-center sm:w-1/2"
+            data-aos="fade-left"
+          >
             <Image
               width={300}
               height={300}
@@ -125,14 +137,22 @@ const Home: React.FC<SettingsProps> = ({ listFoods }) => {
         <div
           className={`${theme} flex items-center justify-between p-4 w-full sm:text-2xl`}
         >
-          <div className="flex items-center space-x-2 sm:text-2xl" data-aos="fade-up">
-            <span className="sm:text-2xl font-bold text-black" data-aos="fade-up">
-              Up to <span className="text-blue-600">-40%</span> 🎉 Order.uk
-              exclusive deals
+          <div
+            className="flex items-center space-x-2 sm:text-2xl"
+            data-aos="fade-up"
+          >
+            <span
+              className="sm:text-2xl font-bold text-black"
+              data-aos="fade-up"
+            >
+              {t("home.exclusiveDeals")}
             </span>
           </div>
           <div className="flex items-center space-x-4" data-aos="fade-up">
-            <button data-aos="fade-up" className="text-orange-600 border border-orange-600 px-4 py-1 rounded-full flex items-center">
+            <button
+              data-aos="fade-up"
+              className="text-orange-600 border border-orange-600 px-4 py-1 rounded-full flex items-center"
+            >
               <ArrowRightAltIcon />
             </button>
           </div>
@@ -152,14 +172,16 @@ const Home: React.FC<SettingsProps> = ({ listFoods }) => {
           ))}
         </div>
         <div
-          className={`${theme} sm:gap-3 gap-5 flex items-center justify-between w-full flex-wrap`}>
+          className={`${theme} sm:gap-3 gap-5 flex items-center justify-between w-full flex-wrap`}
+        >
           <Settings listFoods={listFoods} />
         </div>
         <div
-          className={`${theme} flex items-center justify-between  py-12 p-4 w-full flex-wrap`}>
+          className={`${theme} flex items-center justify-between  py-12 p-4 w-full flex-wrap`}
+        >
           <div className="flex items-center">
             <span className="text-2xl font-bold text-black ">
-              Popular Restaurants
+              {t("home.popularRestaurants")}
             </span>
           </div>
         </div>
@@ -182,5 +204,5 @@ const Home: React.FC<SettingsProps> = ({ listFoods }) => {
       </div>
     </main>
   );
-}
+};
 export default Home;

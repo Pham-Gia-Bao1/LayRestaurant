@@ -145,29 +145,26 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
                 <h3 className="text-3xl font-bold">{room.name}</h3>
                 <div className="flex items-center justify-center">
                   <span>Active</span>
-                  <span
-                    className={`w-5 h-5 inline-block ml-2 rounded-full bg-green-500
-                  `}
-                  ></span>
+                  <span className="w-5 h-5 inline-block ml-2 rounded-full bg-green-500"></span>
                 </div>
               </div>
               <div className="mb-5 w-full flex justify-between">
                 <p className="sm:text-lg">{room.description}</p>
               </div>
               <div className="mb-5 w-full flex justify-between items-center bg-gray-200 p-3 rounded">
-                <div className="bg-gray-200 sm:w-[20%] w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
+                <div className="bg-gray-200 sm:w-[20%] w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500">
                   <WifiIcon />
                   <p>Wifi</p>
                 </div>
-                <div className="bg-gray-200 sm:w-[20%]  w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
+                <div className="bg-gray-200 sm:w-[20%] w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500">
                   <LocalLaundryServiceIcon />
                   <p>Laundry</p>
                 </div>
-                <div className="bg-gray-200 sm:w-[20%]  w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
+                <div className="bg-gray-200 sm:w-[20%] w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500">
                   <AirIcon />
                   <p>AC</p>
                 </div>
-                <div className="bg-gray-200 sm:w-[20%] w-[10%]  h-12 rounded flex flex-col p-7 items-center justify-center text-green-500 ">
+                <div className="bg-gray-200 sm:w-[20%] w-[10%] h-12 rounded flex flex-col p-7 items-center justify-center text-green-500">
                   <WineBarIcon />
                   <p>Wine</p>
                 </div>
@@ -230,7 +227,7 @@ const RoomDetail: React.FC<PropductParameters> = ({ params }) => {
                 </div>
                 <button
                   onClick={handleBuyClick}
-                  className={`px-5 py-5 rounded w-full m-3 sm:w-auto  ${
+                  className={`px-5 py-5 rounded w-full m-3 sm:w-auto ${
                     days > 0
                       ? "bg-green-500 text-white cursor-pointer hover:bg-green-600"
                       : "bg-gray-300 text-gray-600 cursor-not-allowed"

@@ -6,8 +6,10 @@ import { addNewDeliveryAddress } from "@/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { AddressFormProps, FormDataAddNewAddress } from "@/types";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
+  const { t } = useTranslation(); // Use useTranslation hook
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const [formData, setFormData] = useState<FormDataAddNewAddress>({
     name: currentUser?.name || "",
@@ -57,11 +59,11 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
 
     // Validate inputs
     const newErrors = {
-      name: formData.name ? "" : "Full Name is required",
-      phone: formData.phone ? "" : "Phone Number is required",
-      address: formData.address ? "" : "Specific Address is required",
-      province: province ? "" : "Province is required",
-      district: district ? "" : "District is required",
+      name: formData.name ? "" : t('address_form.full_name_required'),
+      phone: formData.phone ? "" : t('address_form.phone_number_required'),
+      address: formData.address ? "" : t('address_form.specific_address_required'),
+      province: province ? "" : t('address_form.province_required'),
+      district: district ? "" : t('address_form.district_required'),
     };
 
     setErrors(newErrors);
@@ -69,7 +71,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
     // Check if there are errors
     const hasErrors = Object.values(newErrors).some(error => error !== "");
     if (hasErrors) {
-      message.error("Please fix the errors before submitting.");
+      message.error(t('address_form.add_delivery_address'));
       return;
     }
 
@@ -77,11 +79,11 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
     try {
       const fullAddress = `${formData.address}, ${district}, ${province}`;
       await addNewDeliveryAddress({ ...formData, address: fullAddress });
-      message.success("Successfully added new delivery address");
+      message.success(t('address_form.save_address'));
       setExitedAddress(true);
     } catch (error) {
       console.log("Error:", error);
-      message.error("An error occurred while adding the address.");
+      message.error(t('address_form.add_delivery_address'));
     } finally {
       setLoading(false);
     }
@@ -89,16 +91,16 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
 
   return (
     <form onSubmit={handleSubmit} className="w-full mx-auto bg-white p-8 rounded">
-      <h2 className="text-lg font-semibold mb-4">New Address</h2>
-      <p className="text-sm mb-4">To place an order, please add a delivery address.</p>
+      <h2 className="text-lg font-semibold mb-4">{t('address_form.new_address')}</h2>
+      <p className="text-sm mb-4">{t('address_form.add_delivery_address')}</p>
 
       <div className="mb-4">
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Full Name</label>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700">{t('address_form.full_name')}</label>
         <input
           type="text"
           id="name"
           name="name"
-          placeholder="Full Name"
+          placeholder={t('address_form.full_name')}
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           className="w-full px-4 py-2 border rounded"
@@ -107,11 +109,11 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
+        <label htmlFor="phone" className="block text-sm font-medium text-gray-700">{t('address_form.phone_number')}</label>
         <PhoneInput
           id="phone"
           name="phone"
-          placeholder="Phone Number"
+          placeholder={t('address_form.phone_number')}
           value={formData.phone}
           onChange={(value) => setFormData({ ...formData, phone: value || "" })}
           className="w-full px-4 py-2 border rounded"
@@ -120,7 +122,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="province" className="block text-sm font-medium text-gray-700">Province</label>
+        <label htmlFor="province" className="block text-sm font-medium text-gray-700">{t('address_form.province')}</label>
         <Select
           id="province"
           value={province}
@@ -138,7 +140,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="district" className="block text-sm font-medium text-gray-700">District</label>
+        <label htmlFor="district" className="block text-sm font-medium text-gray-700">{t('address_form.district')}</label>
         <Select
           id="district"
           value={district}
@@ -156,11 +158,11 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="address" className="block text-sm font-medium text-gray-700">Specific Address</label>
+        <label htmlFor="address" className="block text-sm font-medium text-gray-700">{t('address_form.specific_address')}</label>
         <textarea
           id="address"
           name="address"
-          placeholder="Specific Address"
+          placeholder={t('address_form.specific_address')}
           value={formData.address}
           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
           className="w-full px-4 py-2 bg-gray-200 rounded"
@@ -171,7 +173,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ setExitedAddress }) => {
 
       <div className="mb-4 flex gap-3 justify-end">
         <Button type="primary" className="w-full h-full sm:w-auto p-3" htmlType="submit" loading={loading}>
-          Save this address
+          {t('address_form.save_address')}
         </Button>
       </div>
     </form>

@@ -1,3 +1,5 @@
+
+"use client"
 import Image from "next/image";
 import React from "react";
 import TopRoomImage from "../../assets/images/rooms/TopImageRoom.png";
@@ -9,13 +11,17 @@ import SearchBox from "@/components/rooms/SearchBox";
 import BestRooms from "@/components/rooms/BestRooms";
 import PopularRoomsBox from "@/components/rooms/PopularRoomsBox";
 import Footer from "@/components/layout/Footer";
-import Visiter from "../../assets/images/rooms/Visiters.png"
+import Visiter from "../../assets/images/rooms/Visiters.png";
+import { useTranslation } from 'react-i18next';
+
 export default function RoomPage() {
+  const { t } = useTranslation();
+
   return (
     <main className="flex min-h-screen flex-col w-[100%] items-center justify-between md:container md:mx-auto">
       <div className="flex-1 p-4 sm:p-8 w-full ">
-        <div className=" relative w-full sm:h-[80vh] h-auto flex flex-row-reverse gap-3 p-5 justify-between items-center flex-wrap sm:flex-nowrap">
-          <div className=" flex flex-col justify-center items-center sm:items-start w-full sm:w-[50%]  space-y-4 sm:pl-10 ">
+        <div className="relative w-full sm:h-[80vh] h-auto flex flex-row-reverse gap-3 p-5 justify-between items-center flex-wrap sm:flex-nowrap">
+          <div className="flex flex-col justify-center items-center sm:items-start w-full sm:w-[50%] space-y-4 sm:pl-10 ">
             <Image
               width={100}
               height={100}
@@ -38,14 +44,13 @@ export default function RoomPage() {
                 alt="Top Icon"
                 className="bg-pink-400 p-2 rounded-full"
               />
-              <p className="text-sm text-gray-500">People Trust us</p>
+              <p className="text-sm text-gray-500">{t('home.trustText')}</p>
             </div>
-            <h1 className="text-3xl text-center sm:text-start  sm:text-6xl font-bold text-red-800">
-              Discover The Best Restaurant and Hotel In Quảng Bình
+            <h1 className="text-3xl text-center sm:text-start sm:text-6xl font-bold text-red-800">
+              {t('home.discoverTitle')}
             </h1>
             <p className="text-lg text-center sm:text-start sm:text-xl text-gray-600">
-              Best cooks and best delivery guys all at your service. Hot tasty
-              food will reach you in 60 minutes.
+              {t('home.discoverDescription')}
               <FlightTakeoffIcon className="text-yellow-400" />
             </p>
           </div>
@@ -71,7 +76,7 @@ export default function RoomPage() {
         </div>
         <div className={`flex items-center justify-between w-full flex-wrap mt-10`}>
           <div className="flex items-center w-full justify-center">
-             <Image width={1500} height={1000} src={Visiter} alt="Lay restaurant visiters" />
+            <Image width={1500} height={1000} src={Visiter} alt={t('home.visitorsAlt')} />
           </div>
         </div>
         <div><Footer /></div>

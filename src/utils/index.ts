@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Metadata } from "next";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import iconPath from '../assets/images/rooms/LayResLogo.png';
