@@ -18,7 +18,7 @@ export const metadata = generateMetadata(
 
 const AboutUs: React.FC = () => {
   return (
-    <div className="container mx-auto p-6 text-gray-900 bg-gray-100">
+    <div className="container mx-auto p-6 text-gray-900 bg-white">
 
       <section className="mb-16">
         <h2 className="text-3xl font-bold text-teal-700 mb-6 text-center">Restaurant Introduction</h2>
