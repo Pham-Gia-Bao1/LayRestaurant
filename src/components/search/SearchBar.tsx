@@ -5,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import { search } from "@/api"; // Ensure this path is correct
 import { Product } from "@/types";
+import { useTranslation } from "react-i18next";
 
 interface SearchBarProps {
   setProducts: (products: Product[]) => void;
@@ -13,6 +14,7 @@ interface SearchBarProps {
 export const SearchBar: React.FC<SearchBarProps> = ({ setProducts }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [expanded, setExpanded] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const handleSearch = async () => {
     try {
@@ -44,7 +46,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ setProducts }) => {
     >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search..."
+        placeholder={t('search.placeholder')}
         inputProps={{ "aria-label": "search" }}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { fetchFoodsData, getAllType, getFoodsByType, search } from "@/api";
 import { CartItem, Product } from "@/types";
 import MainLogo from "@/components/logo/MainLogo";
@@ -18,10 +18,10 @@ import axios from "axios";
 import { useCart } from "@/components/context/CartContext";
 import { Button, message } from "antd";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Footer from "@/components/layout/Footer";
 import { isString } from "lodash";
 import { PosterOptions } from "../../types";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 export const posters: PosterOptions[] = [
   {
@@ -48,6 +48,7 @@ export const posters: PosterOptions[] = [
 
 const FoodMenu: React.FC = () => {
   const router = useRouter();
+  const { t } = useTranslation(); // Use the useTranslation hook
   const [foods, setFoods] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -99,10 +100,10 @@ const FoodMenu: React.FC = () => {
         };
         addToCart(cartItem);
       } else {
-        message.error("You need to login first");
+        message.error(t("messages.loginFirst")); // Using translation here
       }
     } catch (error) {
-      message.error("Error adding to cart");
+      message.error(t("messages.addToCartError")); // Using translation here
     } finally {
       setLoadingButtons((prev) => ({ ...prev, [productId]: false }));
       refreshCart();
@@ -193,7 +194,7 @@ const FoodMenu: React.FC = () => {
               className={` flex justify-between box-shadow px-4 py-2 w-full active:bg-orange-500 hover:bg-gray-100 overflow-hidden rounded `}
               onClick={handleClickAll}
             >
-              <p>All Products</p>
+              <p>{t("foodMenu.allProducts")}</p> {/* Using translation here */}
               <ArrowRightIcon />
             </button>
             {uniqueTypes.map((type, index) => (
@@ -215,7 +216,7 @@ const FoodMenu: React.FC = () => {
               type="text"
               value={searchTerm}
               onChange={handleChange}
-              placeholder="Tìm món"
+              placeholder={t("foodMenu.searchPlaceholder")} // Using translation here
               className="border rounded p-2 w-full"
             />
           </div>
@@ -263,7 +264,7 @@ const FoodMenu: React.FC = () => {
                     className="custom-button text-white"
                     loading={loadingButtons[food.id] || false}
                   >
-                    Add to Cart
+                    {t("foodMenu.addToCartButton")} {/* Using translation here */}
                   </Button>
                 </div>
               ))

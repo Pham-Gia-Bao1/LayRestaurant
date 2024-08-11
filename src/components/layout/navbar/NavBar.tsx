@@ -3,7 +3,7 @@ import { Avatar } from "@mui/material";
 import { Button, Menu, Dropdown, Badge } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import { useTheme } from "next-themes";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { getUserProfile } from "@/api";
 import Link from "next/link";
@@ -14,45 +14,47 @@ import { ExitToApp } from "@mui/icons-material";
 import { setCurrentUser } from "@/redux/userSlice";
 import OrderSide from "@/components/order/OrderSide";
 import { useCart } from "@/components/context/CartContext";
+import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 
-const ModeToggle: React.FC = () => {
-  const { theme, setTheme } = useTheme();
-  const [currentTheme, setCurrentTheme] = useState<string>(
-    () => theme || "dark"
-  );
+const MutipleLanguages = () => {
+  const { t } = useTranslation();
+  const [currentLang, setCurrentLang] = useState(i18n.language);
 
-  useEffect(() => {
-    if (theme) {
-      setCurrentTheme(theme);
-    }
-  }, [theme]);
-
-  const handleMenuClick = ({ key }: { key: string }) => {
-    setTheme(key);
-    setCurrentTheme(key);
+  const handleMenuClick = (e : any) => {
+    const lang = e.key;
+    i18n.changeLanguage(lang);
+    setCurrentLang(lang);
   };
 
   const menu = (
-    <Menu onClick={handleMenuClick} selectedKeys={[currentTheme]}>
-      <Menu.Item key="light">Light</Menu.Item>
-      <Menu.Item key="dark">Dark</Menu.Item>
+    <Menu onClick={handleMenuClick} selectedKeys={[currentLang]}>
+      <Menu.Item key="vi">{t('language.vietnamese')}</Menu.Item>
+      <Menu.Item key="en">{t('language.english')}</Menu.Item>
     </Menu>
   );
 
   return (
     <Dropdown className="mr-5" overlay={menu} trigger={["click"]}>
-      <Button icon={<SettingOutlined />} size="large"></Button>
+      <Button icon={<SettingOutlined />} size="large">
+        {currentLang.toUpperCase()}
+      </Button>
     </Dropdown>
   );
 };
 
 const privateLinks = [
-  { title: "Messages" },
-  { title: "About" },
+  { title: "messages" },
+  { title: "about" },
 ];
-const publicLinks = [{ title: "Home" }, { title: "Rooms" }, { title: "Foods" }];
+const publicLinks = [
+  { title: "home" },
+  { title: "rooms" },
+  { title: "foods" },
+];
 
 const NavBar: React.FC = () => {
+  const { t } = useTranslation();
   const { cart } = useCart();
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const router = useRouter();
@@ -153,7 +155,7 @@ const NavBar: React.FC = () => {
                   : "hover:bg-orange-500 hover:text-white"
               }`}
             >
-              {link.title}
+              {t(`nav.${link.title.toLowerCase()}`)}
             </p>
           </Link>
         ))}
@@ -171,7 +173,7 @@ const NavBar: React.FC = () => {
                   : "hover:bg-orange-500 hover:text-white"
               }`}
             >
-              {link.title}
+              {t(`nav.${link.title.toLowerCase()}`)}
             </p>
           </Link>
         ))}
@@ -182,7 +184,7 @@ const NavBar: React.FC = () => {
             <Badge count={count}>
               <OrderSide />
             </Badge>
-            {/* <ModeToggle /> */}
+            <MutipleLanguages />
             <Link href="/profile" passHref className="text-lg text-white bg-gray-900 px-4 py-2 flex justify-center items-center rounded-full">
               <Avatar
                 className="mr-4"
@@ -198,11 +200,11 @@ const NavBar: React.FC = () => {
           <div className="flex justify-between gap-2">
             <div className="text-lg text-white bg-gray-900 px-4 py-2 rounded-full">
               <Link href="/login" passHref>
-                Login
+                {t('nav.login')}
               </Link>
               /
               <Link href="/register" passHref>
-                SignUp
+                {t('nav.signup')}
               </Link>
             </div>
           </div>

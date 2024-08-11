@@ -45,7 +45,10 @@ import { Select } from "antd";
 const { Option } = Select;
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { updateProfile, updateProfileImage } from "@/api";
+import { useTranslation } from "react-i18next";
 const Profile: React.FC = () => {
+  const { t } = useTranslation();
+
   const { cart, refreshCart, removeFromCart } = useCart();
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
@@ -332,10 +335,10 @@ const Profile: React.FC = () => {
         <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
           <div className="col-span-4 sm:col-span-3">
             <div className="bg-white rounded-lg p-6">
-              <div className="mb-6  box-flex-center flex-col ">
+              <div className="mb-6 box-flex-center flex-col">
                 <Avatar
                   src={imageUrl}
-                  alt="Profile"
+                  alt={t('profile.avatarAlt')}  // Dịch văn bản
                   style={{ width: 100, height: 100, marginBottom: "16px" }}
                 />
                 <Upload
@@ -346,17 +349,17 @@ const Profile: React.FC = () => {
                     const isJpgOrPng =
                       file.type === "image/jpeg" || file.type === "image/png";
                     if (!isJpgOrPng) {
-                      antMessage.error("You can only upload JPG/PNG file!");
+                      antMessage.error(t('profile.uploadError'));  // Dịch văn bản
                     }
                     const isLt2M = file.size / 1024 / 1024 < 2;
                     if (!isLt2M) {
-                      antMessage.error("Image must smaller than 2MB!");
+                      antMessage.error(t('profile.sizeError'));  // Dịch văn bản
                     }
                     return isJpgOrPng && isLt2M;
                   }}
                 >
                   <Button className="py-3" type="primary">
-                    Upload you avatar
+                    {t('profile.uploadAvatar')}  // Dịch văn bản trên nút
                   </Button>
                 </Upload>
               </div>
@@ -364,31 +367,31 @@ const Profile: React.FC = () => {
           </div>
           <div className="col-span-4 sm:col-span-9 gap-8">
             <div className="bg-white rounded-lg p-6">
-              <div className="w-full  grid sm:grid-cols-2 grid-cols-1 gap-5">
+              <div className="w-full grid sm:grid-cols-2 grid-cols-1 gap-5">
                 <div className="">
-                  <h2 className="text-xl font-bold mb-4">Profile</h2>
+                  <h2 className="text-xl font-bold mb-4">{t('profile.profileSectionTitle')}</h2>  // Dịch tiêu đề
                   <p className="text-gray-700 mb-6">
-                    This is how others will see you on the site.
+                    {t('profile.profileDescription')}  // Dịch mô tả
                   </p>
                 </div>
-                <div className=" flex justify-end gap-5 flex-wrap">
+                <div className="flex justify-end gap-5 flex-wrap">
                   <Button className="py-3 box-flex-center w-full sm:w-auto">
-                    View booking room history
+                    {t('profile.viewBookingRoomHistory')}  // Dịch văn bản trên nút
                     <ArrowDropDownIcon />
                   </Button>
                   <Button className="py-3 box-flex-center w-full sm:w-auto">
-                    View booking food history
+                    {t('profile.viewBookingFoodHistory')}  // Dịch văn bản trên nút
                     <ArrowDropDownIcon />
                   </Button>
                 </div>
               </div>
               <hr />
-              <div className="w-full my-5  grid gap-5 sm:grid-cols-2 grid-cols-1">
+              <div className="w-full my-5 grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">Username</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.username')}</h2>  // Dịch tiêu đề
                   <TextField
                     id="outlined-basic"
-                    label="Your name"
+                    label={t('profile.usernameLabel')}  // Dịch nhãn
                     variant="outlined"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
                     value={name}
@@ -397,15 +400,14 @@ const Profile: React.FC = () => {
                     }
                   />
                   <p className="mt-2 text-gray-500">
-                    This is your public display name. It can be your real name
-                    or a pseudonym. You can only change this once every 30 days.
+                    {t('profile.usernameNote')}  // Dịch chú thích
                   </p>
                 </div>
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">Email</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.email')}</h2>  // Dịch tiêu đề
                   <TextField
                     id="outlined-basic"
-                    label="Your Email"
+                    label={t('profile.emailLabel')}  // Dịch nhãn
                     variant="outlined"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
                     value={email}
@@ -414,17 +416,16 @@ const Profile: React.FC = () => {
                     }
                   />
                   <p className="mt-2 text-gray-500">
-                    Enter an email address where you can be contacted. You can
-                    choose whether you want to show it to others.
+                    {t('profile.emailNote')}  // Dịch chú thích
                   </p>
                 </div>
               </div>
-              <div className="w-full my-5  grid gap-5 sm:grid-cols-2 grid-cols-1">
+              <div className="w-full my-5 grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">Address</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.address')}</h2>  // Dịch tiêu đề
                   <TextField
                     id="outlined-basic"
-                    label="Your Address"
+                    label={t('profile.addressLabel')}  // Dịch nhãn
                     variant="outlined"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
                     value={address}
@@ -434,10 +435,10 @@ const Profile: React.FC = () => {
                   />
                 </div>
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">Date of Birth</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.dob')}</h2>  // Dịch tiêu đề
                   <TextField
                     id="outlined-basic"
-                    label="Your Date of Birth"
+                    label={t('profile.dobLabel')}  // Dịch nhãn
                     variant="outlined"
                     type="date"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
@@ -450,9 +451,9 @@ const Profile: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="w-full my-5  grid gap-5 sm:grid-cols-2 grid-cols-1">
+              <div className="w-full my-5 grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">Gender</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.gender')}</h2>  // Dịch tiêu đề
                   <Select
                     id="gender-select"
                     className={`w-full h-14 ${isUpdated ? "bg-gray-100" : ""}`}
@@ -461,16 +462,16 @@ const Profile: React.FC = () => {
                       isUpdated ? (value) => setGender(value) : undefined
                     }
                   >
-                    <Option value="male">Male</Option>
-                    <Option value="female">Female</Option>
-                    <Option value="other">Other</Option>
+                    <Option value="male">{t('profile.male')}</Option>
+                    <Option value="female">{t('profile.female')}</Option>
+                    <Option value="other">{t('profile.other')}</Option>
                   </Select>
                 </div>
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">Phone Number</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.phone')}</h2>  // Dịch tiêu đề
                   <TextField
                     id="outlined-basic"
-                    label="Your Phone Number"
+                    label={t('profile.phoneLabel')}  // Dịch nhãn
                     variant="outlined"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
                     value={phoneNumber}
@@ -482,7 +483,7 @@ const Profile: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="w-full my-10 flex justify-between ">
+              <div className="w-full my-10 flex justify-between">
                 {isUpdated && (
                   <div className="flex justify-center items-center gap-5">
                     <Button
@@ -490,13 +491,13 @@ const Profile: React.FC = () => {
                       type="primary"
                       onClick={handleSaveProfile}
                     >
-                      Save
+                      {t('profile.save')}  // Dịch văn bản trên nút
                     </Button>
                     <Button
                       type="default"
                       onClick={() => setIsUpdated((prev) => !prev)}
                     >
-                      Cancel
+                      {t('profile.cancel')}  // Dịch văn bản trên nút
                     </Button>
                   </div>
                 )}
@@ -505,35 +506,35 @@ const Profile: React.FC = () => {
                     type="primary"
                     onClick={() => setIsUpdated((pre) => !pre)}
                   >
-                    Update profile
+                    {t('profile.updateProfile')}  // Dịch văn bản trên nút
                   </Button>
                 )}
                 <Button type="default" onClick={handleLogout}>
-                  Log out
+                  {t('profile.logout')}  // Dịch văn bản trên nút
                 </Button>
               </div>
             </div>
             <div className="bg-white rounded-lg p-6 mt-6">
-              <h2 className="text-xl font-bold mb-4">Booking Room History</h2>
+              <h2 className="text-xl font-bold mb-4">{t('profile.bookingRoomHistory')}</h2>  // Dịch tiêu đề
               <ul className="divide-y divide-gray-200">
                 {bookingsRoom.map((booking) => (
                   <li
                     key={booking.id}
                     className="py-4 flex flex-col items-start"
                   >
-                    <p>Hotel name: Quỳnh Anh</p>
-                    <p>Orderer: {currentUser?.name}</p>
-                    <p>Order Room ID: {booking.id}</p>
-                    <p>Order Status: {booking.status}</p>
+                    <p>{t('profile.hotelName')}: Quỳnh Anh</p>  // Dịch văn bản
+                    <p>{t('profile.orderer')}: {currentUser?.name}</p>  // Dịch văn bản
+                    <p>{t('profile.orderRoomId')}: {booking.id}</p>  // Dịch văn bản
+                    <p>{t('profile.orderStatus')}: {booking.status}</p>  // Dịch văn bản
                     <p>
-                      Price:
+                      {t('profile.price')}:
                       {formatMoney(
                         isString(booking.price)
                           ? parseInt(booking.price)
                           : booking.price
                       )}
                     </p>
-                    <p>Booking Date: {formatDate(booking.created_at)}</p>
+                    <p>{t('profile.bookingDate')}: {formatDate(booking.created_at)}</p>  // Dịch văn bản
                     <button
                       onClick={() =>
                         handleToggleExpand(
@@ -545,17 +546,17 @@ const Profile: React.FC = () => {
                       className="text-blue-500 mt-2"
                     >
                       {expandedBooking === booking.id
-                        ? "View Less"
-                        : "View More"}
+                        ? t('profile.viewLess')  // Dịch văn bản
+                        : t('profile.viewMore')}  // Dịch văn bản
                     </button>
                     {expandedBooking === booking.id && (
                       <div className="mt-4">
                         <p>
-                          <strong>Check-in Date:</strong>
+                          <strong>{t('profile.checkInDate')}:</strong>
                           {formatDate(booking.check_in_date)}
                         </p>
                         <p>
-                          <strong>Check-out Date:</strong>
+                          <strong>{t('profile.checkOutDate')}:</strong>
                           {formatDate(booking.check_out_date)}
                         </p>
                         <div className="bg-gray-100 p-3 mt-2 rounded y-2 w-full flex items-start justify-between gap-2 flex-wrap sm:flex-nowrap">
@@ -563,7 +564,7 @@ const Profile: React.FC = () => {
                             width={100}
                             height={100}
                             src={convertToStaticImport(roomDetail?.image1)}
-                            alt="room datailed"
+                            alt={t('profile.roomDetailAlt')}  // Dịch văn bản
                           />
                           <div>
                             <h4 className="font-bold text-lg">
@@ -572,7 +573,7 @@ const Profile: React.FC = () => {
                             <p>{roomDetail?.description}</p>
                           </div>
                         </div>
-                        {/* Add more details here as needed */}
+                        {/* Thêm chi tiết khác nếu cần */}
                       </div>
                     )}
                   </li>
@@ -580,17 +581,17 @@ const Profile: React.FC = () => {
               </ul>
             </div>
             <div className="bg-white rounded-lg p-6 mt-6">
-              <h2 className="text-xl font-bold mb-4">Booking Food History</h2>
-              <ul className="divide-y divide-gray-200 ">
+              <h2 className="text-xl font-bold mb-4">{t('profile.bookingFoodHistory')}</h2>  // Dịch tiêu đề
+              <ul className="divide-y divide-gray-200">
                 {bookingsFood.map((booking) => (
                   <li
                     key={booking.id}
                     className="py-4 flex flex-col items-start"
                   >
-                    <p>Order Food ID: {booking.id}</p>
-                    <p>Order Status: {booking.status}</p>
-                    <p>Total Amount: {formatMoney(booking.total_amount)}</p>
-                    <p>Order Date: {formatDate(booking.order_date)}</p>
+                    <p>{t('profile.orderFoodId')}: {booking.id}</p>  // Dịch văn bản
+                    <p>{t('profile.orderStatus')}: {booking.status}</p>  // Dịch văn bản
+                    <p>{t('profile.totalAmount')}: {formatMoney(booking.total_amount)}</p>  // Dịch văn bản
+                    <p>{t('profile.orderDate')}: {formatDate(booking.order_date)}</p>  // Dịch văn bản
                     <button
                       onClick={() =>
                         handleToggleExpand(
@@ -602,20 +603,19 @@ const Profile: React.FC = () => {
                       className="text-blue-500 mt-2"
                     >
                       {expandedBooking === booking.id
-                        ? "View Less"
-                        : "View More"}
+                        ? t('profile.viewLess')  // Dịch văn bản
+                        : t('profile.viewMore')}  // Dịch văn bản
                     </button>
                     {expandedBooking === booking.id && (
                       <div className="mt-4">
                         <p>
-                          <strong>Delivery Address:</strong>
+                          <strong>{t('profile.deliveryAddress')}:</strong>
                           {booking.delivery_address}
                         </p>
                         <p>
-                          <strong>Payment Method:</strong>
+                          <strong>{t('profile.paymentMethod')}:</strong>
                           {booking.payment_method}
                         </p>
-                        {/* Add more details here as needed */}
                       </div>
                     )}
                   </li>
