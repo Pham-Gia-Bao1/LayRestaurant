@@ -20,17 +20,18 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  // const { data: session } = useSession();
-  // useEffect(() => {
-  //   if (session && session.accessToken) {
-  //     // Clear any existing session before redirecting
-  //     dispatch(setToken(session.accessToken)); // saving the access token in Redux
-  //     setStorage("__token__", session.accessToken);
-  //     sessionStorage.removeItem("accessToken");
-  //     sessionStorage.clear();
-  //     router.push("/");
-  //   }
-  // }, [session, dispatch, router]);
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (session && session.accessToken) {
+      // Clear any existing session before redirecting
+      dispatch(setToken(session.accessToken)); // saving the access token in Redux
+      setStorage("__token__", session.accessToken);
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.clear();
+      message.success('Login successful');
+      router.push("/");
+    }
+  }, [session, dispatch, router]);
 
   useEffect(() => {
     const fetchData = async () => {

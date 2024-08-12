@@ -14,26 +14,23 @@ import { ExitToApp } from "@mui/icons-material";
 import { setCurrentUser } from "@/redux/userSlice";
 import OrderSide from "@/components/order/OrderSide";
 import { useCart } from "@/components/context/CartContext";
-import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
-
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
+import { signOut } from "next-auth/react";
 const MutipleLanguages = () => {
   const { t } = useTranslation();
   const [currentLang, setCurrentLang] = useState(i18n.language);
-
-  const handleMenuClick = (e : any) => {
+  const handleMenuClick = (e: any) => {
     const lang = e.key;
     i18n.changeLanguage(lang);
     setCurrentLang(lang);
   };
-
   const menu = (
     <Menu onClick={handleMenuClick} selectedKeys={[currentLang]}>
-      <Menu.Item key="vi">{t('language.vietnamese')}</Menu.Item>
-      <Menu.Item key="en">{t('language.english')}</Menu.Item>
+      <Menu.Item key="vi">{t("language.vietnamese")}</Menu.Item>
+      <Menu.Item key="en">{t("language.english")}</Menu.Item>
     </Menu>
   );
-
   return (
     <Dropdown className="mr-5" overlay={menu} trigger={["click"]}>
       <Button icon={<SettingOutlined />} size="large">
@@ -42,17 +39,8 @@ const MutipleLanguages = () => {
     </Dropdown>
   );
 };
-
-const privateLinks = [
-  { title: "messages" },
-  { title: "about" },
-];
-const publicLinks = [
-  { title: "home" },
-  { title: "rooms" },
-  { title: "foods" },
-];
-
+const privateLinks = [{ title: "messages" }, { title: "about" }];
+const publicLinks = [{ title: "home" }, { title: "rooms" }, { title: "foods" }];
 const NavBar: React.FC = () => {
   const { t } = useTranslation();
   const { cart } = useCart();
@@ -67,15 +55,12 @@ const NavBar: React.FC = () => {
   const [tokenLocalStorage, setTokenLocalStorage] = useState<string | null>(
     null
   );
-
   useEffect(() => {
     setTokenLocalStorage(localStorage.getItem("__token__"));
   }, []);
-
   const token = tokenRedux || tokenLocalStorage;
   const messages = useSelector((state: RootState) => state.messages.messages);
   const [activeLink, setActiveLink] = useState<string>("");
-
   const uniqueCart = useMemo(() => {
     return cart.reduce((acc: any[], current: any) => {
       const item = acc.find((i) => i.name === current.name);
@@ -85,13 +70,10 @@ const NavBar: React.FC = () => {
       return acc;
     }, []);
   }, [cart]);
-
   const [count, setCount] = useState<number>(uniqueCart.length);
-
   useEffect(() => {
     setCount(uniqueCart.length);
   }, [uniqueCart]);
-
   useEffect(() => {
     if (token) {
       try {
@@ -109,38 +91,39 @@ const NavBar: React.FC = () => {
       setIsLogin(false);
     }
   }, [token]);
-
   useEffect(() => {
     if (userInfo?.sub) {
       getUserProfile()
         .then((data) => {
           setUserProfile(data);
           dispatch(setCurrentUser(data));
-          if(currentUser !== data){
+          if (currentUser !== data) {
             setUserProfile(currentUser);
           }
         })
         .catch((error) => console.error("Error getting user profile:", error));
     }
   }, [userInfo, dispatch]);
-
   useEffect(() => {
     setUserProfile(currentUser);
-  },[currentUser])
-
-  const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("__token__");
-    }
-    setIsLogin(false);
-    dispatch(clearToken());
-    router.push("/login");
-  };
-
+  }, [currentUser]);
   const handleLinkClick = (title: string) => {
     setActiveLink(title.toLowerCase());
   };
-
+  const handleLogoutAndRedirect = async () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("__token__");
+    }
+    try {
+      await signOut({ redirect: false });
+      dispatch(clearToken());
+    } catch (error) {
+      console.error("Error logging out:", error);
+    } finally {
+      setIsLogin(false);
+      router.push("/login");
+    }
+  };
   return (
     <nav className="flex flex-col md:flex-row items-center justify-between p-4 w-full">
       <div></div>
@@ -185,7 +168,11 @@ const NavBar: React.FC = () => {
               <OrderSide />
             </Badge>
             <MutipleLanguages />
-            <Link href="/profile" passHref className="text-lg text-white bg-gray-900 px-4 py-2 flex justify-center items-center rounded-full">
+            <Link
+              href="/profile"
+              passHref
+              className="text-lg text-white bg-gray-900 px-4 py-2 flex justify-center items-center rounded-full"
+            >
               <Avatar
                 className="mr-4"
                 alt="User Avatar"
@@ -194,17 +181,13 @@ const NavBar: React.FC = () => {
               />
               <p>{userProfile.name}</p>
             </Link>
-
           </div>
         ) : (
           <div className="flex justify-between gap-2">
-            <div className="text-lg text-white bg-gray-900 px-4 py-2 rounded-full">
-              <Link href="/login" passHref>
-                {t('nav.login')}
-              </Link>
-              /
+            <div className="text-lg flex text-white bg-gray-900 px-4 py-2 rounded-full">
+              <p className="cursor-pointer block" onClick={handleLogoutAndRedirect}>{t("nav.login")}</p>/
               <Link href="/register" passHref>
-                {t('nav.signup')}
+                {t("nav.signup")}
               </Link>
             </div>
           </div>
@@ -213,5 +196,4 @@ const NavBar: React.FC = () => {
     </nav>
   );
 };
-
 export default NavBar;
