@@ -25,6 +25,7 @@ import { setToken } from "@/redux/authSlice";
 import { setStorage } from "@/utils";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
+import { message } from "antd";
 
 // ];
 interface SettingsProps {
@@ -44,7 +45,7 @@ const Home: React.FC<SettingsProps> = ({ listFoods }) => {
       setStorage("__token__", session.accessToken);
       sessionStorage.removeItem("accessToken");
       sessionStorage.clear();
-      router.push("/");
+      message.success("Login successful");
     }
   }, [session, dispatch, router]);
   const CardRestaurant = [
