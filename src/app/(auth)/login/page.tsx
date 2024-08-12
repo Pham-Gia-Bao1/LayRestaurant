@@ -28,7 +28,6 @@ const LoginPage: React.FC = () => {
       setStorage("__token__", session.accessToken);
       sessionStorage.removeItem("accessToken");
       sessionStorage.clear();
-      message.success('Login successful');
       router.push("/");
     }
   }, [session, dispatch, router]);
