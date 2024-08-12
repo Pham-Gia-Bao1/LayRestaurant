@@ -23,30 +23,30 @@ const LoginPage: React.FC = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [checkSession, setCheckSession] = useState<Session | null>(session);
-  useEffect(() => {
-    const clearSessionAndRedirect = async () => {
-      if (session && session.accessToken && checkSession) {
-        // Save the access token in Redux
-        dispatch(setToken(session.accessToken));
-        setStorage("__token__", session.accessToken);
+  // useEffect(() => {
+  //   const clearSessionAndRedirect = async () => {
+  //     if (session && session.accessToken && checkSession) {
+  //       // Save the access token in Redux
+  //       dispatch(setToken(session.accessToken));
+  //       setStorage("__token__", session.accessToken);
 
-        // Clear session storage
-        sessionStorage.removeItem("accessToken");
-        sessionStorage.clear();
+  //       // Clear session storage
+  //       sessionStorage.removeItem("accessToken");
+  //       sessionStorage.clear();
 
-        // Sign out the session in NextAuth
-        await signOut({ redirect: false }); // Đăng xuất mà không redirect ngay lập tức
+  //       // Sign out the session in NextAuth
+  //       await signOut({ redirect: false }); // Đăng xuất mà không redirect ngay lập tức
 
-        // Ensure session is cleared before redirecting
-        await new Promise((resolve) => setTimeout(resolve, 100)); // Delay 100ms
+  //       // Ensure session is cleared before redirecting
+  //       await new Promise((resolve) => setTimeout(resolve, 100)); // Delay 100ms
 
-        // Redirect to home page
-        router.push("/");
-      }
-    };
+  //       // Redirect to home page
+  //       router.push("/");
+  //     }
+  //   };
 
-    clearSessionAndRedirect();
-  }, [session, dispatch, router]);
+  //   clearSessionAndRedirect();
+  // }, [session, dispatch, router]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,6 +109,7 @@ const LoginPage: React.FC = () => {
       console.log("Sign in result:", result); // In ra toàn bộ đối tượng
       if (result) {
         setLoading(false);
+        router.push('/')
       }
     } catch (error) {
       console.error("Error during sign in:", error);

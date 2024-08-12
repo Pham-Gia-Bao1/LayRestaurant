@@ -57,9 +57,12 @@ const RegisterPage: React.FC = () => {
     }
   };
   const handleSignInWithGoogle = async () => {
+    setLoading(true);
     try {
       const result = await signIn("google", { redirect: false });
       console.log("Sign in result:", result); // In ra toàn bộ đối tượng
+      setLoading(false);
+      router.push('/');
     } catch (error) {
       console.error("Error during sign in:", error);
     }
