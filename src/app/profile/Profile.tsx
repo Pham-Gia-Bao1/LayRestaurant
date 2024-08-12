@@ -269,13 +269,14 @@ const Profile: React.FC = () => {
     }
   };
   const handleLogout = async () => {
-    router.push("/login");
     try {
       signOut();
       dispatch(clearToken());
+      localStorage.removeItem("__token__")
     } catch (error) {
       console.error("Error logging out:", error);
     }
+    router.push("/login");
   };
   // Handle upload change
   const handleChange = async (info: any) => {
