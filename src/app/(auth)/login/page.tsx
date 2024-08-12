@@ -23,11 +23,20 @@ const LoginPage: React.FC = () => {
   const { data: session } = useSession();
   useEffect(() => {
     if (session && session.accessToken) {
-      // Clear any existing session before redirecting
-      dispatch(setToken(session.accessToken)); // saving the access token in Redux
+      // Save the access token in Redux and localStorage
+      dispatch(setToken(session.accessToken));
       setStorage("__token__", session.accessToken);
-      sessionStorage.removeItem("accessToken");
-      sessionStorage.clear();
+
+      // Check if the token is saved in localStorage
+      const token = localStorage.getItem("__token__");
+
+      if (token) {
+        // Clear sessionStorage if token exists in localStorage
+        sessionStorage.removeItem("accessToken");
+        sessionStorage.clear();
+      }
+
+      // Redirect to the home page
       router.push("/");
     }
   }, [session, dispatch, router]);
