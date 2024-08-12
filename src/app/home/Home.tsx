@@ -19,6 +19,12 @@ import { useEffect, useRef } from "react";
 
 import { Product } from "@/types";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { setToken } from "@/redux/authSlice";
+import { setStorage } from "@/utils";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
 
 // ];
 interface SettingsProps {
@@ -28,6 +34,19 @@ const Home: React.FC<SettingsProps> = ({ listFoods }) => {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const { data: session } = useSession();
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    if (session && session.accessToken) {
+      // Clear any existing session before redirecting
+      dispatch(setToken(session.accessToken)); // saving the access token in Redux
+      setStorage("__token__", session.accessToken);
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.clear();
+      router.push("/");
+    }
+  }, [session, dispatch, router]);
   const CardRestaurant = [
     {
       imageUrl: FirstFoodImage,

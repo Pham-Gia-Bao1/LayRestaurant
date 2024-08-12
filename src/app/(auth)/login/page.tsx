@@ -13,40 +13,24 @@ import Link from "next/link";
 import Image from "next/image";
 import LoginImage from "../../../assets/images/LoginImage.png";
 import GGIcon from "../../../assets/images/icons/GGIcon.png";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { Session } from "next-auth/core/types";
+import { signIn, useSession } from "next-auth/react";
 const LoginPage: React.FC = () => {
   const { t } = useTranslation();
   const [csrfToken, setCsrfToken] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const { data: session } = useSession();
-  const [checkSession, setCheckSession] = useState<Session | null>(session);
-  useEffect(() => {
-    const clearSessionAndRedirect = async () => {
-      if (session && session.accessToken && checkSession) {
-        // Save the access token in Redux
-        dispatch(setToken(session.accessToken));
-        setStorage("__token__", session.accessToken);
-
-        // Clear session storage
-        sessionStorage.removeItem("accessToken");
-        sessionStorage.clear();
-
-        // Sign out the session in NextAuth
-        await signOut({ redirect: false }); // Đăng xuất mà không redirect ngay lập tức
-
-        // Ensure session is cleared before redirecting
-        await new Promise((resolve) => setTimeout(resolve, 100)); // Delay 100ms
-
-        // Redirect to home page
-        router.push("/");
-      }
-    };
-
-    clearSessionAndRedirect();
-  }, [session, dispatch, router]);
+  // const { data: session } = useSession();
+  // useEffect(() => {
+  //   if (session && session.accessToken) {
+  //     // Clear any existing session before redirecting
+  //     dispatch(setToken(session.accessToken)); // saving the access token in Redux
+  //     setStorage("__token__", session.accessToken);
+  //     sessionStorage.removeItem("accessToken");
+  //     sessionStorage.clear();
+  //     router.push("/");
+  //   }
+  // }, [session, dispatch, router]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,6 +93,7 @@ const LoginPage: React.FC = () => {
       console.log("Sign in result:", result); // In ra toàn bộ đối tượng
       if (result) {
         setLoading(false);
+        router.push("/")
       }
     } catch (error) {
       console.error("Error during sign in:", error);
