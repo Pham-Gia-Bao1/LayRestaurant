@@ -63,6 +63,7 @@ const RegisterPage: React.FC = () => {
       console.log("Sign in result:", result); // In ra toàn bộ đối tượng
       if (result) {
         setLoading(false);
+        router.push("/login")
       }
     } catch (error) {
       console.error("Error during sign in:", error);
