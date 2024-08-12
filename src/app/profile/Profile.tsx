@@ -74,11 +74,11 @@ const Profile: React.FC = () => {
   );
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
   const [loadingButton, setLoadingButton] = useState<boolean>(false);
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login");
-    }
-  });
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     router.push("/login");
+  //   }
+  // });
   useEffect(() => {
     const savedOrderDetails = sessionStorage.getItem("orderDetails");
     if (savedOrderDetails) {

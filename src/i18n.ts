@@ -126,7 +126,10 @@ const resources = {
       foodMenu: {
         allProducts: "All Products",
         searchPlaceholder: "Search products...",
-        addToCartButton: "Add to Cart"
+        addToCartButton: "Add to Cart",
+        openHours : "Opening hours",
+        address : '58 Le Quang Dao, Bac My Phu, Ngu Hanh Son, Da Nang 550000, Vietnam',
+        "open" : "Order Now",
       },
       messages: {
         loginFirst: "Please log in before adding to cart",
@@ -414,7 +417,10 @@ const resources = {
       foodMenu: {
         allProducts: "Tất cả sản phẩm",
         searchPlaceholder: "Tìm kiếm sản phẩm...",
-        addToCartButton: "Thêm vào giỏ"
+        addToCartButton: "Thêm vào giỏ",
+        openHours : "Giờ mở cửa",
+        address : "58 Lê Quang Đạo, Bắc Mỹ Phú, Ngũ Hành Sơn, Đà Nẵng 550000, Vietnam",
+        "open" : "Đặt hàng ngay"
       },
       messages: {
         loginFirst: "Vui lòng đăng nhập trước khi thêm vào giỏ hàng",

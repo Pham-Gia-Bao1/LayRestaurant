@@ -9,7 +9,7 @@ import Poster2 from "../../assets/images/Poster/Poster2.jpg";
 import Poster3 from "../../assets/images/Poster/Poster3.jpg";
 import Poster4 from "../../assets/images/Poster/Poster4.png";
 import ProductNotFound from "../../assets/images/ProductNotFound.png";
-
+import RetaurantImage from "../../assets/images/Poster/Nhà hàng.jpg";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -22,7 +22,16 @@ import Footer from "@/components/layout/Footer";
 import { isString } from "lodash";
 import { PosterOptions } from "../../types";
 import { useTranslation } from "react-i18next"; // Import useTranslation
-
+import PermPhoneMsgIcon from "@mui/icons-material/PermPhoneMsg";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebookF,
+  faInstagram,
+  faLinkedinIn,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
 export const posters: PosterOptions[] = [
   {
     id: 1,
@@ -45,7 +54,6 @@ export const posters: PosterOptions[] = [
     title: "Poster 4 of the Lay restaurant",
   },
 ];
-
 const FoodMenu: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation(); // Use the useTranslation hook
@@ -56,15 +64,14 @@ const FoodMenu: React.FC = () => {
   const token = useSelector((state: RootState) => state.auth.token);
   const [product, setProduct] = useState<Product | null>(null);
   const { addToCart, refreshCart } = useCart();
+  const [selectedType, setSelectedType] = useState<string>("all");
   const [loadingButtons, setLoadingButtons] = useState<{
     [key: number]: boolean;
   }>({});
-
   useEffect(() => {
     getData();
     fetchTypes();
   }, []);
-
   const getProduct = useCallback(async (productId: number): Promise<void> => {
     const apiUrl = `${API_URL}/foods/${productId}`;
     try {
@@ -81,35 +88,36 @@ const FoodMenu: React.FC = () => {
       console.error("Failed to fetch data:", error);
     }
   }, []);
-
   const handleAddToCart = async (productId: number) => {
     setLoadingButtons((prev) => ({ ...prev, [productId]: true }));
     try {
-      await getProduct(productId); // Ensure product data is fetched
-      console.log(product);
-      console.log(token);
-      if (product && token) {
+      // Fetch the product data first and only proceed if successful
+      const apiUrl = `${API_URL}/foods/${productId}`;
+      const response = await axios.get<Product>(apiUrl);
+      const fetchedProduct = response.data;
+      if (fetchedProduct && token) {
         const cartItem: CartItem = {
-          id: product.id,
-          name: product.name,
-          price: isString(product.price) ? parseInt(product.price) : product.price,
-          description: product.description,
-          type: product.type,
-          picture: product.picture,
+          id: fetchedProduct.id,
+          name: fetchedProduct.name,
+          price: isString(fetchedProduct.price)
+            ? parseInt(fetchedProduct.price)
+            : fetchedProduct.price,
+          description: fetchedProduct.description,
+          type: fetchedProduct.type,
+          picture: fetchedProduct.picture,
           quantity: 1,
         };
         addToCart(cartItem);
+        refreshCart();
       } else {
-        message.error(t("messages.loginFirst")); // Using translation here
+        message.error(t("messages.loginFirst"));
       }
     } catch (error) {
-      message.error(t("messages.addToCartError")); // Using translation here
+      message.error(t("messages.addToCartError"));
     } finally {
       setLoadingButtons((prev) => ({ ...prev, [productId]: false }));
-      refreshCart();
     }
   };
-
   const fetchTypes = async () => {
     try {
       const types = await getAllType();
@@ -121,7 +129,6 @@ const FoodMenu: React.FC = () => {
       console.error("Failed to fetch types:", error);
     }
   };
-
   const getData = async () => {
     try {
       const fetchedFoods = await fetchFoodsData(1);
@@ -132,7 +139,6 @@ const FoodMenu: React.FC = () => {
       setLoading(false);
     }
   };
-
   const handleSearch = async (searchTerm: string) => {
     setLoading(true);
     try {
@@ -144,7 +150,6 @@ const FoodMenu: React.FC = () => {
       setLoading(false);
     }
   };
-
   const debounce = (func: Function, delay: number) => {
     let timer: NodeJS.Timeout;
     return (...args: any[]) => {
@@ -154,20 +159,18 @@ const FoodMenu: React.FC = () => {
       }, delay);
     };
   };
-
   const debouncedSearch = useCallback(debounce(handleSearch, 500), []);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchTerm(value);
     debouncedSearch(value);
   };
-
   const uniqueTypes = allType.filter(
     (value, index, self) => self.indexOf(value) === index
   );
   const handleClick = async (type: string) => {
     setLoading(true);
+    setSelectedType(type);
     const updatedPath = `?type=${type}`;
     router.push(updatedPath);
     try {
@@ -181,37 +184,88 @@ const FoodMenu: React.FC = () => {
   };
   const handleClickAll = () => {
     const originPath = "/foods";
+    setSelectedType("all");
     router.push(originPath);
     getData();
   };
   return (
     <>
-      <div className="flex flex-col lg:flex-row text-black  bg-white  ">
-        <aside className="w-full lg:w-1/4  mb-4 lg:mb-0 m-3">
-          <ul className="space-y-2 w-full">
-            <button
-              type="button"
-              className={` flex justify-between box-shadow px-4 py-2 w-full active:bg-orange-500 hover:bg-gray-100 overflow-hidden rounded `}
-              onClick={handleClickAll}
+      <div className="flex flex-col-reverse lg:flex-row text-black  bg-white   ">
+        <aside className="w-full lg:w-1/4 p-4 mb-4 lg:mb-0 border flex flex-col justify-start items-start bg-white ">
+          <Image
+            src={RetaurantImage}
+            alt="lay restaurant image"
+            width={500}
+            height={500}
+          />
+          <div className="w-full flex flex-col items-center justify-between">
+            <div className="w-full">
+              <h2 className="text-2xl font-bold mt-2">LayRestaurant</h2>
+              <p className="text-lg mt-2">{t("foodMenu.open")}!!</p>
+              <div className="mt-4  flex flex-col justify-between items-center w-full">
+                <div className="flex items-center w-full">
+                  <PermPhoneMsgIcon className="w-5 h-5 text-blue-500 mr-2" />
+                  <span className="font-semibold">Hotline:</span>
+                  <span className="font-semibold text-blue-500 ml-2">
+                    0934773134
+                  </span>
+                </div>
+                <div className="flex items-center mt-4 w-full">
+                  <LocationOnIcon className="w-5 h-5 text-red-500 mr-2" />
+                  <span>{t("foodMenu.address")}</span>
+                </div>
+                <div className="flex items-center mt-4 w-full">
+                  <AccessTimeIcon className="w-5 h-5 text-gray-500 mr-2" />
+                  <span>{t("foodMenu.openHours")}: 7:00 - 16:00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex w-full justify-between items-center my-3 mt-4">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
             >
-              <p>{t("foodMenu.allProducts")}</p> {/* Using translation here */}
-              <ArrowRightIcon />
-            </button>
-            {uniqueTypes.map((type, index) => (
-              <button
-                type="button"
-                key={index}
-                className={` flex justify-between box-shadow px-4 py-2 w-full active:bg-orange-500 hover:bg-gray-100 overflow-hidden rounded `}
-                onClick={() => handleClick(type)}
-              >
-                <p>{type}</p>
-                <ArrowRightIcon />
-              </button>
-            ))}
-          </ul>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white transition duration-200 ease-in-out hover:bg-blue-600 hover">
+                <FontAwesomeIcon icon={faFacebookF} />
+              </div>
+            </a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white transition duration-200 ease-in-out hover:bg-blue-400 hover">
+                <FontAwesomeIcon icon={faTwitter} />
+              </div>
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white transition duration-200 ease-in-out hover:bg-blue-700 hover">
+                <FontAwesomeIcon icon={faLinkedinIn} />
+              </div>
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white transition duration-200 ease-in-out hover:bg-pink-600 hover">
+                <FontAwesomeIcon icon={faInstagram} />
+              </div>
+            </a>
+          </div>
         </aside>
         <main className="w-full p-4 relative mt-2">
-          <div className="w-full flex z-30 bg-white items-center justify-between gap-1 mb-5  sticky top-2 ">
+          <div className="w-full flex z-30 bg-gray-100 items-center justify-between gap-1 mb-5  sticky top-2 ">
             <input
               type="text"
               value={searchTerm}
@@ -219,6 +273,31 @@ const FoodMenu: React.FC = () => {
               placeholder={t("foodMenu.searchPlaceholder")} // Using translation here
               className="border rounded p-2 w-full"
             />
+          </div>
+          <div className="w-full flex items-center justify-between">
+            <ul className="py-4 px-1 w-full flex items-center gap-3 justify-between overflow-scroll scrollbar-hide">
+              <button
+                type="button"
+                className={`${
+                  selectedType === "all" ? "bg-orange-500" : "bg-white"
+                } flex justify-between box-shadow px-4 py-2 min-w-fit  active:bg-orange-500 hover:bg-gray-100 overflow-hidden rounded `}
+                onClick={handleClickAll}
+              >
+                <p>{t("foodMenu.allProducts")}</p>
+              </button>
+              {uniqueTypes.map((type, index) => (
+                <button
+                  type="button"
+                  key={index}
+                  className={` ${
+                    selectedType === type ? "bg-orange-500" : "bg-white"
+                  } flex justify-between box-shadow px-4 py-2 min-w-fit active:bg-orange-500 hover:bg-gray-100 overflow-hidden rounded `}
+                  onClick={() => handleClick(type)}
+                >
+                  <p>{type}</p>
+                </button>
+              ))}
+            </ul>
           </div>
           <div className={`transition-opacity duration-500`}>
             {loading ? (
@@ -241,7 +320,7 @@ const FoodMenu: React.FC = () => {
                   className="flex items-center justify-between mb-4 p-3 box-shadow bg-white"
                 >
                   <div className="flex items-center">
-                    <div className="h-16 w-24 min-w-24 max-w-24 bg-red-500 relative">
+                    <div className="h-16 w-24 min-w-24 max-w-24 bg-green-300 relative">
                       <Image
                         src={food.picture}
                         alt={food.name}
@@ -258,13 +337,13 @@ const FoodMenu: React.FC = () => {
                       </p>
                     </div>
                   </div>
-
                   <Button
                     onClick={() => handleAddToCart(food.id)}
                     className="custom-button text-white"
                     loading={loadingButtons[food.id] || false}
                   >
-                    {t("foodMenu.addToCartButton")} {/* Using translation here */}
+                    {t("foodMenu.addToCartButton")}{" "}
+                    {/* Using translation here */}
                   </Button>
                 </div>
               ))
@@ -282,12 +361,12 @@ const FoodMenu: React.FC = () => {
           </div>
         </main>
         <aside className="w-full lg:w-1/5 p-4 mb-4 lg:mb-0 flex flex-col justify-start items-start bg-white ">
-          <div className="grid grid-cols-2  sm:grid-cols-1 flex-col justify-start items-start gap-2 bg-white z-30">
+          <div className="  sm:flex-col flex justify-start items-start gap-2 bg-white z-30 overflow-scroll scrollbar-hide ">
             {posters.map((poster) => (
               <Image
                 key={poster.id}
-                width={500}
-                height={500}
+                width={200}
+                height={200}
                 src={poster.image}
                 alt={poster.title}
                 className="bg-white"
@@ -300,5 +379,4 @@ const FoodMenu: React.FC = () => {
     </>
   );
 };
-
 export default FoodMenu;
