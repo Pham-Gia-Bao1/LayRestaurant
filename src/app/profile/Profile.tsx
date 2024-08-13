@@ -270,7 +270,7 @@ const Profile: React.FC = () => {
   };
   const handleLogout = async () => {
     try {
-      await signOut();
+      await signOut({ redirect: false });
       dispatch(clearToken());
       localStorage.removeItem("__token__");
       router.push("/login");
@@ -278,7 +278,6 @@ const Profile: React.FC = () => {
       console.error("Error logging out:", error);
     }
   };
-
   // Handle upload change
   const handleChange = async (info: any) => {
     let fileList = [...info.fileList];
