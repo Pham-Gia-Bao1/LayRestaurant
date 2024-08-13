@@ -270,14 +270,15 @@ const Profile: React.FC = () => {
   };
   const handleLogout = async () => {
     try {
-      signOut();
+      await signOut();
       dispatch(clearToken());
-      localStorage.removeItem("__token__")
+      localStorage.removeItem("__token__");
+      router.push("/login");
     } catch (error) {
       console.error("Error logging out:", error);
     }
-    router.push("/login");
   };
+
   // Handle upload change
   const handleChange = async (info: any) => {
     let fileList = [...info.fileList];
@@ -338,7 +339,7 @@ const Profile: React.FC = () => {
               <div className="mb-6 box-flex-center flex-col">
                 <Avatar
                   src={imageUrl}
-                  alt={t('profile.avatarAlt')}
+                  alt={t("profile.avatarAlt")}
                   style={{ width: 100, height: 100, marginBottom: "16px" }}
                 />
                 <Upload
@@ -349,17 +350,17 @@ const Profile: React.FC = () => {
                     const isJpgOrPng =
                       file.type === "image/jpeg" || file.type === "image/png";
                     if (!isJpgOrPng) {
-                      antMessage.error(t('profile.uploadError'));
+                      antMessage.error(t("profile.uploadError"));
                     }
                     const isLt2M = file.size / 1024 / 1024 < 2;
                     if (!isLt2M) {
-                      antMessage.error(t('profile.sizeError'));
+                      antMessage.error(t("profile.sizeError"));
                     }
                     return isJpgOrPng && isLt2M;
                   }}
                 >
                   <Button className="py-3" type="primary">
-                    {t('profile.uploadAvatar')}
+                    {t("profile.uploadAvatar")}
                   </Button>
                 </Upload>
               </div>
@@ -369,18 +370,20 @@ const Profile: React.FC = () => {
             <div className="bg-white rounded-lg p-6">
               <div className="w-full grid sm:grid-cols-2 grid-cols-1 gap-5">
                 <div className="">
-                  <h2 className="text-xl font-bold mb-4">{t('profile.profileSectionTitle')}</h2>
+                  <h2 className="text-xl font-bold mb-4">
+                    {t("profile.profileSectionTitle")}
+                  </h2>
                   <p className="text-gray-700 mb-6">
-                    {t('profile.profileDescription')}
+                    {t("profile.profileDescription")}
                   </p>
                 </div>
                 <div className="flex justify-end gap-5 flex-wrap">
                   <Button className="py-3 box-flex-center w-full sm:w-auto">
-                    {t('profile.viewBookingRoomHistory')}
+                    {t("profile.viewBookingRoomHistory")}
                     <ArrowDropDownIcon />
                   </Button>
                   <Button className="py-3 box-flex-center w-full sm:w-auto">
-                    {t('profile.viewBookingFoodHistory')}
+                    {t("profile.viewBookingFoodHistory")}
                     <ArrowDropDownIcon />
                   </Button>
                 </div>
@@ -388,10 +391,12 @@ const Profile: React.FC = () => {
               <hr />
               <div className="w-full my-5 grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.username')}</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">
+                    {t("profile.username")}
+                  </h2>
                   <TextField
                     id="outlined-basic"
-                    label={t('profile.usernameLabel')}  // Dịch nhãn
+                    label={t("profile.usernameLabel")} // Dịch nhãn
                     variant="outlined"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
                     value={name}
@@ -400,14 +405,16 @@ const Profile: React.FC = () => {
                     }
                   />
                   <p className="mt-2 text-gray-500">
-                    {t('profile.usernameNote')}
+                    {t("profile.usernameNote")}
                   </p>
                 </div>
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.email')}</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">
+                    {t("profile.email")}
+                  </h2>
                   <TextField
                     id="outlined-basic"
-                    label={t('profile.emailLabel')}  // Dịch nhãn
+                    label={t("profile.emailLabel")} // Dịch nhãn
                     variant="outlined"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
                     value={email}
@@ -415,17 +422,17 @@ const Profile: React.FC = () => {
                       isUpdated ? (e) => setEmail(e.target.value) : undefined
                     }
                   />
-                  <p className="mt-2 text-gray-500">
-                    {t('profile.emailNote')}
-                  </p>
+                  <p className="mt-2 text-gray-500">{t("profile.emailNote")}</p>
                 </div>
               </div>
               <div className="w-full my-5 grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.address')}</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">
+                    {t("profile.address")}
+                  </h2>
                   <TextField
                     id="outlined-basic"
-                    label={t('profile.addressLabel')}  // Dịch nhãn
+                    label={t("profile.addressLabel")} // Dịch nhãn
                     variant="outlined"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
                     value={address}
@@ -435,10 +442,12 @@ const Profile: React.FC = () => {
                   />
                 </div>
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.dob')}</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">
+                    {t("profile.dob")}
+                  </h2>
                   <TextField
                     id="outlined-basic"
-                    label={t('profile.dobLabel')}  // Dịch nhãn
+                    label={t("profile.dobLabel")} // Dịch nhãn
                     variant="outlined"
                     type="date"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
@@ -453,7 +462,9 @@ const Profile: React.FC = () => {
               </div>
               <div className="w-full my-5 grid gap-5 sm:grid-cols-2 grid-cols-1">
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.gender')}</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">
+                    {t("profile.gender")}
+                  </h2>
                   <Select
                     id="gender-select"
                     className={`w-full h-14 ${isUpdated ? "bg-gray-100" : ""}`}
@@ -462,16 +473,18 @@ const Profile: React.FC = () => {
                       isUpdated ? (value) => setGender(value) : undefined
                     }
                   >
-                    <Option value="male">{t('profile.male')}</Option>
-                    <Option value="female">{t('profile.female')}</Option>
-                    <Option value="other">{t('profile.other')}</Option>
+                    <Option value="male">{t("profile.male")}</Option>
+                    <Option value="female">{t("profile.female")}</Option>
+                    <Option value="other">{t("profile.other")}</Option>
                   </Select>
                 </div>
                 <div className="">
-                  <h2 className="text-xl font-bold mt-6 mb-4">{t('profile.phone')}</h2>
+                  <h2 className="text-xl font-bold mt-6 mb-4">
+                    {t("profile.phone")}
+                  </h2>
                   <TextField
                     id="outlined-basic"
-                    label={t('profile.phoneLabel')}  // Dịch nhãn
+                    label={t("profile.phoneLabel")} // Dịch nhãn
                     variant="outlined"
                     className={`w-full ${isUpdated ? "bg-gray-100" : ""}`}
                     value={phoneNumber}
@@ -491,13 +504,13 @@ const Profile: React.FC = () => {
                       type="primary"
                       onClick={handleSaveProfile}
                     >
-                      {t('profile.save')}
+                      {t("profile.save")}
                     </Button>
                     <Button
                       type="default"
                       onClick={() => setIsUpdated((prev) => !prev)}
                     >
-                      {t('profile.cancel')}
+                      {t("profile.cancel")}
                     </Button>
                   </div>
                 )}
@@ -506,35 +519,46 @@ const Profile: React.FC = () => {
                     type="primary"
                     onClick={() => setIsUpdated((pre) => !pre)}
                   >
-                    {t('profile.updateProfile')}
+                    {t("profile.updateProfile")}
                   </Button>
                 )}
                 <Button type="default" onClick={handleLogout}>
-                  {t('profile.logout')}
+                  {t("profile.logout")}
                 </Button>
               </div>
             </div>
             <div className="bg-white rounded-lg p-6 mt-6">
-              <h2 className="text-xl font-bold mb-4">{t('profile.bookingRoomHistory')}</h2>
+              <h2 className="text-xl font-bold mb-4">
+                {t("profile.bookingRoomHistory")}
+              </h2>
               <ul className="divide-y divide-gray-200">
                 {bookingsRoom.map((booking) => (
                   <li
                     key={booking.id}
                     className="py-4 flex flex-col items-start"
                   >
-                    <p>{t('profile.hotelName')}: Quỳnh Anh</p>
-                    <p>{t('profile.orderer')}: {currentUser?.name}</p>
-                    <p>{t('profile.orderRoomId')}: {booking.id}</p>
-                    <p>{t('profile.orderStatus')}: {booking.status}</p>
+                    <p>{t("profile.hotelName")}: Quỳnh Anh</p>
                     <p>
-                      {t('profile.price')}:
+                      {t("profile.orderer")}: {currentUser?.name}
+                    </p>
+                    <p>
+                      {t("profile.orderRoomId")}: {booking.id}
+                    </p>
+                    <p>
+                      {t("profile.orderStatus")}: {booking.status}
+                    </p>
+                    <p>
+                      {t("profile.price")}:
                       {formatMoney(
                         isString(booking.price)
                           ? parseInt(booking.price)
                           : booking.price
                       )}
                     </p>
-                    <p>{t('profile.bookingDate')}: {formatDate(booking.created_at)}</p>
+                    <p>
+                      {t("profile.bookingDate")}:{" "}
+                      {formatDate(booking.created_at)}
+                    </p>
                     <button
                       onClick={() =>
                         handleToggleExpand(
@@ -546,17 +570,17 @@ const Profile: React.FC = () => {
                       className="text-blue-500 mt-2"
                     >
                       {expandedBooking === booking.id
-                        ? t('profile.viewLess')
-                        : t('profile.viewMore')}
+                        ? t("profile.viewLess")
+                        : t("profile.viewMore")}
                     </button>
                     {expandedBooking === booking.id && (
                       <div className="mt-4">
                         <p>
-                          <strong>{t('profile.checkInDate')}:</strong>
+                          <strong>{t("profile.checkInDate")}:</strong>
                           {formatDate(booking.check_in_date)}
                         </p>
                         <p>
-                          <strong>{t('profile.checkOutDate')}:</strong>
+                          <strong>{t("profile.checkOutDate")}:</strong>
                           {formatDate(booking.check_out_date)}
                         </p>
                         <div className="bg-gray-100 p-3 mt-2 rounded y-2 w-full flex items-start justify-between gap-2 flex-wrap sm:flex-nowrap">
@@ -564,7 +588,7 @@ const Profile: React.FC = () => {
                             width={100}
                             height={100}
                             src={convertToStaticImport(roomDetail?.image1)}
-                            alt={t('profile.roomDetailAlt')}
+                            alt={t("profile.roomDetailAlt")}
                           />
                           <div>
                             <h4 className="font-bold text-lg">
@@ -580,17 +604,28 @@ const Profile: React.FC = () => {
               </ul>
             </div>
             <div className="bg-white rounded-lg p-6 mt-6">
-              <h2 className="text-xl font-bold mb-4">{t('profile.bookingFoodHistory')}</h2>
+              <h2 className="text-xl font-bold mb-4">
+                {t("profile.bookingFoodHistory")}
+              </h2>
               <ul className="divide-y divide-gray-200">
                 {bookingsFood.map((booking) => (
                   <li
                     key={booking.id}
                     className="py-4 flex flex-col items-start"
                   >
-                    <p>{t('profile.orderFoodId')}: {booking.id}</p>
-                    <p>{t('profile.orderStatus')}: {booking.status}</p>
-                    <p>{t('profile.totalAmount')}: {formatMoney(booking.total_amount)}</p>
-                    <p>{t('profile.orderDate')}: {formatDate(booking.order_date)}</p>
+                    <p>
+                      {t("profile.orderFoodId")}: {booking.id}
+                    </p>
+                    <p>
+                      {t("profile.orderStatus")}: {booking.status}
+                    </p>
+                    <p>
+                      {t("profile.totalAmount")}:{" "}
+                      {formatMoney(booking.total_amount)}
+                    </p>
+                    <p>
+                      {t("profile.orderDate")}: {formatDate(booking.order_date)}
+                    </p>
                     <button
                       onClick={() =>
                         handleToggleExpand(
@@ -602,17 +637,17 @@ const Profile: React.FC = () => {
                       className="text-blue-500 mt-2"
                     >
                       {expandedBooking === booking.id
-                        ? t('profile.viewLess')
-                        : t('profile.viewMore')}
+                        ? t("profile.viewLess")
+                        : t("profile.viewMore")}
                     </button>
                     {expandedBooking === booking.id && (
                       <div className="mt-4">
                         <p>
-                          <strong>{t('profile.deliveryAddress')}:</strong>
+                          <strong>{t("profile.deliveryAddress")}:</strong>
                           {booking.delivery_address}
                         </p>
                         <p>
-                          <strong>{t('profile.paymentMethod')}:</strong>
+                          <strong>{t("profile.paymentMethod")}:</strong>
                           {booking.payment_method}
                         </p>
                       </div>
